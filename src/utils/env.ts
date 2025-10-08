@@ -1,4 +1,4 @@
-import { EmptyRequest, StringRequest } from "@shared/proto/codey/common"
+import { EmptyRequest, StringRequest } from "@shared/proto/cline/common"
 import open from "open"
 import { HostProvider } from "@/hosts/host-provider"
 

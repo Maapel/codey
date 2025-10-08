@@ -1,7 +1,7 @@
 {
-	"name": "codey-core",
+	"name": "cline-core",
 	"version": "0.0.1",
-	"main": "codey-core.js",
+	"main": "cline-core.js",
 	"dependencies": {
 		"@grpc/grpc-js": "^1.13.3",
 		"@grpc/reflection": "^1.0.4",

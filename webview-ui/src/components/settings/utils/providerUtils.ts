@@ -170,7 +170,7 @@ export function normalizeApiConfiguration(
 				selectedModelId: requestyModelId || requestyDefaultModelId,
 				selectedModelInfo: requestyModelInfo || requestyDefaultModelInfo,
 			}
-		case "codey":
+		case "cline":
 			const clineOpenRouterModelId =
 				(currentMode === "plan"
 					? apiConfiguration?.planModeOpenRouterModelId
@@ -516,7 +516,7 @@ export async function syncModeConfigurations(
 	// Handle provider-specific fields
 	switch (apiProvider) {
 		case "openrouter":
-		case "codey":
+		case "cline":
 			updates.planModeOpenRouterModelId = sourceFields.openRouterModelId
 			updates.actModeOpenRouterModelId = sourceFields.openRouterModelId
 			updates.planModeOpenRouterModelInfo = sourceFields.openRouterModelInfo

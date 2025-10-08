@@ -1,5 +1,5 @@
-import type { StringRequest } from "@shared/proto/codey/common"
-import { Empty } from "@shared/proto/codey/common"
+import type { StringRequest } from "@shared/proto/cline/common"
+import { Empty } from "@shared/proto/cline/common"
 import { openUrlInBrowser } from "../../../utils/github-url-utils"
 import type { Controller } from "../index"
 

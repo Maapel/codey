@@ -31,14 +31,14 @@ function getEnvironmentConfig(env: Environment): EnvironmentConfig {
 	switch (env) {
 		case Environment.staging:
 			return {
-				appBaseUrl: "https://staging-app.codey.bot",
-				apiBaseUrl: "https://core-api.staging.int.codey.bot",
-				mcpBaseUrl: "https://api.codey.bot/v1/mcp",
+				appBaseUrl: "https://staging-app.cline.bot",
+				apiBaseUrl: "https://core-api.staging.int.cline.bot",
+				mcpBaseUrl: "https://api.cline.bot/v1/mcp",
 				firebase: {
 					apiKey: "AIzaSyASSwkwX1kSO8vddjZkE5N19QU9cVQ0CIk",
-					authDomain: "codey-staging.firebaseapp.com",
-					projectId: "codey-staging",
-					storageBucket: "codey-staging.firebasestorage.app",
+					authDomain: "cline-staging.firebaseapp.com",
+					projectId: "cline-staging",
+					storageBucket: "cline-staging.firebasestorage.app",
 					messagingSenderId: "853479478430",
 					appId: "1:853479478430:web:2de0dba1c63c3262d4578f",
 				},
@@ -47,23 +47,23 @@ function getEnvironmentConfig(env: Environment): EnvironmentConfig {
 			return {
 				appBaseUrl: "http://localhost:3000",
 				apiBaseUrl: "http://localhost:7777",
-				mcpBaseUrl: "https://api.codey.bot/v1/mcp",
+				mcpBaseUrl: "https://api.cline.bot/v1/mcp",
 				firebase: {
 					apiKey: "AIzaSyD8wtkd1I-EICuAg6xgAQpRdwYTvwxZG2w",
-					authDomain: "codey-preview.firebaseapp.com",
-					projectId: "codey-preview",
+					authDomain: "cline-preview.firebaseapp.com",
+					projectId: "cline-preview",
 				},
 			}
 		default:
 			return {
-				appBaseUrl: "https://app.codey.bot",
-				apiBaseUrl: "https://api.codey.bot",
-				mcpBaseUrl: "https://api.codey.bot/v1/mcp",
+				appBaseUrl: "https://app.cline.bot",
+				apiBaseUrl: "https://api.cline.bot",
+				mcpBaseUrl: "https://api.cline.bot/v1/mcp",
 				firebase: {
 					apiKey: "AIzaSyC5rx59Xt8UgwdU3PCfzUF7vCwmp9-K2vk",
-					authDomain: "codey-prod.firebaseapp.com",
-					projectId: "codey-prod",
-					storageBucket: "codey-prod.firebasestorage.app",
+					authDomain: "cline-prod.firebaseapp.com",
+					projectId: "cline-prod",
+					storageBucket: "cline-prod.firebasestorage.app",
 					messagingSenderId: "941048379330",
 					appId: "1:941048379330:web:45058eedeefc5cdfcc485b",
 				},
@@ -75,6 +75,6 @@ function getEnvironmentConfig(env: Environment): EnvironmentConfig {
 const CLINE_ENVIRONMENT = getClineEnv()
 const _configCache = getEnvironmentConfig(CLINE_ENVIRONMENT)
 
-console.info("Codey environment:", CLINE_ENVIRONMENT)
+console.info("Cline environment:", CLINE_ENVIRONMENT)
 
 export const clineEnvConfig = _configCache

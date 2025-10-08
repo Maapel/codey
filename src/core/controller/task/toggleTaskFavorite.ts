@@ -1,5 +1,5 @@
-import { Empty } from "@shared/proto/codey/common"
-import { TaskFavoriteRequest } from "@shared/proto/codey/task"
+import { Empty } from "@shared/proto/cline/common"
+import { TaskFavoriteRequest } from "@shared/proto/cline/task"
 import { Controller } from "../"
 
 export async function toggleTaskFavorite(controller: Controller, request: TaskFavoriteRequest): Promise<Empty> {

@@ -1,6 +1,6 @@
 import { McpServer } from "@shared/mcp"
-import { StringRequest } from "@shared/proto/codey/common"
-import { McpDownloadResponse } from "@shared/proto/codey/mcp"
+import { StringRequest } from "@shared/proto/cline/common"
+import { McpDownloadResponse } from "@shared/proto/cline/mcp"
 import axios from "axios"
 import { clineEnvConfig } from "@/config"
 import { Controller } from ".."

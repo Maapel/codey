@@ -47,8 +47,8 @@ export class ClineHandler implements ApiHandler {
 		if (!this.client) {
 			try {
 				const defaultHeaders: Record<string, string> = {
-					"HTTP-Referer": "https://codey.bot",
-					"X-Title": "Codey",
+					"HTTP-Referer": "https://cline.bot",
+					"X-Title": "Cline",
 					"X-Task-ID": this.options.ulid || "",
 				}
 				Object.assign(defaultHeaders, await buildClineExtraHeaders())
@@ -84,7 +84,7 @@ export class ClineHandler implements ApiHandler {
 					},
 				})
 			} catch (error: any) {
-				throw new Error(`Error creating Codey client: ${error.message}`)
+				throw new Error(`Error creating Cline client: ${error.message}`)
 			}
 		}
 		// Ensure the client is always using the latest auth token
@@ -116,10 +116,10 @@ export class ClineHandler implements ApiHandler {
 				// openrouter returns an error object instead of the openai sdk throwing an error
 				if ("error" in chunk) {
 					const error = chunk.error as OpenRouterErrorResponse["error"]
-					console.error(`Codey API Error: ${error?.code} - ${error?.message}`)
+					console.error(`Cline API Error: ${error?.code} - ${error?.message}`)
 					// Include metadata in the error message if available
 					const metadataStr = error.metadata ? `\nMetadata: ${JSON.stringify(error.metadata, null, 2)}` : ""
-					throw new Error(`Codey API Error ${error.code}: ${error.message}${metadataStr}`)
+					throw new Error(`Cline API Error ${error.code}: ${error.message}${metadataStr}`)
 				}
 
 				if (!this.lastGenerationId && chunk.id) {
@@ -133,11 +133,11 @@ export class ClineHandler implements ApiHandler {
 					const choiceWithError = choice as any
 					if (choiceWithError.error) {
 						const error = choiceWithError.error
-						console.error(`Codey Mid-Stream Error: ${error.code || error.type || "Unknown"} - ${error.message}`)
-						throw new Error(`Codey Mid-Stream Error: ${error.code || error.type || "Unknown"} - ${error.message}`)
+						console.error(`Cline Mid-Stream Error: ${error.code || error.type || "Unknown"} - ${error.message}`)
+						throw new Error(`Cline Mid-Stream Error: ${error.code || error.type || "Unknown"} - ${error.message}`)
 					} else {
 						throw new Error(
-							"Codey Mid-Stream Error: Stream terminated with error status but no error details provided",
+							"Cline Mid-Stream Error: Stream terminated with error status but no error details provided",
 						)
 					}
 				}
@@ -164,7 +164,7 @@ export class ClineHandler implements ApiHandler {
 					// @ts-ignore-next-line
 					let totalCost = (chunk.usage.cost || 0) + (chunk.usage.cost_details?.upstream_inference_cost || 0)
 
-					if (this.getModel().id === "codey/code-supernova-1-million") {
+					if (this.getModel().id === "cline/code-supernova-1-million") {
 						totalCost = 0
 					}
 
@@ -187,14 +187,14 @@ export class ClineHandler implements ApiHandler {
 
 			// Fallback to generation endpoint if usage chunk not returned
 			if (!didOutputUsage) {
-				console.warn("Codey API did not return usage chunk, fetching from generation endpoint")
+				console.warn("Cline API did not return usage chunk, fetching from generation endpoint")
 				const apiStreamUsage = await this.getApiStreamUsage()
 				if (apiStreamUsage) {
 					yield apiStreamUsage
 				}
 			}
 		} catch (error) {
-			console.error("Codey API Error:", error)
+			console.error("Cline API Error:", error)
 			throw error
 		}
 	}
@@ -229,7 +229,7 @@ export class ClineHandler implements ApiHandler {
 				}
 			} catch (error) {
 				// ignore if fails
-				console.error("Error fetching codey generation details:", error)
+				console.error("Error fetching cline generation details:", error)
 			}
 		}
 		return undefined

@@ -1,4 +1,4 @@
-import { Empty, StringRequest } from "@shared/proto/codey/common"
+import { Empty, StringRequest } from "@shared/proto/cline/common"
 import { writeTextToClipboard } from "@/utils/env"
 import { Controller } from ".."
 

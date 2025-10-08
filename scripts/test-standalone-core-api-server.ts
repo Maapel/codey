@@ -1,9 +1,9 @@
 #!/usr/bin/env npx tsx
 
 /**
- * Simple Codey gRPC Server
+ * Simple Cline gRPC Server
  *
- * This script provides a minimal way to run the Codey core gRPC service
+ * This script provides a minimal way to run the Cline core gRPC service
  * without requiring the full installation, while automatically mocking all external services. Simply run:
  *
  *   # One-time setup (generates protobuf files)
@@ -12,13 +12,13 @@
  *
  * The following components are started automatically:
  *   1. HostBridge test server
- *   2. ClineApiServerMock (mock implementation of the Codey API)
+ *   2. ClineApiServerMock (mock implementation of the Cline API)
  *   3. AuthServiceMock (activated if E2E_TEST="true")
  *
  * Environment Variables for Customization:
  *   PROJECT_ROOT - Override project root directory (default: parent of scripts dir)
  *   CLINE_DIST_DIR - Override distribution directory (default: PROJECT_ROOT/dist-standalone)
- *   CLINE_CORE_FILE - Override core file name (default: codey-core.js)
+ *   CLINE_CORE_FILE - Override core file name (default: cline-core.js)
  *   PROTOBUS_PORT - gRPC server port (default: 26040)
  *   HOSTBRIDGE_PORT - HostBridge server port (default: 26041)
  *   WORKSPACE_DIR - Working directory (default: current directory)
@@ -45,13 +45,13 @@ const USE_C8 = process.env.USE_C8 === "true"
 // Locate the standalone build directory and core file with flexible path resolution
 const projectRoot = process.env.PROJECT_ROOT || path.resolve(__dirname, "..")
 const distDir = process.env.CLINE_DIST_DIR || path.join(projectRoot, "dist-standalone")
-const clineCoreFile = process.env.CLINE_CORE_FILE || "codey-core.js"
+const clineCoreFile = process.env.CLINE_CORE_FILE || "cline-core.js"
 const coreFile = path.join(distDir, clineCoreFile)
 
 const childProcesses: ChildProcess[] = []
 
 async function main(): Promise<void> {
-	console.log("Starting Simple Codey gRPC Server...")
+	console.log("Starting Simple Cline gRPC Server...")
 	console.log(`Project Root: ${projectRoot}`)
 	console.log(`Workspace: ${WORKSPACE_DIR}`)
 	console.log(`ProtoBus Port: ${PROTOBUS_PORT}`)
@@ -72,15 +72,15 @@ async function main(): Promise<void> {
 
 	try {
 		await ClineApiServerMock.startGlobalServer()
-		console.log("Codey API Server started in-process")
+		console.log("Cline API Server started in-process")
 	} catch (error) {
-		console.error("Failed to start Codey API Server:", error)
+		console.error("Failed to start Cline API Server:", error)
 		process.exit(1)
 	}
 
 	const extensionsDir = path.join(distDir, "vsce-extension")
 	const userDataDir = mkdtempSync(path.join(os.tmpdir(), "vsce"))
-	const clineTestWorkspace = mkdtempSync(path.join(os.tmpdir(), "codey-test-workspace-"))
+	const clineTestWorkspace = mkdtempSync(path.join(os.tmpdir(), "cline-test-workspace-"))
 
 	console.log("Starting HostBridge test server...")
 	const hostbridge: ChildProcess = spawn("npx", ["tsx", path.join(__dirname, "test-hostbridge-server.ts")], {
@@ -115,11 +115,11 @@ async function main(): Promise<void> {
 
 	const covDir = path.join(projectRoot, `coverage/coverage-core-${PROTOBUS_PORT}`)
 
-	const baseArgs = ["--enable-source-maps", path.join(distDir, "codey-core.js")]
+	const baseArgs = ["--enable-source-maps", path.join(distDir, "cline-core.js")]
 
 	const spawnArgs = USE_C8 ? ["c8", "--report-dir", covDir, "node", ...baseArgs] : ["node", ...baseArgs]
 
-	console.log(`Starting Codey Core Service... (useC8=${USE_C8})`)
+	console.log(`Starting Cline Core Service... (useC8=${USE_C8})`)
 
 	const coreService: ChildProcess = spawn("npx", spawnArgs, {
 		cwd: projectRoot,
@@ -171,13 +171,13 @@ async function main(): Promise<void> {
 		shutdown()
 	})
 
-	console.log(`Codey gRPC Server is running on 127.0.0.1:${PROTOBUS_PORT}`)
+	console.log(`Cline gRPC Server is running on 127.0.0.1:${PROTOBUS_PORT}`)
 	console.log("Press Ctrl+C to stop")
 }
 
 if (require.main === module) {
 	main().catch((err) => {
-		console.error("Failed to start simple Codey server:", err)
+		console.error("Failed to start simple Cline server:", err)
 		process.exit(1)
 	})
 }

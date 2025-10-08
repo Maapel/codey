@@ -1,6 +1,6 @@
 import { cn } from "@heroui/react"
 import { ClineMessage } from "@shared/ExtensionMessage"
-import { StringRequest } from "@shared/proto/codey/common"
+import { StringRequest } from "@shared/proto/cline/common"
 import { ChevronDownIcon, ChevronRightIcon } from "lucide-react"
 import React, { useCallback, useMemo } from "react"
 import Thumbnails from "@/components/common/Thumbnails"

@@ -1,6 +1,6 @@
 import type { OcaModelInfo } from "@shared/api"
-import type { OcaAuthState, OcaUserInfo } from "@shared/proto/index.codey"
-import { EmptyRequest, StringRequest } from "@shared/proto/index.codey"
+import type { OcaAuthState, OcaUserInfo } from "@shared/proto/index.cline"
+import { EmptyRequest, StringRequest } from "@shared/proto/index.cline"
 import { Mode } from "@shared/storage/types"
 import { VSCodeButton, VSCodeLink, VSCodeProgressRing } from "@vscode/webview-ui-toolkit/react"
 import React, { useCallback, useEffect, useRef, useState } from "react"
@@ -291,7 +291,7 @@ export const OcaProvider = ({ isPopup, currentMode }: OcaProviderProps) => {
 						Please ask your IT administrator to set up Oracle Code Assist as a model provider. Oracle Employees,
 						please see the{" "}
 						<VSCodeLink
-							href="https://confluence.oraclecorp.com/confluence/display/AICODE/Oracle+Code+Assist+via+Codey"
+							href="https://confluence.oraclecorp.com/confluence/display/AICODE/Oracle+Code+Assist+via+Cline"
 							rel="noopener noreferrer"
 							target="_blank">
 							quickstart guide
@@ -315,7 +315,7 @@ export const OcaProvider = ({ isPopup, currentMode }: OcaProviderProps) => {
 								<p className="text-xs mt-0 font-normal text-[var(--vscode-descriptionForeground)]">
 									Oracle Employees, please see the{" "}
 									<VSCodeLink
-										href="https://confluence.oraclecorp.com/confluence/display/AICODE/Oracle+Code+Assist+via+Codey"
+										href="https://confluence.oraclecorp.com/confluence/display/AICODE/Oracle+Code+Assist+via+Cline"
 										rel="noopener noreferrer"
 										target="_blank">
 										quickstart guide

@@ -1,4 +1,4 @@
-name: Trigger Jetbrains Plugin <-> Codey Tests
+name: Trigger Jetbrains Plugin <-> Cline Tests
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -19,7 +19,7 @@ jobs:
         with:
           app-id: 1998650
           private-key: ${{ secrets.CLINE_JETBRAINS_WORKFLOW_KEY }}
-          owner: codey
+          owner: cline
           repositories: intellij-plugin
 
       - name: Trigger IntelliJ Plugin Integration Test
@@ -27,12 +27,12 @@ jobs:
           curl -X POST \
             -H "Authorization: Bearer ${{ steps.app-token.outputs.token }}" \
             -H "Accept: application/vnd.github.v3+json" \
-            -H "User-Agent: codey-pr-trigger" \
+            -H "User-Agent: cline-pr-trigger" \
             -H "Content-Type: application/json" \
-            https://api.github.com/repos/codey/intellij-plugin/dispatches \
+            https://api.github.com/repos/cline/intellij-plugin/dispatches \
             -d @- <<EOF
           {
-            "event_type": "codey-pr-check",
+            "event_type": "cline-pr-check",
             "client_payload": {
               "pr_number": "${{ github.event.number }}",
               "branch_name": "${{ github.head_ref }}",

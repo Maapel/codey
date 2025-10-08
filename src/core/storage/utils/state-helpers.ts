@@ -3,7 +3,7 @@ import { ExtensionContext } from "vscode"
 import { Controller } from "@/core/controller"
 import { DEFAULT_AUTO_APPROVAL_SETTINGS } from "@/shared/AutoApprovalSettings"
 import { DEFAULT_BROWSER_SETTINGS } from "@/shared/BrowserSettings"
-import { ClineRulesToggles } from "@/shared/codey-rules"
+import { ClineRulesToggles } from "@/shared/cline-rules"
 import { DEFAULT_DICTATION_SETTINGS, DictationSettings } from "@/shared/DictationSettings"
 import { DEFAULT_FOCUS_CHAIN_SETTINGS } from "@/shared/FocusChainSettings"
 import { DEFAULT_MCP_DISPLAY_MODE } from "@/shared/McpDisplayMode"
@@ -409,7 +409,7 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		const workspaceRoots = context.globalState.get<GlobalStateAndSettings["workspaceRoots"]>("workspaceRoots")
 		/**
 		 * Get primary root index from global state.
-		 * The primary root is the main workspace folder that Codey focuses on when dealing with
+		 * The primary root is the main workspace folder that Cline focuses on when dealing with
 		 * multi-root workspaces. In VS Code, you can have multiple folders open in one workspace,
 		 * and the primary root index indicates which folder (by its position in the array, 0-based)
 		 * should be treated as the main/default working directory for operations.

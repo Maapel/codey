@@ -8,7 +8,7 @@ import { getShadowGitPath, hashWorkingDir } from "./CheckpointUtils"
 /**
  * CheckpointTracker Module
  *
- * Core implementation of Codey's Checkpoints system that provides version control
+ * Core implementation of Cline's Checkpoints system that provides version control
  * capabilities without interfering with the user's main Git repository. Key features:
  *
  * Shadow Git Repository:
@@ -87,7 +87,7 @@ class CheckpointTracker {
 	 * - Creates/initializes shadow git repository
 	 *
 	 * Configuration:
-	 * - Respects 'codey.enableCheckpoints' VS Code setting
+	 * - Respects 'cline.enableCheckpoints' VS Code setting
 	 */
 	public static async create(
 		taskId: string,

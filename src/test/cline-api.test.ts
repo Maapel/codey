@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, it } from "mocha"
 import * as should from "should"
 import * as sinon from "sinon"
 import { createClineAPI } from "@/exports"
-import type { ClineAPI } from "../exports/codey"
+import type { ClineAPI } from "../exports/cline"
 import { setVscodeHostProviderMock } from "./host-provider-test-utils"
 
 describe("ClineAPI Core Functionality", () => {

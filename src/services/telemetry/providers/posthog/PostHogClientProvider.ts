@@ -30,8 +30,8 @@ export class PostHogClientProvider {
 
 	/**
 	 * Filters PostHog events before they are sent.
-	 * For exceptions, we only capture those from the Codey extension.
-	 * this is specifically to avoid capturing errors from anything other than Codey
+	 * For exceptions, we only capture those from the Cline extension.
+	 * this is specifically to avoid capturing errors from anything other than Cline
 	 */
 	static eventFilter(event: EventMessage | null) {
 		if (!event || event?.event !== "$exception") {
@@ -41,14 +41,14 @@ export class PostHogClientProvider {
 		if (!exceptionList?.length) {
 			return null
 		}
-		// Check if any exception is from Codey
+		// Check if any exception is from Cline
 		for (let i = 0; i < exceptionList.length; i++) {
 			const stacktrace = exceptionList[i].stacktrace
-			// Fast check: error message contains "codey"
-			if (stacktrace?.value?.toLowerCase().includes("codey")) {
+			// Fast check: error message contains "cline"
+			if (stacktrace?.value?.toLowerCase().includes("cline")) {
 				return event
 			}
-			// Check stack frames for Codey extension path
+			// Check stack frames for Cline extension path
 			const frames = stacktrace?.frames
 			if (frames?.length) {
 				for (let j = 0; j < frames.length; j++) {

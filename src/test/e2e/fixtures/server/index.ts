@@ -460,7 +460,7 @@ export class ClineApiServerMock {
 										index: 0,
 										message: {
 											role: "assistant",
-											content: "Hello! I'm a mock Codey API response.",
+											content: "Hello! I'm a mock Cline API response.",
 										},
 										finish_reason: "stop",
 									},

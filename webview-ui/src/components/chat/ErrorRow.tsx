@@ -24,11 +24,11 @@ const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStre
 			case "auto_approval_max_req_reached":
 				// Handle API request errors with special error parsing
 				if (apiRequestFailedMessage || apiReqStreamingFailedMessage) {
-					// FIXME: ClineError parsing should not be applied to non-Codey providers, but it seems we're using clineErrorMessage below in the default error display
+					// FIXME: ClineError parsing should not be applied to non-Cline providers, but it seems we're using clineErrorMessage below in the default error display
 					const clineError = ClineError.parse(apiRequestFailedMessage || apiReqStreamingFailedMessage)
 					const clineErrorMessage = clineError?.message
 					const requestId = clineError?._error?.request_id
-					const isClineProvider = clineError?.providerId === "codey" // FIXME: since we are modifying backend to return generic error, we need to make sure we're not expecting providerId here
+					const isClineProvider = clineError?.providerId === "cline" // FIXME: since we are modifying backend to return generic error, we need to make sure we're not expecting providerId here
 
 					if (clineError) {
 						if (clineError.isErrorType(ClineErrorType.Balance)) {
@@ -66,7 +66,7 @@ const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStre
 									It seems like you're having Windows PowerShell issues, please see this{" "}
 									<a
 										className="underline text-inherit"
-										href="https://github.com/codey/codey/wiki/TroubleShooting-%E2%80%90-%22PowerShell-is-not-recognized-as-an-internal-or-external-command%22">
+										href="https://github.com/cline/cline/wiki/TroubleShooting-%E2%80%90-%22PowerShell-is-not-recognized-as-an-internal-or-external-command%22">
 										troubleshooting guide
 									</a>
 									.
@@ -76,14 +76,14 @@ const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStre
 								<>
 									<br />
 									<br />
-									{/* The user is signed in or not using codey provider */}
+									{/* The user is signed in or not using cline provider */}
 									{clineUser && !isClineProvider ? (
 										<span className="mb-4 text-[var(--vscode-descriptionForeground)]">
 											(Click "Retry" below)
 										</span>
 									) : (
 										<VSCodeButton className="w-full mb-4" onClick={handleSignIn}>
-											Sign in to Codey
+											Sign in to Cline
 										</VSCodeButton>
 									)}
 								</>
@@ -108,7 +108,7 @@ const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStre
 				return (
 					<div className="flex flex-col p-2 rounded text-xs bg-[var(--vscode-textBlockQuote-background)] text-[var(--vscode-foreground)] opacity-80">
 						<div>
-							Codey tried to access <code>{message.text}</code> which is blocked by the <code>.clineignore</code>
+							Cline tried to access <code>{message.text}</code> which is blocked by the <code>.clineignore</code>
 							file.
 						</div>
 					</div>

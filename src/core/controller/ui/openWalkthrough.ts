@@ -1,12 +1,12 @@
-import type { EmptyRequest } from "@shared/proto/codey/common"
-import { Empty } from "@shared/proto/codey/common"
+import type { EmptyRequest } from "@shared/proto/cline/common"
+import { Empty } from "@shared/proto/cline/common"
 import * as vscode from "vscode"
 import { ExtensionRegistryInfo } from "@/registry"
 import { telemetryService } from "@/services/telemetry"
 import type { Controller } from "../index"
 
 /**
- * Opens the Codey walkthrough in VSCode
+ * Opens the Cline walkthrough in VSCode
  * @param controller The controller instance
  * @param request Empty request
  * @returns Empty response

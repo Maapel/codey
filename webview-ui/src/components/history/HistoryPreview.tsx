@@ -1,4 +1,4 @@
-import { StringRequest } from "@shared/proto/codey/common"
+import { StringRequest } from "@shared/proto/cline/common"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import { memo, useState } from "react"
 import { useExtensionState } from "@/context/ExtensionStateContext"

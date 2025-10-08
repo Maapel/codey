@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package codey;
-import "codey/common.proto";
-option go_package = "github.com/codey/grpc-go/codey";
-option java_package = "bot.codey.proto";
+package cline;
+import "cline/common.proto";
+option go_package = "github.com/cline/grpc-go/cline";
+option java_package = "bot.cline.proto";
 option java_multiple_files = true;
 
 // Service for file-related operations
@@ -68,8 +68,8 @@ service FileService {
 
 // Response for refreshRules operation
 message RefreshedRules {
-  ClineRulesToggles global_codey_rules_toggles = 1;
-  ClineRulesToggles local_codey_rules_toggles = 2;
+  ClineRulesToggles global_cline_rules_toggles = 1;
+  ClineRulesToggles local_cline_rules_toggles = 2;
   ClineRulesToggles local_cursor_rules_toggles = 3;
   ClineRulesToggles local_windsurf_rules_toggles = 4;
   ClineRulesToggles local_workflow_toggles = 5;
@@ -169,8 +169,8 @@ message ClineRulesToggles {
 
 // Response for toggleClineRule operation
 message ToggleClineRules {
-  ClineRulesToggles global_codey_rules_toggles = 1;
-  ClineRulesToggles local_codey_rules_toggles = 2;
+  ClineRulesToggles global_cline_rules_toggles = 1;
+  ClineRulesToggles local_cline_rules_toggles = 2;
 }
 
 // Request to toggle a Cursor rule

@@ -1,5 +1,5 @@
 import { HostProvider } from "@/hosts/host-provider"
-import { EmptyRequest } from "@/shared/proto/codey/common"
+import { EmptyRequest } from "@/shared/proto/cline/common"
 
 /**
  * Checks if the current workspace has multiple root folders open.

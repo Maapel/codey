@@ -1,6 +1,6 @@
 import { synchronizeRuleToggles } from "@core/context/instructions/user-instructions/rule-helpers"
 import { ensureWorkflowsDirectoryExists, GlobalFileNames } from "@core/storage/disk"
-import { ClineRulesToggles } from "@shared/codey-rules"
+import { ClineRulesToggles } from "@shared/cline-rules"
 import path from "path"
 import { Controller } from "@/core/controller"
 

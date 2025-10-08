@@ -27,20 +27,20 @@
 
 ## [3.32.2]
 
-- Add Claude Sonnet 4.5 to Codey/OpenRouter/Anthropic providers
+- Add Claude Sonnet 4.5 to Cline/OpenRouter/Anthropic providers
 - Add /task deep link handler
 
 ## [3.32.1]
 
-- Preserve reasoning traces for Codey/OpenRouter/Anthropic providers to maintain conversation integrity
+- Preserve reasoning traces for Cline/OpenRouter/Anthropic providers to maintain conversation integrity
 - Add automatically retry on rate limit errors with SAP AI Core provider
-- Fix Codey accounts using stale id token at refresh response
+- Fix Cline accounts using stale id token at refresh response
 - Minor UI improvements to Settings and Task Header
 
 ## [3.32.0]
 
 - Added the new code-supernova-1-million stealth model, available for free and delivering a 1 million token context window
-- Changes to inform Codey about commands that are available on your system
+- Changes to inform Cline about commands that are available on your system
 
 ## [3.31.1]
 
@@ -50,7 +50,7 @@
 
 - UI Improvements: New task header and focus chain design to take up less space for a cleaner experience
 - Voice Mode: Experimental feature that must be enabled in settings for hands-free coding
-- YOLO Mode: Enable in settings to let Codey approve all actions and automatically switch between plan/act mode
+- YOLO Mode: Enable in settings to let Cline approve all actions and automatically switch between plan/act mode
 - Fix Oracle Code Assist provider issues
 
 ## [3.30.3]
@@ -84,8 +84,8 @@
 ## [3.29.0]
 
 - Updated Baseten provider to fetch models from server
-- Fix: Updated insufficient balance URL for easy Codey balance top-ups
-- Accessibility: Improvements to screen readers in MCP, Codey Rules, workflows, and history views.
+- Fix: Updated insufficient balance URL for easy Cline balance top-ups
+- Accessibility: Improvements to screen readers in MCP, Cline Rules, workflows, and history views.
 
 ## [3.28.4]
 
@@ -109,7 +109,7 @@
 
 ## [3.28.0]
 
-- Synchronized Task History: Real-time task history synchronization across all Codey instances
+- Synchronized Task History: Real-time task history synchronization across all Cline instances
 - Optimized GPT-5 Integration: Fine-tuned system prompts for improved performance with GPT-5 model family
 - Deep Planning Improvements: Optimized prompts for Windows/PowerShell environments and dependency exclusion
 - Streamlined UI Experience: ESC key navigation, cleaner approve/reject buttons, and improved editor panel focus
@@ -142,11 +142,11 @@
 
 ## [3.26.7]
 
-- Add 200k context window variant for Claude Sonnet 4 to OpenRouter and Codey providers
+- Add 200k context window variant for Claude Sonnet 4 to OpenRouter and Cline providers
 
 ## [3.26.6]
 
-- Add free Grok Coder model to Codey provider for users looking for a fast, free coding model option
+- Add free Grok Coder model to Cline provider for users looking for a fast, free coding model option
 - Fix GPT-5 models not respecting auto-compact setting when enabled, improving context window management
 - Fix provider retry attempts not showing proper user feedback during rate limiting scenarios
 - Improve markdown and code block styling to automatically adapt when switching VS Code themes
@@ -172,8 +172,8 @@
 ## [3.26.2]
 
 - Improve OpenRouter model parsing to show reasoning budget sliders for all models that support thinking, not just Claude models
-- Fix OpenRouter context window error handling to properly extract error codes from error messages, resolving "Unexpected API Response" errors with GPT-5 on Codey provider
-- Fix GPT-5 context window configuration for OpenAI/OpenRouter/Codey providers to use correct 272K limit
+- Fix OpenRouter context window error handling to properly extract error codes from error messages, resolving "Unexpected API Response" errors with GPT-5 on Cline provider
+- Fix GPT-5 context window configuration for OpenAI/OpenRouter/Cline providers to use correct 272K limit
 - Remove max tokens configuration from Sonic Alpha model
 - Add Go language support to deep-planning feature (Thanks @yuvalman!)
 - Fix typo in Focus Chain settings page (Thanks @joyceerhl!)
@@ -190,7 +190,7 @@
 ## [3.26.0]
 
 - Add Z AI as a new API provider with GLM-4.5 and GLM-4.5 Air models, offering competitive performance with cost-effective pricing especially for Chinese language tasks (Thanks @jues!)
-- Add Codey Sonic Alpha model - experimental advanced model with 262K context window for complex coding tasks
+- Add Cline Sonic Alpha model - experimental advanced model with 262K context window for complex coding tasks
 - Add support for LM Studio local models from v0 API endpoint with configurable max tokens
 - Fix Ollama context window configuration not being used in requests
 
@@ -202,7 +202,7 @@
 ## [3.25.2]
 
 - Fix attempt_completion showing twice in chat due to partial logic not being handled correctly
-- Fix OpenRouter showing codey credits error after 402 response
+- Fix OpenRouter showing cline credits error after 402 response
 
 ## [3.25.1]
 
@@ -212,10 +212,10 @@
 
 ## [3.25.0]
 
-- **Focus Chain:** Automatically creates and maintains todo lists as you work with Codey, breaking down complex tasks into manageable steps with real-time progress tracking
+- **Focus Chain:** Automatically creates and maintains todo lists as you work with Cline, breaking down complex tasks into manageable steps with real-time progress tracking
 - **Auto Compact:** Intelligently manages conversation context to prevent token limit errors by automatically compacting older messages while preserving important context
 - **Deep Planning:** New `/deep-planning` slash command for structured 4-step implementation planning that integrates with Focus Chain for automatic progress tracking
-- Add support for 200k context window for Claude Sonnet 4 in OpenRouter and Codey providers
+- Add support for 200k context window for Claude Sonnet 4 in OpenRouter and Cline providers
 - Add option to configure custom base URL for Requesty provider
 
 ## [3.24.0]
@@ -240,7 +240,7 @@
 - Implemented a retry strategy for Cerebras to handle rate limit issues due to its generation speed
 - Add support for GPT-5 models to SAP AI Core Provider
 - Support sending context to active webview when editor panels are opened.
-- Fix bug where running out of credits on Codey accounts would show '402 empty body' response instead of 'buy credits' component
+- Fix bug where running out of credits on Cline accounts would show '402 empty body' response instead of 'buy credits' component
 - Fix LiteLLM Proxy Provider Cost Tracking
 
 ## [3.21.0]
@@ -251,7 +251,7 @@
 
 ## [3.20.13]
 
-- Fix prompt caching support for Opus 4.1 on OpenRouter/Codey
+- Fix prompt caching support for Opus 4.1 on OpenRouter/Cline
 
 ## [3.20.12]
 
@@ -343,13 +343,13 @@ Add Opus 4.1 through Claude Code
 ## [3.19.6]
 
 - Improve Kimi K2 model provider routing with additional provider options for better availability and performance
-- Fixed terminal bug where Codey failed to capture output of certain fast-running commands
+- Fixed terminal bug where Cline failed to capture output of certain fast-running commands
 - Fixed bug with increasing auto approved number of requests not resetting the counter mid-task
 
 ## [3.19.5]
 
 - Add Groq as a new API provider with support for all Groq models including Kimi-K2
-- Add user role display in organization UI for Codey account users
+- Add user role display in organization UI for Cline account users
 - Fix message dialogs not showing option buttons properly
 - Fix authentication issues when using multiple VSCode windows
 
@@ -363,7 +363,7 @@ Add Opus 4.1 through Claude Code
 
 ## [3.19.2]
 
-- Show request ID in error messages returned by Codey Accounts API to help debug user reported issues
+- Show request ID in error messages returned by Cline Accounts API to help debug user reported issues
 
 ## [3.19.1]
 
@@ -371,26 +371,26 @@ Add Opus 4.1 through Claude Code
 
 ## [3.19.0]
 
-- Add Kimi-K2 as a recommended model in the Codey Provider, and route to Together/Groq for 131k context window and high throughput
+- Add Kimi-K2 as a recommended model in the Cline Provider, and route to Together/Groq for 131k context window and high throughput
 - Added API Key support for Bedrock integration
 
 ## [3.18.14]
 
-- Fix bug where Codey account users logged in with invalid token would not be shown as logged out in webview presentation layer
+- Fix bug where Cline account users logged in with invalid token would not be shown as logged out in webview presentation layer
 
 ## [3.18.13]
 
-- Fix authentication issue where Codey accounts users would keep getting logged out or seeing 'Unexpected API response' errors
+- Fix authentication issue where Cline accounts users would keep getting logged out or seeing 'Unexpected API response' errors
 
 ## [3.18.12]
 
-- Fix flaky organization switching behavior in Codey provider that caused UI inconsistencies and double loading
+- Fix flaky organization switching behavior in Cline provider that caused UI inconsistencies and double loading
 - Fix insufficient credits error display to properly show error messages when account balance is too low
-- Improve credit balance validation and error handling for Codey provider requests
+- Improve credit balance validation and error handling for Cline provider requests
 
 ## [3.18.11]
 
-- Fix authentication issues with Codey provider by ensuring the client always uses the latest auth token
+- Fix authentication issues with Cline provider by ensuring the client always uses the latest auth token
 
 ## [3.18.10]
 
@@ -399,8 +399,8 @@ Add Opus 4.1 through Claude Code
 
 ## [3.18.9]
 
-- Fix streaming reliability issues with Codey provider that could cause connection problems during long conversations
-- Fix authentication error handling for Codey provider to show clearer error messages when not signed in and prevent recursive failed requests
+- Fix streaming reliability issues with Cline provider that could cause connection problems during long conversations
+- Fix authentication error handling for Cline provider to show clearer error messages when not signed in and prevent recursive failed requests
 - Remove incorrect pricing display for SAP AI Core provider since it uses non-USD "Capacity Units" that cannot be directly converted (Thanks @ncryptedV1!)
 
 ## [3.18.8]
@@ -413,7 +413,7 @@ Add Opus 4.1 through Claude Code
 
 ## [3.18.6]
 
-- Update request header to include `"ai-client-type": "Codey"` to SAP Api Provider
+- Update request header to include `"ai-client-type": "Cline"` to SAP Api Provider
 - Add organization accounts
 
 ## [3.18.5]
@@ -425,7 +425,7 @@ Add Opus 4.1 through Claude Code
 ## [3.18.4]
 
 - Add support for Gemini 2.5 Pro and Flash to SAP AI Core Provider
-- Fix logging in with Codey account not getting past welcome screen
+- Fix logging in with Cline account not getting past welcome screen
 
 ## [3.18.3]
 
@@ -450,9 +450,9 @@ Add Opus 4.1 through Claude Code
 
 ## [3.18.0]
 
-- Optimized Codey to work with the Claude 4 family of models, resulting in improved performance, reliability, and new capabilities
+- Optimized Cline to work with the Claude 4 family of models, resulting in improved performance, reliability, and new capabilities
 - Added a new Gemini CLI provider that allows you to use your local Gemini CLI authentication to access Gemini models for free (Thanks @google-gemini!)
-- Optimized Codey to work with the Gemini 2.5 family of models
+- Optimized Cline to work with the Gemini 2.5 family of models
 - Updated the default and recommended model to Claude 4 Sonnet for the best performance
 - Fix race condition in Plan/Act mode switching
 - Improve robustness of search and replace parsing
@@ -477,7 +477,7 @@ Add Opus 4.1 through Claude Code
 
 - Add Claude Code as a new API provider, allowing integration with Anthropic's Claude Code CLI tool and Claude Max Plan (Thanks @BarreiroT!)
 - Add SAP AI Core as a new API provider with support for Claude and GPT models (Thanks @schardosin!)
-- Add configurable default terminal profile setting, allowing users to specify which terminal Codey should use (Thanks @valinha!)
+- Add configurable default terminal profile setting, allowing users to specify which terminal Cline should use (Thanks @valinha!)
 - Add terminal output size constraint setting to limit how much terminal output is processed
 - Add MCP Rich Display settings to the settings page for persistent configuration (Thanks @Vl4diC0de!)
 - Improve copy button functionality with refactored reusable components (Thanks @shouhanzen!)
@@ -493,7 +493,7 @@ Add Opus 4.1 through Claude Code
 ## [3.17.13]
 
 - Add Thinking UX for Gemini models, providing visual feedback during model reasoning
-- Add support for Notifications MCP integration with Codey
+- Add support for Notifications MCP integration with Cline
 - Add prompt caching indicator for Grok 3 models
 - Sort MCP marketplace by newest listings by default for easier discovery of recent servers
 - Update O3 model family pricing to reflect latest OpenAI rates
@@ -504,7 +504,7 @@ Add Opus 4.1 through Claude Code
 
 ## [3.17.12]
 
-- **Free Grok Model Available!** Access Grok 3 completely free through the Codey provider
+- **Free Grok Model Available!** Access Grok 3 completely free through the Cline provider
 - Add collapsible MCP response panels to keep conversations focused on the main AI responses while still allowing access to detailed MCP output (Thanks @valinha!)
 - Prioritize active files (open tabs) at the top of the file context menu when using @ mentions (Thanks @abeatrix!)
 - Fix context menu to properly default to "File" option instead of incorrectly selecting "Git Commits"
@@ -519,7 +519,7 @@ Add Opus 4.1 through Claude Code
 
 - Add support for Qwen 3 series models with thinking mode options (Thanks @Jonny-china!)
 - Add new AskSage models: Claude 4 Sonnet, Claude 4 Opus, GPT 4.1, Gemini 2.5 Pro (Thanks @swhite24!)
-- Add VSCode walkthrough to help new users get started with Codey
+- Add VSCode walkthrough to help new users get started with Cline
 - Add support for streamable MCP servers
 - Improve Ollama model selection with filterable dropdown instead of radio buttons (Thanks @paulgear!)
 - Add setting to disable aggressive terminal reuse to help users experiencing task lockout issues
@@ -527,7 +527,7 @@ Add Opus 4.1 through Claude Code
 
 ## [3.17.9]
 
-- Aligning Codey to work with Claude 4 model family (Experimental)
+- Aligning Cline to work with Claude 4 model family (Experimental)
 - Add task timeline scrolling feature
 - Add support for uploading CSV and XLSX files for data analysis and processing
 - Add stable Grok-3 models to xAI provider (grok-3, grok-3-fast, grok-3-mini, grok-3-mini-fast) and update default model from grok-3-beta to grok-3 (Thanks @PeterDaveHello!)
@@ -582,7 +582,7 @@ Add Opus 4.1 through Claude Code
 
 ## [3.17.1]
 
-- Add prompt caching for Claude 4 models on Codey and OpenRouter providers
+- Add prompt caching for Claude 4 models on Cline and OpenRouter providers
 - Increase max tokens for Claude Opus 4 from 4096 to 8192
 
 ## [3.17.0]
@@ -605,9 +605,9 @@ Add Opus 4.1 through Claude Code
 ## [3.16.2]
 
 - Add support for Gemini 2.5 Flash Preview 05-20 model to Vertex AI provider with massive 1M token context window (Thanks @omercelik!)
-- Add keyboard shortcut (Cmd+') to quickly focus Codey from anywhere in VS Code
-- Add lightbulb actions for selected text with options to "Add to Codey", "Explain with Codey", and "Improve with Codey"
-- Automatically focus Codey window after extension updates
+- Add keyboard shortcut (Cmd+') to quickly focus Cline from anywhere in VS Code
+- Add lightbulb actions for selected text with options to "Add to Cline", "Explain with Cline", and "Improve with Cline"
+- Automatically focus Cline window after extension updates
 
 ## [3.16.1]
 
@@ -651,7 +651,7 @@ Add Opus 4.1 through Claude Code
 - Added details to auto approve menu and more sensible default controls
 - Add detailed configuration options for LiteLLM provider
 - Add webview telemetry for users who have opted in to telemetry
-- Update Gemini in OpenRouter/Codey providers to use implicit caching
+- Update Gemini in OpenRouter/Cline providers to use implicit caching
 - Fix freezing issues during rendering of large streaming text
 - Fix grey screen webview crashes by releasing memory after every diff edit
 - Fix breaking out of diff auto-scroll
@@ -671,9 +671,9 @@ Add Opus 4.1 through Claude Code
 - Add ability to favorite a task, allowing it to be kept when clearing all tasks
 - Add npm script for issue creation (Thanks DaveFres!)
 - Add confirmation dialog to Delete All History button
-- Add ability to allow the user to type their next message into the chat while Codey is taking action
-- Add ability to generate commit message via codey (Thanks zapp88!)
-- Add improvements to caching for gemini models on OpenRouter and Codey providers
+- Add ability to allow the user to type their next message into the chat while Cline is taking action
+- Add ability to generate commit message via cline (Thanks zapp88!)
+- Add improvements to caching for gemini models on OpenRouter and Cline providers
 - Add improvements to allow scrolling the file being edited.
 - Add ui for windsurf and cursor rules
 - Add mistral medium-3 model
@@ -685,7 +685,7 @@ Add Opus 4.1 through Claude Code
 - Update fetch cache details from generation endpoint
 - Update converted docs to Mintlify
 - Update the isOminiModel to include o4-mini model (Thanks PeterDaveHello!)
-- Update file size that can be read by Codey, allowing larger files
+- Update file size that can be read by Cline, allowing larger files
 - Update defaults for bedrock API models (Thanks Watany!)
 - Update to extend ReasoningEffort to non-o3-mini reasoning models for all providers (Thanks PeterDaveHello!)
 - Update to give error when a user tries to upload an image larger than 7500x7500 pixels
@@ -706,14 +706,14 @@ Add Opus 4.1 through Claude Code
 - Add support for custom model ID in AWS Bedrock provider, enabling use of Application Inference Profile (Thanks @clicube!)
 - Add more robust caching & cache tracking for gemini & vertex providers
 - Add support for LaTeX rendering
-- Add support for custom API request timeout. Timeouts were 15-30s, but can now be configured via settings for OpenRouter/Codey & Ollama (Thanks @WingsDrafterwork!)
+- Add support for custom API request timeout. Timeouts were 15-30s, but can now be configured via settings for OpenRouter/Cline & Ollama (Thanks @WingsDrafterwork!)
 - Add truncation notice when truncating manually
 - Add a timeout setting for the terminal connection, allowing users to set a time to wait for terminal startup
 - Add copy button to code blocks
 - Add copy button to markdown blocks (Thanks @weshoke!)
 - Add checkpoints to more messages
 - Add slash command to create a new rules file (/newrule)
-- Add cache ui for open router and codey provider
+- Add cache ui for open router and cline provider
 - Add Amazon Nova Premier model to Bedrock (Thanks @watany!)
 - Add support for cursorrules and windsurfrules
 - Add support for batch history deletion (Thanks @danix800!)
@@ -734,7 +734,7 @@ Add Opus 4.1 through Claude Code
 
 - Add download counts to MCP marketplace items
 - Add `/compact` command
-- Add prompt caching to gemini models in codey / openrouter providers
+- Add prompt caching to gemini models in cline / openrouter providers
 - Add tooltips to bottom row menu
 
 ## [3.13.2]
@@ -762,11 +762,11 @@ Add Opus 4.1 through Claude Code
 
 ## [3.13.0]
 
-- Add Codey rules popover under the chat field, allowing you to easily add, enable & disable workspace level or global rule files
+- Add Cline rules popover under the chat field, allowing you to easily add, enable & disable workspace level or global rule files
 - Add new slash command menu letting you type “/“ to do quick actions like creating new tasks
 - Add ability to edit past messages, with options to restore your workspace back to that point
 - Allow sending a message when selecting an option provided by the question or plan tool
-- Add command to jump to Codey's chat input
+- Add command to jump to Cline's chat input
 - Add support for OpenAI o3 & 4o-mini (Thanks @PeterDaveHello and @arafatkatze!)
 - Add baseURL option for Google Gemini provider (Thanks @owengo and @olivierhub!)
 - Add support for Azure's DeepSeek model. (Thanks @yt3trees!)
@@ -780,7 +780,7 @@ Add Opus 4.1 through Claude Code
 ## [3.12.3]
 
 - Add copy button to MermaidBlock component (Thanks @cacosub7!)
-- Add the ability to fetch from global codey rules files
+- Add the ability to fetch from global cline rules files
 - Add icon to indicate when a file outside of the users workspace is edited
 
 ## [3.12.2]
@@ -795,10 +795,10 @@ Add Opus 4.1 through Claude Code
 
 ## [3.12.0]
 
-- Add favorite toggles for models when using the Codey & OpenRouter providers
+- Add favorite toggles for models when using the Cline & OpenRouter providers
 - Add auto-approve options for edits/reads outside of the workspace
 - Improve diff editing animation for large files
-- Add indicator showing number of diff edits when Codey edits a file
+- Add indicator showing number of diff edits when Cline edits a file
 - Add streaming support and reasoning effort option to xAI's Grok 3 Mini
 - Add settings button to MCP popover to easily modify installed servers
 - Fix bug where browser tool actions would show unparsed results in the chat view
@@ -810,13 +810,13 @@ Add Opus 4.1 through Claude Code
 
 - Redesign checkpoint UI to declutter chat view by using a subtle indicator line that expands to a popover on hover, with a new date indicator for when it was created
 - Add support for xAI's provider's Grok 3 models
-- Add more robust error tracking for users opted in to telemetry (thank you for helping us make Codey better!)
+- Add more robust error tracking for users opted in to telemetry (thank you for helping us make Cline better!)
 
 ## [3.10.1]
 
-- Add CMD+' keyboard shortcut to add selected text to Codey
-- Codey now auto focuses the text field when using 'Add to Codey' shortcut
-- Add new 'Create New Task' tool to let Codey start a new task autonomously!
+- Add CMD+' keyboard shortcut to add selected text to Cline
+- Cline now auto focuses the text field when using 'Add to Cline' shortcut
+- Add new 'Create New Task' tool to let Cline start a new task autonomously!
 - Fix Mermaid diagram issues
 - Fix Gemini provider cost calculation to take new tiered pricing structure into account
 
@@ -825,15 +825,15 @@ Add Opus 4.1 through Claude Code
 - Add setting to let browser tool use local Chrome via remote debugging, enabling session-based browsing. Replaces sessionless Chromium, unlocking debugging and productivity workflows tied to your real browser state.
 - Add new auto-approve option to approve _ALL_ commands (use at your own risk!)
 - Add modal in the chat area to more easily enable or disable MCP servers
-- Add drag and drop of file/folders into codey chat (Thanks eljapi!)
+- Add drag and drop of file/folders into cline chat (Thanks eljapi!)
 - Add prompt caching for LiteLLM + Claude (Thanks sammcj!)
 - Add Improved context management
 - Fix MCP auto approve toggle issues being out of sync with settings
 
 ## [3.9.2]
 
-- Add recommended models for Codey provider
-- Add ability to detect when user edits files manually so Codey knows to re-read, leading to reduced diff edit errors
+- Add recommended models for Cline provider
+- Add ability to detect when user edits files manually so Cline knows to re-read, leading to reduced diff edit errors
 - Add improvements to file mention searching for faster searching
 - Add scoring logic to file mentions to sort and exclude results based on relevance
 - Add Support for Bytedance Doubao (Thanks Tunixer!)
@@ -855,7 +855,7 @@ Add Opus 4.1 through Claude Code
 - Add UI for adding remote servers
 - Add Mentions Feature Guide and update related documentation
 - Fix bug where menu would open in sidebar and open tab
-- Fix issue with Codey accounts not showing user info in popout tabs
+- Fix issue with Cline accounts not showing user info in popout tabs
 - Fix bug where menu buttons wouldn't open view in sidebar
 
 ## [3.8.5]
@@ -874,7 +874,7 @@ Add Opus 4.1 through Claude Code
 
 - Add Sambanova Deepseek-V3-0324
 - Add cost calculation support for LiteLLM provider
-- Fix bug where Codey would use plan_mode_response bug without response parameter
+- Fix bug where Cline would use plan_mode_response bug without response parameter
 
 ## [3.8.3]
 
@@ -893,15 +893,15 @@ Add Opus 4.1 through Claude Code
 
 ## [3.8.0]
 
-- Add 'Add to Codey' as an option when you right-click in a file or the terminal, making it easier to add context to your current task
-- Add 'Fix with Codey' code action - when you see a lightbulb icon in your editor, you can now select 'Fix with Codey' to send the code and associated errors for Codey to fix. (Cursor users can also use the 'Quick Fix (CMD + .)' menu to see this option)
-- Add Account view to display billing and usage history for Codey account users. You can now keep track of credits used and transaction history right in the extension!
-- Add 'Sort underling provider routing' setting to Codey/OpenRouter allowing you to sort provider used by throughput, price, latency, or the default (combination of price and uptime)
+- Add 'Add to Cline' as an option when you right-click in a file or the terminal, making it easier to add context to your current task
+- Add 'Fix with Cline' code action - when you see a lightbulb icon in your editor, you can now select 'Fix with Cline' to send the code and associated errors for Cline to fix. (Cursor users can also use the 'Quick Fix (CMD + .)' menu to see this option)
+- Add Account view to display billing and usage history for Cline account users. You can now keep track of credits used and transaction history right in the extension!
+- Add 'Sort underling provider routing' setting to Cline/OpenRouter allowing you to sort provider used by throughput, price, latency, or the default (combination of price and uptime)
 - Improve rich MCP display with dynamic image loading and support for GIFs
-- Add 'Documentation' menu item to easily access Codey's docs
+- Add 'Documentation' menu item to easily access Cline's docs
 - Add OpenRouter's new usage_details feature for more reliable cost reporting
-- Display total space Codey takes on disk next to 'Delete all Tasks' button in History view
-- Fix 'Context Window Exceeded' error for OpenRouter/Codey Accounts (additional support coming soon)
+- Display total space Cline takes on disk next to 'Delete all Tasks' button in History view
+- Fix 'Context Window Exceeded' error for OpenRouter/Cline Accounts (additional support coming soon)
 - Fix bug where OpenRouter model ID would be set to invalid value
 - Add button to delete MCP servers in a failure state
 
@@ -912,9 +912,9 @@ Add Opus 4.1 through Claude Code
 
 ## [3.7.0]
 
-- Codey now displays selectable options when asking questions or presenting a plan, saving you from having to type out responses!
+- Cline now displays selectable options when asking questions or presenting a plan, saving you from having to type out responses!
 - Add support for a `.clinerules/` directory to load multiple files at once (thanks @ryo-ma!)
-- Prevent Codey from reading extremely large files into context that would overload context window
+- Prevent Cline from reading extremely large files into context that would overload context window
 - Improve checkpoints loading performance and display warning for large projects not suited for checkpoints
 - Add SambaNova API provider (thanks @saad-noodleseed!)
 - Add VPC endpoint option for AWS Bedrock profiles (thanks @minorunara!)
@@ -936,11 +936,11 @@ Add Opus 4.1 through Claude Code
 
 ## [3.6.0]
 
-- Add Codey API as a provider option, allowing new users to sign up and get started with Codey for free
+- Add Cline API as a provider option, allowing new users to sign up and get started with Cline for free
 - Optimize checkpoints with branch-per-task strategy, reducing storage required and first task load times
 - Fix problem with Plan/Act toggle keyboard shortcut not working in Windows (thanks @yt3trees!)
 - Add new Gemini models to GCP Vertex (thanks @shohei-ihaya!) and Claude models AskSage (thanks @swhite24!)
-- Improve OpenRouter/Codey error reporting
+- Improve OpenRouter/Cline error reporting
 
 ## [3.5.1]
 
@@ -992,7 +992,7 @@ Add Opus 4.1 through Claude Code
 
 ## [3.3.0]
 
-- Add .clineignore to block Codey from accessing specified file patterns
+- Add .clineignore to block Cline from accessing specified file patterns
 - Add keyboard shortcut + tooltips for Plan/Act toggle
 - Fix bug where new files won't show up in files dropdown
 - Add automatic retry for rate limited requests (thanks @ViezeVingertjes!)
@@ -1042,7 +1042,7 @@ Add Opus 4.1 through Claude Code
 
 ## [3.2.0]
 
-- Add Plan/Act mode toggle to let you plan tasks with Codey before letting him get to work
+- Add Plan/Act mode toggle to let you plan tasks with Cline before letting him get to work
 - Easily switch between API providers and models using a new popup menu under the chat field
 - Add VS Code LM API provider to run models provided by other VS Code extensions (e.g. GitHub Copilot). Shoutout to @julesmons, @RaySinner, and @MrUbens for putting this together!
 - Add on/off toggle for MCP servers to disable them when not in use. Thanks @MrUbens!
@@ -1058,7 +1058,7 @@ Add Opus 4.1 through Claude Code
 
 ## [3.1.7]
 
-- Add ability to change viewport size and headless mode when Codey asks to launch the browser
+- Add ability to change viewport size and headless mode when Cline asks to launch the browser
 
 ## [3.1.6]
 
@@ -1067,7 +1067,7 @@ Add Opus 4.1 through Claude Code
 
 ## [3.1.5]
 
-- Fix bug where Codey couldn't read "@/" import path aliases from tool results
+- Fix bug where Cline couldn't read "@/" import path aliases from tool results
 
 ## [3.1.4]
 
@@ -1079,7 +1079,7 @@ Add Opus 4.1 through Claude Code
 
 ## [3.1.0]
 
-- Added checkpoints: Snapshots of workspace are automatically created whenever Codey uses a tool
+- Added checkpoints: Snapshots of workspace are automatically created whenever Cline uses a tool
 - Compare changes: Hover over any tool use to see a diff between the snapshot and current workspace state
 - Restore options: Choose to restore just the task state, just the workspace files, or both
 - New 'See new changes' button appears after task completion, providing an overview of all workspace changes
@@ -1131,16 +1131,16 @@ Add Opus 4.1 through Claude Code
 
 ## [3.0.0]
 
-- Codey now uses a search & replace diff based approach when editing large files to prevent code deletion issues.
+- Cline now uses a search & replace diff based approach when editing large files to prevent code deletion issues.
 - Adds support for a more comprehensive auto-approve configuration, allowing you to specify which tools require approval and which don't.
-- Adds ability to enable system notifications for when Codey needs approval or completes a task.
+- Adds ability to enable system notifications for when Cline needs approval or completes a task.
 - Adds support for a root-level `.clinerules` file that can be used to specify custom instructions for the project.
 
 ## [2.2.0]
 
-- Add support for Model Context Protocol (MCP), enabling Codey to use custom tools like web-search tool or GitHub tool
+- Add support for Model Context Protocol (MCP), enabling Cline to use custom tools like web-search tool or GitHub tool
 - Add MCP server management tab accessible via the server icon in the menu bar
-- Add ability for Codey to dynamically create new MCP servers based on user requests (e.g., "add a tool that gets the latest npm docs")
+- Add ability for Cline to dynamically create new MCP servers based on user requests (e.g., "add a tool that gets the latest npm docs")
 
 ## [2.1.6]
 
@@ -1165,11 +1165,11 @@ Add Opus 4.1 through Claude Code
 
 ## [2.1.1]
 
-- Add stricter prompt to prevent Codey from editing files during a browser session without first closing the browser
+- Add stricter prompt to prevent Cline from editing files during a browser session without first closing the browser
 
 ## [2.1.0]
 
-- Codey now uses Anthropic's new "Computer Use" feature to launch a browser, click, type, and scroll. This gives him more autonomy in runtime debugging, end-to-end testing, and even general web use. Try asking "Look up the weather in Colorado" to see it in action! (Available with Claude 3.5 Sonnet v2)
+- Cline now uses Anthropic's new "Computer Use" feature to launch a browser, click, type, and scroll. This gives him more autonomy in runtime debugging, end-to-end testing, and even general web use. Try asking "Look up the weather in Colorado" to see it in action! (Available with Claude 3.5 Sonnet v2)
 
 ## [2.0.19]
 
@@ -1189,7 +1189,7 @@ Add Opus 4.1 through Claude Code
 
 ## [2.0.15]
 
-- Fix bug where modifying Codey's edits would lead him to try to re-apply the edits
+- Fix bug where modifying Cline's edits would lead him to try to re-apply the edits
 - Fix bug where weaker models would display file contents before using the write_to_file tool
 - Fix o1-mini and o1-preview errors when using OpenAI native
 
@@ -1215,7 +1215,7 @@ Add Opus 4.1 through Claude Code
 
 ## [2.0.9]
 
-- Update system prompt to try to prevent Codey from lazy coding (`// rest of code here...`)
+- Update system prompt to try to prevent Cline from lazy coding (`// rest of code here...`)
 
 ## [2.0.8]
 
@@ -1228,19 +1228,19 @@ Add Opus 4.1 through Claude Code
 
 ## [2.0.6]
 
-- Update URLs to https://github.com/codey/codey
+- Update URLs to https://github.com/cline/cline
 
 ## [2.0.5]
 
-- Fixed bug where Codey's edits would stream into the active tab when switching tabs during a write_to_file
+- Fixed bug where Cline's edits would stream into the active tab when switching tabs during a write_to_file
 - Added explanation in task continuation prompt that an interrupted write_to_file reverts the file to its original contents, preventing unnecessary re-reads
 - Fixed non-first chunk error handling in case stream fails mid-way through
 
 ## [2.0.0]
 
-- New name! Meet Codey, an AI assistant that can use your CLI and Editor
-- Responses are now streamed with a yellow text decoration animation to keep track of Codey's progress as he edits files
-- New Cancel button to give Codey feedback if he goes off in the wrong direction, giving you more control over tasks
+- New name! Meet Cline, an AI assistant that can use your CLI and Editor
+- Responses are now streamed with a yellow text decoration animation to keep track of Cline's progress as he edits files
+- New Cancel button to give Cline feedback if he goes off in the wrong direction, giving you more control over tasks
 - Re-imagined tool calling prompt resulting in ~40% fewer requests to accomplish tasks + better performance with other models
 - Search and use any model with OpenRouter
 

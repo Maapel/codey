@@ -1,12 +1,12 @@
 import { buildApiHandler } from "@core/api"
 
-import { Empty } from "@shared/proto/codey/common"
+import { Empty } from "@shared/proto/cline/common"
 import {
 	PlanActMode,
 	McpDisplayMode as ProtoMcpDisplayMode,
 	OpenaiReasoningEffort as ProtoOpenaiReasoningEffort,
 	UpdateSettingsRequest,
-} from "@shared/proto/codey/state"
+} from "@shared/proto/cline/state"
 import { convertProtoToApiProvider } from "@shared/proto-conversions/models/api-configuration-conversion"
 import { OpenaiReasoningEffort } from "@shared/storage/types"
 import { TelemetrySetting } from "@shared/TelemetrySetting"

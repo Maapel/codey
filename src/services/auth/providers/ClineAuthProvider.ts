@@ -2,7 +2,7 @@ import { clineEnvConfig, EnvironmentConfig } from "@/config"
 import { Controller } from "@/core/controller"
 import { HostProvider } from "@/hosts/host-provider"
 import { Logger } from "@/services/logging/Logger"
-import { CLINE_API_ENDPOINT } from "@/shared/codey/api"
+import { CLINE_API_ENDPOINT } from "@/shared/cline/api"
 import type { ClineAuthInfo } from "../AuthService"
 import { IAuthProvider } from "./IAuthProvider"
 
@@ -51,7 +51,7 @@ export interface ClineAuthApiTokenRefreshResponse {
 }
 
 export class ClineAuthProvider implements IAuthProvider {
-	readonly name = "codey"
+	readonly name = "cline"
 	private _config
 
 	constructor(config: EnvironmentConfig) {
@@ -88,7 +88,7 @@ export class ClineAuthProvider implements IAuthProvider {
 	}
 
 	/**
-	 * Retrieves Codey auth info using the stored access token.
+	 * Retrieves Cline auth info using the stored access token.
 	 * @param controller - The controller instance to access stored secrets.
 	 * @returns {Promise<ClineAuthInfo | null>} A promise that resolves with the auth info or null.
 	 */

@@ -1,4 +1,4 @@
-import { TranscribeAudioRequest, Transcription } from "@shared/proto/codey/dictation"
+import { TranscribeAudioRequest, Transcription } from "@shared/proto/cline/dictation"
 import { HostProvider } from "@/hosts/host-provider"
 import { getVoiceTranscriptionService } from "@/services/dictation/VoiceTranscriptionService"
 import { telemetryService } from "@/services/telemetry"
@@ -6,7 +6,7 @@ import { ShowMessageType } from "@/shared/proto/host/window"
 import { Controller } from ".."
 
 /**
- * Transcribes audio using Codey transcription service
+ * Transcribes audio using Cline transcription service
  * @param controller The controller instance
  * @param request TranscribeAudioRequest containing base64 audio data
  * @returns Transcription with transcribed text or error

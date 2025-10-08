@@ -1,6 +1,6 @@
 import type { ClineMessage } from "@shared/ExtensionMessage"
-import { EmptyRequest, StringRequest } from "@shared/proto/codey/common"
-import { AskResponseRequest, NewTaskRequest } from "@shared/proto/codey/task"
+import { EmptyRequest, StringRequest } from "@shared/proto/cline/common"
+import { AskResponseRequest, NewTaskRequest } from "@shared/proto/cline/task"
 import { useCallback } from "react"
 import { SlashServiceClient, TaskServiceClient } from "@/services/grpc-client"
 import type { ButtonActionType } from "../shared/buttonConfig"

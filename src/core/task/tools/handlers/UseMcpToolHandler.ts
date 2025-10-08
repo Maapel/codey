@@ -65,7 +65,7 @@ export class UseMcpToolHandler implements IFullyManagedTool {
 				parsedArguments = JSON.parse(mcp_arguments)
 			} catch (_error) {
 				config.taskState.consecutiveMistakeCount++
-				await config.callbacks.say("error", `Codey tried to use ${tool_name} with an invalid JSON argument. Retrying...`)
+				await config.callbacks.say("error", `Cline tried to use ${tool_name} with an invalid JSON argument. Retrying...`)
 				return formatResponse.toolError(formatResponse.invalidMcpToolArgumentError(server_name, tool_name))
 			}
 		}
@@ -94,7 +94,7 @@ export class UseMcpToolHandler implements IFullyManagedTool {
 			telemetryService.captureToolUsage(config.ulid, block.name, config.api.getModel().id, true, true)
 		} else {
 			// Manual approval flow
-			const notificationMessage = `Codey wants to use ${tool_name || "unknown tool"} on ${server_name || "unknown server"}`
+			const notificationMessage = `Cline wants to use ${tool_name || "unknown tool"} on ${server_name || "unknown server"}`
 
 			// Show notification
 			showNotificationForApprovalIfAutoApprovalEnabled(

@@ -63,10 +63,10 @@ const checkGitHubAuth = async () => {
 
 const createIssueUrl = (systemInfo, issueTitle) => {
 	return (
-		`https://github.com/codey/codey/issues/new?template=bug_report.yml` +
+		`https://github.com/cline/cline/issues/new?template=bug_report.yml` +
 		`&title=${issueTitle}` +
 		`&operating-system=${systemInfo.os}` +
-		`&codey-version=${systemInfo.clineVersion}` +
+		`&cline-version=${systemInfo.clineVersion}` +
 		`&system-info=${
 			`Node: ${systemInfo.nodeVersion}\n` +
 			`npm: ${systemInfo.npmVersion}\n` +

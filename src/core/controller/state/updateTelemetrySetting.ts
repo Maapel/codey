@@ -1,5 +1,5 @@
-import { Empty } from "@shared/proto/codey/common"
-import { TelemetrySettingRequest } from "@shared/proto/codey/state"
+import { Empty } from "@shared/proto/cline/common"
+import { TelemetrySettingRequest } from "@shared/proto/cline/state"
 import { convertProtoTelemetrySettingToDomain } from "../../../shared/proto-conversions/state/telemetry-setting-conversion"
 import { Controller } from ".."
 

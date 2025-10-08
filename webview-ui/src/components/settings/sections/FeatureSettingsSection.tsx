@@ -167,7 +167,7 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 								value={String(focusChainSettings?.remindClineInterval || 6)}
 							/>
 							<p className="text-xs mt-[5px] text-[var(--vscode-descriptionForeground)]">
-								Interval (in messages) to remind Codey about its focus chain checklist (1-100). Lower values
+								Interval (in messages) to remind Cline about its focus chain checklist (1-100). Lower values
 								provide more frequent reminders.
 							</p>
 						</div>
@@ -188,7 +188,7 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 									Enable Dictation
 								</VSCodeCheckbox>
 								<p className="text-xs text-description mt-1">
-									Enables speech-to-text transcription using your Codey account. Uses the Whisper model, at
+									Enables speech-to-text transcription using your Cline account. Uses the Whisper model, at
 									$0.006 credits per minute of audio processed. 5 minutes max per message.
 								</p>
 							</div>
@@ -241,7 +241,7 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 							Enables advanced context management system which uses LLM based condensing for next-gen models.{" "}
 							<a
 								className="text-[var(--vscode-textLink-foreground)] hover:text-[var(--vscode-textLink-activeForeground)]"
-								href="https://docs.codey.bot/features/auto-compact"
+								href="https://docs.cline.bot/features/auto-compact"
 								rel="noopener noreferrer"
 								target="_blank">
 								Learn more
@@ -260,7 +260,7 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 							</VSCodeCheckbox>
 							<p className="text-xs">
 								<span className="text-[var(--vscode-errorForeground)]">Experimental: </span>{" "}
-								<span className="text-description">Allows codey to work across multiple workspaces.</span>
+								<span className="text-description">Allows cline to work across multiple workspaces.</span>
 							</p>
 						</div>
 					)}
@@ -274,7 +274,7 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 							Enable YOLO Mode
 						</VSCodeCheckbox>
 						<p className="text-xs text-[var(--vscode-errorForeground)]">
-							EXPERIMENTAL & DANGEROUS: This mode disables safety checks and user confirmations. Codey will
+							EXPERIMENTAL & DANGEROUS: This mode disables safety checks and user confirmations. Cline will
 							automatically approve all actions without asking. Use with extreme caution.
 						</p>
 					</div>

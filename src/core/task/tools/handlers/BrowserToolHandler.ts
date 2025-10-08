@@ -96,7 +96,7 @@ export class BrowserToolHandler implements IFullyManagedTool {
 				} else {
 					// Show notification for approval if auto approval enabled
 					showNotificationForApprovalIfAutoApprovalEnabled(
-						`Codey wants to use a browser and launch ${url}`,
+						`Cline wants to use a browser and launch ${url}`,
 						config.autoApprovalSettings.enabled,
 						config.autoApprovalSettings.enableNotifications,
 					)

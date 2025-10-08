@@ -100,7 +100,7 @@ export class MessageStateHandler {
 				checkpointManagerErrorMessage: this.taskState.checkpointManagerErrorMessage,
 			})
 		} catch (error) {
-			console.error("Failed to save codey messages:", error)
+			console.error("Failed to save cline messages:", error)
 		}
 	}
 
@@ -114,9 +114,9 @@ export class MessageStateHandler {
 		await saveApiConversationHistory(this.taskId, this.apiConversationHistory)
 	}
 
-	async addToCodeyMessages(message: ClineMessage) {
-		// these values allow us to reconstruct the conversation history at the time this codey message was created
-		// it's important that apiConversationHistory is initialized before we add codey messages
+	async addToClineMessages(message: ClineMessage) {
+		// these values allow us to reconstruct the conversation history at the time this cline message was created
+		// it's important that apiConversationHistory is initialized before we add cline messages
 		message.conversationHistoryIndex = this.apiConversationHistory.length - 1 // NOTE: this is the index of the last added message which is the user message, and once the clinemessages have been presented we update the apiconversationhistory with the completed assistant message. This means when resetting to a message, we need to +1 this index to get the correct assistant message that this tool use corresponds to
 		message.conversationHistoryDeletedRange = this.taskState.conversationHistoryDeletedRange
 		this.clineMessages.push(message)

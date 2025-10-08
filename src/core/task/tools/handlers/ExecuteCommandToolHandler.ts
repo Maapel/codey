@@ -159,7 +159,7 @@ export class ExecuteCommandToolHandler implements IFullyManagedTool {
 		} else {
 			// Manual approval flow
 			showNotificationForApprovalIfAutoApprovalEnabled(
-				`Codey wants to execute a command: ${actualCommand}`,
+				`Cline wants to execute a command: ${actualCommand}`,
 				config.autoApprovalSettings.enabled,
 				config.autoApprovalSettings.enableNotifications,
 			)

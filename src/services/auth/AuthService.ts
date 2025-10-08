@@ -1,5 +1,5 @@
-import { AuthState, UserInfo } from "@shared/proto/codey/account"
-import { type EmptyRequest, String } from "@shared/proto/codey/common"
+import { AuthState, UserInfo } from "@shared/proto/cline/account"
+import { type EmptyRequest, String } from "@shared/proto/cline/common"
 import { clineEnvConfig } from "@/config"
 import { Controller } from "@/core/controller"
 import { getRequestRegistry, type StreamingResponseHandler } from "@/core/controller/grpc-handler"
@@ -41,7 +41,7 @@ export interface ClineAccountUserInfo {
 	id: string
 	organizations: ClineAccountOrganization[]
 	/**
-	 * Codey app base URL, used for webview UI and other client-side operations
+	 * Cline app base URL, used for webview UI and other client-side operations
 	 */
 	appBaseUrl?: string
 	/**
@@ -73,7 +73,7 @@ export class AuthService {
 	 */
 	protected constructor(controller: Controller) {
 		// Default to firebase for now
-		const providerName = featureFlagsService.getWorkOsAuthEnabled() ? "codey" : "firebase"
+		const providerName = featureFlagsService.getWorkOsAuthEnabled() ? "cline" : "firebase"
 		this._setProvider(providerName)
 		this._controller = controller
 	}
@@ -145,7 +145,7 @@ export class AuthService {
 			}
 
 			// IMPORTANT: Prefix with 'workos:' so backend can route verification to WorkOS provider
-			const prefix = this._provider?.name === "codey" ? "workos:" : ""
+			const prefix = this._provider?.name === "cline" ? "workos:" : ""
 			return clineAccountAuthToken ? `${prefix}${clineAccountAuthToken}` : null
 		} catch (error) {
 			console.error("Error getting auth token:", error)
@@ -157,7 +157,7 @@ export class AuthService {
 		// Only ClineAuthProvider is supported going forward
 		// Keeping the providerName param for forward compatibility/telemetrye
 		switch (providerName) {
-			case "codey":
+			case "cline":
 				this._provider = new ClineAuthProvider(clineEnvConfig)
 				break
 			case "firebase":

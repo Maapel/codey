@@ -30,8 +30,8 @@ export class VercelAIGatewayHandler implements ApiHandler {
 					baseURL: "https://ai-gateway.vercel.sh/v1",
 					apiKey: this.options.vercelAiGatewayApiKey,
 					defaultHeaders: {
-						"http-referer": "https://codey.bot",
-						"x-title": "Codey",
+						"http-referer": "https://cline.bot",
+						"x-title": "Cline",
 					},
 				})
 			} catch (error: any) {

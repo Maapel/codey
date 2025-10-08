@@ -90,7 +90,7 @@ function testFilters(): GrpcRequestFilter[] {
 	 */
 	return [
 		(req) => req.is_streaming,
-		(req) => ["codey.UiService", "codey.McpService", "codey.WebService"].includes(req.service),
+		(req) => ["cline.UiService", "cline.McpService", "cline.WebService"].includes(req.service),
 		(req) =>
 			[
 				"refreshOpenRouterModels",

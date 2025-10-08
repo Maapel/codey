@@ -310,7 +310,7 @@ export class SearchFilesToolHandler implements IFullyManagedTool {
 			telemetryService.captureToolUsage(config.ulid, block.name, config.api.getModel().id, true, true, workspaceContext)
 		} else {
 			// Manual approval flow
-			const notificationMessage = `Codey wants to search files for ${regex}`
+			const notificationMessage = `Cline wants to search files for ${regex}`
 
 			// Show notification
 			showNotificationForApprovalIfAutoApprovalEnabled(

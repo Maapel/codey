@@ -298,7 +298,7 @@ class TemplateEngine {
 
 **Base Template Example:**
 ```markdown
-You are Codey, a highly skilled software engineer...
+You are Cline, a highly skilled software engineer...
 
 ====
 
@@ -774,7 +774,7 @@ The system supports the following tools (mapped to `ClineDefaultTool` enum):
 
 ### Tool Structure and Anatomy
 
-Each tool in Codey follows a specific structure with variants for different model families. Here's the anatomy of a tool:
+Each tool in Cline follows a specific structure with variants for different model families. Here's the anatomy of a tool:
 
 ```typescript
 // src/core/prompts/system-prompt/tools/my_new_tool.ts
@@ -1131,7 +1131,7 @@ export function registerClineToolSets(): void {
 }
 ```
 
-This comprehensive guide should help developers understand both the architecture and practical steps needed to extend Codey with new tools.
+This comprehensive guide should help developers understand both the architecture and practical steps needed to extend Cline with new tools.
 
 ## Key Features
 

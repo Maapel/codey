@@ -1,4 +1,4 @@
-import { EmptyRequest, String } from "@shared/proto/codey/common"
+import { EmptyRequest, String } from "@shared/proto/cline/common"
 import { AuthService } from "@/services/auth/AuthService"
 import { Controller } from "../index"
 

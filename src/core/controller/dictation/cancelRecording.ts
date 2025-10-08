@@ -1,4 +1,4 @@
-import { RecordingResult } from "@shared/proto/codey/dictation"
+import { RecordingResult } from "@shared/proto/cline/dictation"
 import { audioRecordingService } from "@/services/dictation/AudioRecordingService"
 import { telemetryService } from "@/services/telemetry"
 import { Controller } from ".."

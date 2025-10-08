@@ -17,8 +17,8 @@ jobs:
 
     publish:
         needs: test
-        name: Publish Codey (Nightly) Extension
-        if: github.repository == 'codey/codey'
+        name: Publish Cline (Nightly) Extension
+        if: github.repository == 'cline/cline'
         runs-on: ubuntu-latest
         environment: PublishNightly
 

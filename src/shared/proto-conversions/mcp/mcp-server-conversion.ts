@@ -4,7 +4,7 @@ import {
 	McpResourceTemplate as ProtoMcpResourceTemplate,
 	McpServer as ProtoMcpServer,
 	McpTool as ProtoMcpTool,
-} from "@shared/proto/codey/mcp"
+} from "@shared/proto/cline/mcp"
 import { McpResource, McpResourceTemplate, McpServer, McpTool } from "../../mcp"
 
 // Helper to convert TS status to Proto enum

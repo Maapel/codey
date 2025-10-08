@@ -1,7 +1,7 @@
 {
 	"$schema": "https://mintlify.com/docs.json",
 	"theme": "linden",
-	"name": "Codey",
+	"name": "Cline",
 	"description": "AI-powered coding assistant for VSCode",
 	"colors": {
 		"primary": "#9D4EDD",
@@ -39,17 +39,17 @@
 		"links": [
 			{
 				"label": "GitHub",
-				"href": "https://github.com/codey/codey"
+				"href": "https://github.com/cline/cline"
 			},
 			{
 				"label": "Discord",
-				"href": "https://discord.gg/codey"
+				"href": "https://discord.gg/cline"
 			}
 		],
 		"primary": {
 			"type": "button",
-			"label": "Install Codey",
-			"href": "https://codey.bot/install?utm_source=website&utm_medium=header"
+			"label": "Install Cline",
+			"href": "https://cline.bot/install?utm_source=website&utm_medium=header"
 		}
 	},
 	"navigation": {
@@ -57,8 +57,8 @@
 			{
 				"group": "Getting Started",
 				"pages": [
-					"getting-started/what-is-codey",
-					"getting-started/installing-codey",
+					"getting-started/what-is-cline",
+					"getting-started/installing-cline",
 					"getting-started/model-selection-guide",
 					"getting-started/task-management",
 					"getting-started/understanding-context-management",
@@ -75,7 +75,7 @@
 				"group": "Improving Your Prompting Skills",
 				"pages": [
 					"prompting/prompt-engineering-guide",
-					"prompting/codey-memory-bank"
+					"prompting/cline-memory-bank"
 				]
 			},
 			{
@@ -95,7 +95,7 @@
 					"features/auto-approve",
 					"features/auto-compact",
 					"features/checkpoints",
-					"features/codey-rules",
+					"features/cline-rules",
 					{
 						"group": "Commands & Shortcuts",
 						"pages": [
@@ -109,7 +109,7 @@
 					{
 						"group": "Customization",
 						"pages": [
-							"features/customization/opening-codey-in-sidebar",
+							"features/customization/opening-cline-in-sidebar",
 							"features/customization/disable-terminal-pagers"
 						]
 					},
@@ -133,11 +133,11 @@
 				]
 			},
 			{
-				"group": "Exploring Codey's Tools",
+				"group": "Exploring Cline's Tools",
 				"pages": [
-					"exploring-codeys-tools/codey-tools-guide",
-					"exploring-codeys-tools/new-task-tool",
-					"exploring-codeys-tools/remote-browser-support"
+					"exploring-clines-tools/cline-tools-guide",
+					"exploring-clines-tools/new-task-tool",
+					"exploring-clines-tools/remote-browser-support"
 				]
 			},
 			{
@@ -175,7 +175,7 @@
 						]
 					},
 					"provider-config/gcp-vertex-ai",
-					"provider-config/litellm-and-codey-using-codestral",
+					"provider-config/litellm-and-cline-using-codestral",
 					"provider-config/vscode-language-model-api",
 					"provider-config/xai-grok",
 					"provider-config/mistral-ai",
@@ -220,26 +220,26 @@
 	},
 	"footer": {
 		"socials": {
-			"x": "https://x.com/codey",
-			"github": "https://github.com/codey/codey",
-			"discord": "https://discord.gg/codey"
+			"x": "https://x.com/cline",
+			"github": "https://github.com/cline/cline",
+			"discord": "https://discord.gg/cline"
 		}
 	},
 	"anchors": [
 		{
-			"name": "What is Codey",
+			"name": "What is Cline",
 			"icon": "house",
-			"url": "getting-started/what-is-codey"
+			"url": "getting-started/what-is-cline"
 		}
 	],
 	"redirects": [
 		{
-			"source": "/getting-started/installing-codey-jetbrains",
-			"destination": "/getting-started/installing-codey"
+			"source": "/getting-started/installing-cline-jetbrains",
+			"destination": "/getting-started/installing-cline"
 		}
 	],
 	"search": {
-		"prompt": "Search Codey documentation..."
+		"prompt": "Search Cline documentation..."
 	},
 	"contextual": {
 		"options": [

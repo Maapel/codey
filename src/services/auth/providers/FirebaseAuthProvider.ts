@@ -59,7 +59,7 @@ export class FirebaseAuthProvider implements IAuthProvider {
 			}
 
 			// Now retrieve the user info from the backend (this was an easy solution to keep providing user profile details like name and email, but we should move to using the fetchMe() function instead)
-			// Fetch user info from Codey API
+			// Fetch user info from Cline API
 			// TODO: consolidate with fetchMe() instead of making the call directly here
 			const userResponse = await axios.get(`${clineEnvConfig.apiBaseUrl}/api/v1/users/me`, {
 				headers: {

@@ -1,5 +1,5 @@
 import { ExtensionMessage } from "@shared/ExtensionMessage"
-import { ResetStateRequest } from "@shared/proto/codey/state"
+import { ResetStateRequest } from "@shared/proto/cline/state"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import debounce from "debounce"
 import {
@@ -96,7 +96,7 @@ export const SETTINGS_TABS: SettingsTab[] = [
 	{
 		id: "about",
 		name: "About",
-		tooltipText: "About Codey",
+		tooltipText: "About Cline",
 		headerText: "About",
 		icon: Info,
 	},

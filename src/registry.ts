@@ -1,12 +1,12 @@
 import { name, publisher, version } from "../package.json"
 
-const prefix = name === "claude-dev" ? "codey" : name
+const prefix = name === "claude-dev" ? "cline" : name
 
 /**
  * List of commands with the name of the extension they are registered under.
  * These should match the command IDs defined in package.json.
  * For Nightly build, the publish script has updated all the commands to use the extension name as prefix.
- * In production, all commands are registered under "codey" for consistency.
+ * In production, all commands are registered under "cline" for consistency.
  */
 const ClineCommands = {
 	PlusButton: prefix + ".plusButtonClicked",
@@ -16,7 +16,7 @@ const ClineCommands = {
 	AccountButton: prefix + ".accountButtonClicked",
 	TerminalOutput: prefix + ".addTerminalOutputToChat",
 	AddToChat: prefix + ".addToChat",
-	FixWithCline: prefix + ".fixWithCodey",
+	FixWithCline: prefix + ".fixWithCline",
 	ExplainCode: prefix + ".explainCode",
 	ImproveCode: prefix + ".improveCode",
 	FocusChatInput: prefix + ".focusChatInput",

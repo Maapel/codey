@@ -1,5 +1,5 @@
-import { StringRequest } from "@shared/proto/codey/common"
-import { RuleFileRequest } from "@shared/proto/index.codey"
+import { StringRequest } from "@shared/proto/cline/common"
+import { RuleFileRequest } from "@shared/proto/index.cline"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import { FileServiceClient } from "@/services/grpc-client"
 
@@ -67,7 +67,7 @@ const RuleRow: React.FC<{
 			RuleFileRequest.create({
 				rulePath,
 				isGlobal,
-				type: ruleType || "codey",
+				type: ruleType || "cline",
 			}),
 		).catch((err) => console.error("Failed to delete rule file:", err))
 	}

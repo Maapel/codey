@@ -16,12 +16,12 @@ e2e("Views - can set up API keys and navigate to Settings from Chat", async ({ s
 	// Verify provider selector is visible
 	await expect(providerSelectorInput).toBeVisible()
 
-	// Test Codey provider option
+	// Test Cline provider option
 	await providerSelectorInput.click({ delay: 100 })
-	// Wait for dropdown to appear and find Codey option
-	await expect(sidebar.getByTestId("provider-option-codey")).toBeVisible()
-	await sidebar.getByTestId("provider-option-codey").click({ delay: 100 })
-	await expect(sidebar.getByRole("button", { name: "Sign Up with Codey" })).toBeVisible()
+	// Wait for dropdown to appear and find Cline option
+	await expect(sidebar.getByTestId("provider-option-cline")).toBeVisible()
+	await sidebar.getByTestId("provider-option-cline").click({ delay: 100 })
+	await expect(sidebar.getByRole("button", { name: "Sign Up with Cline" })).toBeVisible()
 
 	// Switch to OpenRouter and complete setup
 	await providerSelectorInput.click({ delay: 100 })

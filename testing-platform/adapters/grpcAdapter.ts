@@ -1,31 +1,31 @@
-import { AccountServiceClient } from "@codey-grpc/account"
-import { BrowserServiceClient } from "@codey-grpc/browser"
-import { CheckpointsServiceClient } from "@codey-grpc/checkpoints"
-import { CommandsServiceClient } from "@codey-grpc/commands"
-import { FileServiceClient } from "@codey-grpc/file"
-import { McpServiceClient } from "@codey-grpc/mcp"
-import { ModelsServiceClient } from "@codey-grpc/models"
-import { SlashServiceClient } from "@codey-grpc/slash"
-import { StateServiceClient } from "@codey-grpc/state"
-import { TaskServiceClient } from "@codey-grpc/task"
-import { UiServiceClient } from "@codey-grpc/ui"
-import { WebServiceClient } from "@codey-grpc/web"
+import { AccountServiceClient } from "@cline-grpc/account"
+import { BrowserServiceClient } from "@cline-grpc/browser"
+import { CheckpointsServiceClient } from "@cline-grpc/checkpoints"
+import { CommandsServiceClient } from "@cline-grpc/commands"
+import { FileServiceClient } from "@cline-grpc/file"
+import { McpServiceClient } from "@cline-grpc/mcp"
+import { ModelsServiceClient } from "@cline-grpc/models"
+import { SlashServiceClient } from "@cline-grpc/slash"
+import { StateServiceClient } from "@cline-grpc/state"
+import { TaskServiceClient } from "@cline-grpc/task"
+import { UiServiceClient } from "@cline-grpc/ui"
+import { WebServiceClient } from "@cline-grpc/web"
 import { credentials } from "@grpc/grpc-js"
 import { promisify } from "util"
 
 const serviceRegistry = {
-	"codey.AccountService": AccountServiceClient,
-	"codey.BrowserService": BrowserServiceClient,
-	"codey.CheckpointsService": CheckpointsServiceClient,
-	"codey.CommandsService": CommandsServiceClient,
-	"codey.FileService": FileServiceClient,
-	"codey.McpService": McpServiceClient,
-	"codey.ModelsService": ModelsServiceClient,
-	"codey.SlashService": SlashServiceClient,
-	"codey.StateService": StateServiceClient,
-	"codey.TaskService": TaskServiceClient,
-	"codey.UiService": UiServiceClient,
-	"codey.WebService": WebServiceClient,
+	"cline.AccountService": AccountServiceClient,
+	"cline.BrowserService": BrowserServiceClient,
+	"cline.CheckpointsService": CheckpointsServiceClient,
+	"cline.CommandsService": CommandsServiceClient,
+	"cline.FileService": FileServiceClient,
+	"cline.McpService": McpServiceClient,
+	"cline.ModelsService": ModelsServiceClient,
+	"cline.SlashService": SlashServiceClient,
+	"cline.StateService": StateServiceClient,
+	"cline.TaskService": TaskServiceClient,
+	"cline.UiService": UiServiceClient,
+	"cline.WebService": WebServiceClient,
 } as const
 
 export type ServiceClients = {

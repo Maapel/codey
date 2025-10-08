@@ -1,4 +1,4 @@
-import { StringArray, StringRequest } from "@shared/proto/codey/common"
+import { StringArray, StringRequest } from "@shared/proto/cline/common"
 import axios from "axios"
 import { Controller } from ".."
 

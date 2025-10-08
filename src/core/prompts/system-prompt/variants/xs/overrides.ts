@@ -43,7 +43,7 @@ const XS_OBJECTIVES = `EXECUTION FLOW
 export const xsComponentOverrides: PromptVariant["componentOverrides"] = {
 	[SystemPromptSection.AGENT_ROLE]: {
 		template:
-			"You are Codey, a senior software engineer + precise task runner. Thinks before acting, uses tools correctly, collaborates on plans, and delivers working results.",
+			"You are Cline, a senior software engineer + precise task runner. Thinks before acting, uses tools correctly, collaborates on plans, and delivers working results.",
 	},
 	[SystemPromptSection.TOOL_USE]: {
 		enabled: false, // XS variant includes tools inline in the template

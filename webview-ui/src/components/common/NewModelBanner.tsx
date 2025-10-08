@@ -1,4 +1,4 @@
-import { EmptyRequest, Int64Request } from "@shared/proto/index.codey"
+import { EmptyRequest, Int64Request } from "@shared/proto/index.cline"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import { Megaphone } from "lucide-react"
 import { useCallback } from "react"
@@ -38,8 +38,8 @@ export const NewModelBanner: React.FC = () => {
 			actModeOpenRouterModelId: modelId,
 			planModeOpenRouterModelInfo: openRouterModels[modelId],
 			actModeOpenRouterModelInfo: openRouterModels[modelId],
-			planModeApiProvider: "codey",
-			actModeApiProvider: "codey",
+			planModeApiProvider: "cline",
+			actModeApiProvider: "cline",
 		})
 
 		setTimeout(() => {
@@ -80,7 +80,7 @@ export const NewModelBanner: React.FC = () => {
 			</h4>
 			<p className="m-0">
 				Anthropic's latest model excels at complex planning and long-horizon coding tasks.{" "}
-				<span className="text-link cursor-pointer">{user ? "Try new model" : "Try with Codey account"} →</span>
+				<span className="text-link cursor-pointer">{user ? "Try new model" : "Try with Cline account"} →</span>
 			</p>
 
 			{/* Close button */}

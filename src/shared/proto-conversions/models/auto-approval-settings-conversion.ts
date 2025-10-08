@@ -1,4 +1,4 @@
-import { AutoApprovalSettingsRequest } from "@shared/proto/codey/state"
+import { AutoApprovalSettingsRequest } from "@shared/proto/cline/state"
 import { AutoApprovalSettings } from "../../AutoApprovalSettings"
 
 // Converts domain AutoApprovalSettings to proto AutoApprovalSettingsRequest

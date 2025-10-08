@@ -1,6 +1,6 @@
 import { ensureCacheDirectoryExists, GlobalFileNames } from "@core/storage/disk"
-import { EmptyRequest } from "@shared/proto/codey/common"
-import { OpenRouterCompatibleModelInfo, OpenRouterModelInfo } from "@shared/proto/codey/models"
+import { EmptyRequest } from "@shared/proto/cline/common"
+import { OpenRouterCompatibleModelInfo, OpenRouterModelInfo } from "@shared/proto/cline/models"
 import { fileExistsAtPath } from "@utils/fs"
 import axios from "axios"
 import fs from "fs/promises"
@@ -51,7 +51,7 @@ export async function refreshGroqModels(controller: Controller, _request: EmptyR
 				headers: {
 					Authorization: `Bearer ${cleanApiKey}`,
 					"Content-Type": "application/json",
-					"User-Agent": "Codey-VSCode-Extension",
+					"User-Agent": "Cline-VSCode-Extension",
 				},
 				timeout: 10000, // 10 second timeout
 			})

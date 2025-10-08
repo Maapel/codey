@@ -8,7 +8,7 @@ import type {
 } from "@shared/ClineAccount"
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 import { clineEnvConfig } from "@/config"
-import { CLINE_API_ENDPOINT } from "@/shared/codey/api"
+import { CLINE_API_ENDPOINT } from "@/shared/cline/api"
 import { AuthService } from "../auth/AuthService"
 
 export class ClineAccountService {
@@ -32,7 +32,7 @@ export class ClineAccountService {
 	}
 
 	/**
-	 * Returns the base URL for the Codey API
+	 * Returns the base URL for the Cline API
 	 * @returns The base URL as a string
 	 */
 	get baseUrl(): string {
@@ -40,7 +40,7 @@ export class ClineAccountService {
 	}
 
 	/**
-	 * Helper function to make authenticated requests to the Codey API
+	 * Helper function to make authenticated requests to the Cline API
 	 * @param endpoint The API endpoint to call (without the base URL)
 	 * @param config Additional axios request configuration
 	 * @returns The API response data
@@ -51,7 +51,7 @@ export class ClineAccountService {
 		// IMPORTANT: Prefixed with 'workos:' so backend can route verification to WorkOS provider
 		const clineAccountAuthToken = await this._authService.getAuthToken()
 		if (!clineAccountAuthToken) {
-			throw new Error("No Codey account auth token found")
+			throw new Error("No Cline account auth token found")
 		}
 		const requestConfig: AxiosRequestConfig = {
 			...config,
@@ -245,7 +245,7 @@ export class ClineAccountService {
 	}
 
 	/**
-	 * Transcribes audio using the Codey transcription service
+	 * Transcribes audio using the Cline transcription service
 	 * @param audioBase64 - Base64 encoded audio data
 	 * @param language - Optional language hint for transcription
 	 * @returns Promise with transcribed text or error

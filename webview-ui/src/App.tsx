@@ -1,4 +1,4 @@
-import type { Boolean, EmptyRequest } from "@shared/proto/codey/common"
+import type { Boolean, EmptyRequest } from "@shared/proto/cline/common"
 import { useEffect } from "react"
 import AccountView from "./components/account/AccountView"
 import ChatView from "./components/chat/ChatView"

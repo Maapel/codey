@@ -1,4 +1,4 @@
-import { Empty, EmptyRequest } from "@shared/proto/codey/common"
+import { Empty, EmptyRequest } from "@shared/proto/cline/common"
 import { Controller } from ".."
 
 /**

@@ -1,6 +1,6 @@
 import type { UsageTransaction as ClineAccountUsageTransaction, PaymentTransaction } from "@shared/ClineAccount"
-import type { UserOrganization } from "@shared/proto/codey/account"
-import { EmptyRequest } from "@shared/proto/codey/common"
+import type { UserOrganization } from "@shared/proto/cline/account"
+import { EmptyRequest } from "@shared/proto/cline/common"
 import { VSCodeButton, VSCodeDivider, VSCodeDropdown, VSCodeOption, VSCodeTag } from "@vscode/webview-ui-toolkit/react"
 import deepEqual from "fast-deep-equal"
 import { memo, useCallback, useEffect, useRef, useState } from "react"
@@ -217,7 +217,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 		fetchCreditBalance(dropdownValue)
 	}, 60000)
 
-	const clineUrl = appBaseUrl || "https://app.codey.bot"
+	const clineUrl = appBaseUrl || "https://app.cline.bot"
 
 	// Fetch balance on mount
 	useEffect(() => {

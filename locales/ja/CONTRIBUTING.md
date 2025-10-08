@@ -1,22 +1,22 @@
-# Codey
+# Cline
 
 Clineへの貢献に興味をお持ちいただきありがとうございます。
 
 ## バグや問題の報告
 
-バグ報告は、Clineを皆さんにとってより良いものにするために役立ちます！新しい問題を作成する前に、重複を避けるために[既存の問題を検索](https://github.com/codey/codey/issues)してください。バグを報告する準備ができたら、[問題ページ](https://github.com/codey/codey/issues/new/choose)に移動し、関連情報を記入するためのテンプレートをご利用ください。
+バグ報告は、Clineを皆さんにとってより良いものにするために役立ちます！新しい問題を作成する前に、重複を避けるために[既存の問題を検索](https://github.com/cline/cline/issues)してください。バグを報告する準備ができたら、[問題ページ](https://github.com/cline/cline/issues/new/choose)に移動し、関連情報を記入するためのテンプレートをご利用ください。
 
 <blockquote class='warning-note'>
-    🔐 <b>重要:</b> セキュリティ脆弱性を発見した場合は、<a href="https://github.com/codey/codey/security/advisories/new">Githubセキュリティツールを使用して非公開で報告</a>してください。
+    🔐 <b>重要:</b> セキュリティ脆弱性を発見した場合は、<a href="https://github.com/cline/cline/security/advisories/new">Githubセキュリティツールを使用して非公開で報告</a>してください。
 </blockquote>
 
 ## 作業内容の決定
 
-最初の貢献をお探しですか？["good first issue"](https://github.com/codey/codey/labels/good%20first%20issue)や["help wanted"](https://github.com/codey/codey/labels/help%20wanted)のラベルが付いた問題をチェックしてください。これらは新しい貢献者向けに特に選ばれたもので、私たちが助けを求めている分野です！
+最初の貢献をお探しですか？["good first issue"](https://github.com/cline/cline/labels/good%20first%20issue)や["help wanted"](https://github.com/cline/cline/labels/help%20wanted)のラベルが付いた問題をチェックしてください。これらは新しい貢献者向けに特に選ばれたもので、私たちが助けを求めている分野です！
 
-また、[ドキュメント](https://github.com/codey/codey/tree/main/docs)への貢献も歓迎します！誤字の修正、既存のガイドの改善、新しい教育コンテンツの作成など、コミュニティ主導のリソースリポジトリを構築するために皆さんの力をお借りしたいと考えています。`/docs`に飛び込んで、改善が必要な箇所を探してみてください。
+また、[ドキュメント](https://github.com/cline/cline/tree/main/docs)への貢献も歓迎します！誤字の修正、既存のガイドの改善、新しい教育コンテンツの作成など、コミュニティ主導のリソースリポジトリを構築するために皆さんの力をお借りしたいと考えています。`/docs`に飛び込んで、改善が必要な箇所を探してみてください。
 
-大きな機能に取り組む予定がある場合は、まず[機能リクエスト](https://github.com/codey/codey/discussions/categories/feature-requests?discussions_q=is%3Aopen+category%3A%22Feature+Requests%22+sort%3Atop)を作成し、それがClineのビジョンに合致するかどうかを議論しましょう。
+大きな機能に取り組む予定がある場合は、まず[機能リクエスト](https://github.com/cline/cline/discussions/categories/feature-requests?discussions_q=is%3Aopen+category%3A%22Feature+Requests%22+sort%3Atop)を作成し、それがClineのビジョンに合致するかどうかを議論しましょう。
 
 ## 開発環境のセットアップ
 

@@ -1,4 +1,4 @@
-import { StringRequest } from "@shared/proto/codey/common"
+import { StringRequest } from "@shared/proto/cline/common"
 import { TaskFeedbackType } from "@shared/WebviewMessage"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import React, { useEffect, useState } from "react"
@@ -102,7 +102,7 @@ const TaskFeedbackButtons: React.FC<TaskFeedbackButtonsProps> = ({ messageTs, is
 					</VSCodeButton>
 				</ButtonWrapper>
 				{/* <VSCodeButtonLink
-					href="https://github.com/codey/codey/issues/new?template=bug_report.yml"
+					href="https://github.com/cline/cline/issues/new?template=bug_report.yml"
 					appearance="icon"
 					title="Report a bug"
 					aria-label="Report a bug">

@@ -73,7 +73,7 @@ describe("ErrorRow", () => {
 		const clineignoreMessage = { ...mockMessage, text: "/path/to/file.txt" }
 		render(<ErrorRow errorType="clineignore_error" message={clineignoreMessage} />)
 
-		expect(screen.getByText(/Codey tried to access/)).toBeInTheDocument()
+		expect(screen.getByText(/Cline tried to access/)).toBeInTheDocument()
 		expect(screen.getByText("/path/to/file.txt")).toBeInTheDocument()
 	})
 
@@ -88,7 +88,7 @@ describe("ErrorRow", () => {
 						total_spent: 10.5,
 						total_promotions: 5.0,
 						message: "You have run out of credits.",
-						buy_credits_url: "https://app.codey.bot/dashboard",
+						buy_credits_url: "https://app.cline.bot/dashboard",
 					},
 				},
 			}
@@ -124,7 +124,7 @@ describe("ErrorRow", () => {
 			const mockClineError = {
 				message: "Authentication failed",
 				isErrorType: vi.fn((type) => type === "auth"),
-				providerId: "codey",
+				providerId: "cline",
 				_error: {},
 			}
 
@@ -134,7 +134,7 @@ describe("ErrorRow", () => {
 			render(<ErrorRow apiRequestFailedMessage="Authentication failed" errorType="error" message={mockMessage} />)
 
 			expect(screen.getByText("Authentication failed")).toBeInTheDocument()
-			expect(screen.getByText("Sign in to Codey")).toBeInTheDocument()
+			expect(screen.getByText("Sign in to Cline")).toBeInTheDocument()
 		})
 
 		it("renders PowerShell troubleshooting link when error mentions PowerShell", async () => {
@@ -159,7 +159,7 @@ describe("ErrorRow", () => {
 			expect(screen.getByText("troubleshooting guide")).toBeInTheDocument()
 			expect(screen.getByRole("link", { name: "troubleshooting guide" })).toHaveAttribute(
 				"href",
-				"https://github.com/codey/codey/wiki/TroubleShooting-%E2%80%90-%22PowerShell-is-not-recognized-as-an-internal-or-external-command%22",
+				"https://github.com/cline/cline/wiki/TroubleShooting-%E2%80%90-%22PowerShell-is-not-recognized-as-an-internal-or-external-command%22",
 			)
 		})
 

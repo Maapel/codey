@@ -1,5 +1,5 @@
-import { Empty } from "@shared/proto/codey/common"
-import { AutoApprovalSettingsRequest } from "@shared/proto/codey/state"
+import { Empty } from "@shared/proto/cline/common"
+import { AutoApprovalSettingsRequest } from "@shared/proto/cline/state"
 import { convertProtoToAutoApprovalSettings } from "../../../shared/proto-conversions/models/auto-approval-settings-conversion"
 import { Controller } from ".."
 

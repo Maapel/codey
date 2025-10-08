@@ -1,4 +1,4 @@
-import { ClineRulesToggles, ToggleWorkflowRequest } from "@shared/proto/codey/file"
+import { ClineRulesToggles, ToggleWorkflowRequest } from "@shared/proto/cline/file"
 import { Controller } from ".."
 
 /**

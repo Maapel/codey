@@ -3,7 +3,7 @@
   "entries": [
     {
       "requestId": "e7b3e982-8e47-41ce-a20b-1f3b46f3108f",
-      "service": "codey.ModelsService",
+      "service": "cline.ModelsService",
       "method": "updateApiConfigurationProto",
       "isStreaming": false,
       "request": {
@@ -29,7 +29,7 @@
     },
     {
       "requestId": "88f55caa-aeb6-4bc9-9a4d-bf7bc36633fb",
-      "service": "codey.ModelsService",
+      "service": "cline.ModelsService",
       "method": "updateApiConfigurationProto",
       "isStreaming": false,
       "request": {
@@ -55,7 +55,7 @@
     },
     {
       "requestId": "43b27ef0-fca6-4bd9-8b09-51a16721116e",
-      "service": "codey.ModelsService",
+      "service": "cline.ModelsService",
       "method": "updateApiConfigurationProto",
       "isStreaming": false,
       "request": {
@@ -81,7 +81,7 @@
     },
     {
       "requestId": "f64f2ea4-51ac-4b40-8866-6f95fc1e727a",
-      "service": "codey.ModelsService",
+      "service": "cline.ModelsService",
       "method": "updateApiConfigurationProto",
       "isStreaming": false,
       "request": {
@@ -107,7 +107,7 @@
     },
     {
       "requestId": "d333e5b6-2a09-4c8e-ba26-8a3def26e6e9",
-      "service": "codey.StateService",
+      "service": "cline.StateService",
       "method": "setWelcomeViewCompleted",
       "isStreaming": false,
       "request": {
@@ -126,7 +126,7 @@
     },
     {
       "requestId": "2a2de207-f6fe-4072-b058-2ff376c1852a",
-      "service": "codey.StateService",
+      "service": "cline.StateService",
       "method": "updateTelemetrySetting",
       "isStreaming": false,
       "request": {
@@ -145,7 +145,7 @@
     },
     {
       "requestId": "2a2de207-f6fe-4072-b058-2ff376c1852a",
-      "service": "codey.StateService",
+      "service": "cline.StateService",
       "method": "getLatestState",
       "isStreaming": false,
       "request": {

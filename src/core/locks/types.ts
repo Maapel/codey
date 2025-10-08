@@ -10,5 +10,5 @@ export interface LockRow {
 
 export interface SqliteLockManagerOptions {
 	dbPath: string
-	instanceAddress: string // codey core address
+	instanceAddress: string // cline core address
 }

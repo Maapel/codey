@@ -1,5 +1,5 @@
-import { StringRequest } from "@shared/proto/codey/common"
-import { PlanActMode, TogglePlanActModeRequest } from "@shared/proto/codey/state"
+import { StringRequest } from "@shared/proto/cline/common"
+import { PlanActMode, TogglePlanActModeRequest } from "@shared/proto/cline/state"
 import type { ComponentProps } from "react"
 import React, { memo, useEffect, useRef } from "react"
 import { useRemark } from "react-remark"
@@ -151,7 +151,7 @@ const remarkHighlightActMode = () => {
 /**
  * Custom remark plugin that prevents filenames with extensions from being parsed as bold text
  * For example: __init__.py should not be rendered as bold "init" followed by ".py"
- * Solves https://github.com/codey/codey/issues/1028
+ * Solves https://github.com/cline/cline/issues/1028
  */
 const remarkPreventBoldFilenames = () => {
 	return (tree: any) => {

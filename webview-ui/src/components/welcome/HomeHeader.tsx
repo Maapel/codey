@@ -1,4 +1,4 @@
-import { EmptyRequest } from "@shared/proto/codey/common"
+import { EmptyRequest } from "@shared/proto/cline/common"
 import ClineLogoVariable from "@/assets/ClineLogoVariable"
 import HeroTooltip from "@/components/common/HeroTooltip"
 import { UiServiceClient } from "@/services/grpc-client"
