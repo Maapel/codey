@@ -1,4 +1,4 @@
-The goal of this workflow is to take a changeset for a release of Cline, an autonomous coding agent extension that plugs right into your IDE, and write the updated announcement component, and the updated changelog. 
+The goal of this workflow is to take a changeset for a release of Codey, an autonomous coding agent extension that plugs right into your IDE, and write the updated announcement component, and the updated changelog. 
 
 
 For reference, here are some examples of how we converted previous changesets to announcement components / changelogs. 
@@ -15,19 +15,19 @@ Minor Changes
 0ffb7dd: disabling shift hint for now & improving tooltip behavior
 79b76fd: Add support for custom model ID in AWS Bedrock provider, enabling use of Application Inference Profile.
 eb6e481: Full support for LaTeX rendering
-df37f29: Add support for custom API request timeout. Previously, timeouts were hardcoded to 30 seconds for providers like Ollama or 15 seconds for OpenRouter and Cline. Now users can set a custom timeout value in milliseconds through the settings interface.
+df37f29: Add support for custom API request timeout. Previously, timeouts were hardcoded to 30 seconds for providers like Ollama or 15 seconds for OpenRouter and Codey. Now users can set a custom timeout value in milliseconds through the settings interface.
 e4d26be: allow cursorrules and windsurfrules
 c5de50f: Fix Handle @withRetry() SyntaxError when running extension locally issue
 61d2f42: enabled pricing calculation for gemini and vertex + more robust caching & cache tracking for gemini & vertex
 aed152b: add truncation notice when truncating manually
-2fe2405: Migrate Cline Tools Section to new docs
+2fe2405: Migrate Codey Tools Section to new docs
 19cc8bc: Add a timeout setting for the terminal connection, allowing users to adjust this if they are having timeout issues
 03d4410: Added copy button to code blocks.
 c78fe23: addressed race condition in terminal command usage
 91e222f: add checkpoints after more messages
 14230e7: add newrule slash command
 1c7d33a: Add remote config with posthog allowing for disabling new features until they're reading, making for a better developer experience.
-4196c14: add cache ui for open router and cline provider
+4196c14: add cache ui for open router and codey provider
 d97424f: showing expanded task by default
 5294e78: Refactor to not pass a message for showing the MCP View from the servers modal
 70cc437: Fix Windows path issue: Correct handling of import.meta.url to avoid leading slash in pathname
@@ -59,14 +59,14 @@ d4bd755: fix cost calculation
 -   Add support for custom model ID in AWS Bedrock provider, enabling use of Application Inference Profile (Thanks @clicube!)
 -   Add more robust caching & cache tracking for gemini & vertex providers
 -   Add support for LaTeX rendering
--   Add support for custom API request timeout. Timeouts were 15-30s, but can now be configured via settings for OpenRouter/Cline & Ollama (Thanks @WingsDrafterwork!)
+-   Add support for custom API request timeout. Timeouts were 15-30s, but can now be configured via settings for OpenRouter/Codey & Ollama (Thanks @WingsDrafterwork!)
 -   Add truncation notice when truncating manually
 -   Add a timeout setting for the terminal connection, allowing users to set a time to wait for terminal startup
 -   Add copy button to code blocks
 -   Add copy button to markdown blocks (Thanks @weshoke!)
 -   Add checkpoints to more messages
 -   Add slash command to create a new rules file (/newrule)
--   Add cache ui for open router and cline provider
+-   Add cache ui for open router and codey provider
 -   Add Amazon Nova Premier model to Bedrock (Thanks @watany!)
 -   Add support for cursorrules and windsurfrules
 -   Add support for batch history deletion (Thanks @danix800!)
@@ -106,14 +106,14 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 					easily.
 				</li>
 				<li>
-					<b>/newrule command:</b> New slash command to have cline write your .clinerules for you based on your
+					<b>/newrule command:</b> New slash command to have codey write your .clinerules for you based on your
 					workflow.
 				</li>
 				<li>
 					<b>Drag and drop improvements:</b> Don't forget to hold shift while dragging files!
 				</li>
 				<li>Added more checkpoints across the task, allowing you to restore from more than just file changes.</li>
-				<li>Added support for rendering LaTeX in message responses. (Try asking Cline to show the quadratic formula)</li>
+				<li>Added support for rendering LaTeX in message responses. (Try asking Codey to show the quadratic formula)</li>
 			</ul>
 			<Accordion isCompact className="pl-0">
 				<AccordionItem
@@ -128,11 +128,11 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 					}}>
 					<ul style={ulStyle}>
 						<li>
-							<b>Global Cline Rules:</b> store multiple rules files in Documents/Cline/Rules to share between
+							<b>Global Codey Rules:</b> store multiple rules files in Documents/Codey/Rules to share between
 							projects.
 						</li>
 						<li>
-							<b>Cline Rules Popup:</b> New button in the chat area to view workspace and global cline rules files
+							<b>Codey Rules Popup:</b> New button in the chat area to view workspace and global codey rules files
 							to plug and play specific rules for the task
 						</li>
 						<li>
@@ -183,31 +183,31 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 					)}
 				</li>
 				<li>
-					<b>Edit Cline's changes before accepting!</b> When he creates or edits a file, you can modify his
+					<b>Edit Codey's changes before accepting!</b> When he creates or edits a file, you can modify his
 					changes directly in the right side of the diff view (+ hover over the 'Revert Block' arrow button in
 					the center to undo "<code>{"// rest of code here"}</code>" shenanigans)
 				</li>
 				<li>
-					New <code>search_files</code> tool that lets Cline perform regex searches in your project, letting
+					New <code>search_files</code> tool that lets Codey perform regex searches in your project, letting
 					him refactor code, address TODOs and FIXMEs, remove dead code, and more!
 				</li>
 				<li>
-					When Cline runs commands, you can now type directly in the terminal (+ support for Python
+					When Codey runs commands, you can now type directly in the terminal (+ support for Python
 					environments)
 				</li>
 			</ul>*/}
 			<div style={hrStyle} />
 			<p style={linkContainerStyle}>
 				Join us on{" "}
-				<VSCodeLink style={linkStyle} href="https://x.com/cline">
+				<VSCodeLink style={linkStyle} href="https://x.com/codey">
 					X,
 				</VSCodeLink>{" "}
-				<VSCodeLink style={linkStyle} href="https://discord.gg/cline">
+				<VSCodeLink style={linkStyle} href="https://discord.gg/codey">
 					discord,
 				</VSCodeLink>{" "}
 				or{" "}
-				<VSCodeLink style={linkStyle} href="https://www.reddit.com/r/cline/">
-					r/cline
+				<VSCodeLink style={linkStyle} href="https://www.reddit.com/r/codey/">
+					r/codey
 				</VSCodeLink>
 				for more updates!
 			</p>
@@ -221,7 +221,7 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 <changeset>
 Minor Changes
 2964388: Added copy button to MermaidBlock component
-75143a7: Add the ability to fetch from global cline rules files
+75143a7: Add the ability to fetch from global codey rules files
 Patch Changes
 a0252e7: convert inline style to tailwind css of file SettingsView.tsx
 ab59bd9: Add stream options back to xai provider
@@ -232,11 +232,11 @@ ab59bd9: Add stream options back to xai provider
 <changelog>
 ## [3.13.0]
 
--   Add Cline rules popover under the chat field, allowing you to easily add, enable & disable workspace level or global rule files
+-   Add Codey rules popover under the chat field, allowing you to easily add, enable & disable workspace level or global rule files
 -   Add new slash command menu letting you type “/“ to do quick actions like creating new tasks
 -   Add ability to edit past messages, with options to restore your workspace back to that point
 -   Allow sending a message when selecting an option provided by the question or plan tool
--   Add command to jump to Cline's chat input
+-   Add command to jump to Codey's chat input
 -   Add support for OpenAI o3 & 4o-mini (Thanks @PeterDaveHello and @arafatkatze!)
 -   Add baseURL option for Google Gemini provider (Thanks @owengo and @olivierhub!)
 -   Add support for Azure's DeepSeek model. (Thanks @yt3trees!)
@@ -261,10 +261,10 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 			</h3>
 			<ul style={ulStyle}>
 				<li>
-					<b>Global Cline Rules:</b> store multiple rules files in Documents/Cline/Rules to share between projects.
+					<b>Global Codey Rules:</b> store multiple rules files in Documents/Codey/Rules to share between projects.
 				</li>
 				<li>
-					<b>Cline Rules Popup:</b> New button in the chat area to view workspace and global cline rules files to plug
+					<b>Codey Rules Popup:</b> New button in the chat area to view workspace and global codey rules files to plug
 					and play specific rules for the task
 				</li>
 				<li>
@@ -279,15 +279,15 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 			<h4 style={{ margin: "5px 0 5px" }}>Previous Updates:</h4>
 			<ul style={ulStyle}>
 				<li>
-					<b>Model Favorites:</b> You can now mark your favorite models when using Cline & OpenRouter providers for
+					<b>Model Favorites:</b> You can now mark your favorite models when using Codey & OpenRouter providers for
 					quick access!
 				</li>
 				<li>
 					<b>Faster Diff Editing:</b> Improved animation performance for large files, plus a new indicator in chat
-					showing the number of edits Cline makes.
+					showing the number of edits Codey makes.
 				</li>
 				<li>
-					<b>New Auto-Approve Options:</b> Turn off Cline's ability to read and edit files outside your workspace.
+					<b>New Auto-Approve Options:</b> Turn off Codey's ability to read and edit files outside your workspace.
 				</li>
 			</ul>
 			{/*
@@ -326,31 +326,31 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 					)}
 				</li>
 				<li>
-					<b>Edit Cline's changes before accepting!</b> When he creates or edits a file, you can modify his
+					<b>Edit Codey's changes before accepting!</b> When he creates or edits a file, you can modify his
 					changes directly in the right side of the diff view (+ hover over the 'Revert Block' arrow button in
 					the center to undo "<code>{"// rest of code here"}</code>" shenanigans)
 				</li>
 				<li>
-					New <code>search_files</code> tool that lets Cline perform regex searches in your project, letting
+					New <code>search_files</code> tool that lets Codey perform regex searches in your project, letting
 					him refactor code, address TODOs and FIXMEs, remove dead code, and more!
 				</li>
 				<li>
-					When Cline runs commands, you can now type directly in the terminal (+ support for Python
+					When Codey runs commands, you can now type directly in the terminal (+ support for Python
 					environments)
 				</li>
 			</ul>*/}
 			<div style={hrStyle} />
 			<p style={linkContainerStyle}>
 				Join us on{" "}
-				<VSCodeLink style={linkStyle} href="https://x.com/cline">
+				<VSCodeLink style={linkStyle} href="https://x.com/codey">
 					X,
 				</VSCodeLink>{" "}
-				<VSCodeLink style={linkStyle} href="https://discord.gg/cline">
+				<VSCodeLink style={linkStyle} href="https://discord.gg/codey">
 					discord,
 				</VSCodeLink>{" "}
 				or{" "}
-				<VSCodeLink style={linkStyle} href="https://www.reddit.com/r/cline/">
-					r/cline
+				<VSCodeLink style={linkStyle} href="https://www.reddit.com/r/codey/">
+					r/codey
 				</VSCodeLink>
 				for more updates!
 			</p>
@@ -436,14 +436,14 @@ Before doing any of this, make sure you check out the `changeset-release/main` a
 
 New announcement banners should ONLY be made for minor version bumps or higher. That's another reason why double checking if the changelog warrants the bump is important.
 
-Also, SUPER important: For any external contributors that aren't part of the cline github organization, we always want to add a (Thanks @username!) at the end of the changelog to attribute them properly. We're an open source project and it's ethical to do this.
+Also, SUPER important: For any external contributors that aren't part of the codey github organization, we always want to add a (Thanks @username!) at the end of the changelog to attribute them properly. We're an open source project and it's ethical to do this.
 </important_note>
 
 Once the changelog looks good, and the version number looks good, we gotta double check that the version number in the changelog has the brackets around it. And as a final step, double check the package.json version number matches the latest number in the changelog. And as the ultimate final step we run `npm run install:all` to make sure the package version number permiates through the lock file. 
 
 
 <detailed_sequence_of_steps>
-# Cline Release Process - Detailed Sequence of Steps
+# Codey Release Process - Detailed Sequence of Steps
 
 ## Before Starting
 1. First, examine the changeset PR without checking it out:
@@ -482,12 +482,12 @@ Once the changelog looks good, and the version number looks good, we gotta doubl
       # Extract username from PR
       USERNAME=$(gh pr view <PR-number> --json author --jq .author.login)
       
-      # Check if user is a member of the Cline organization
+      # Check if user is a member of the Codey organization
 	  # this command is a bit finnicky, but it 100% works. 
 	  # if you see a `Error executing command: The command ran successfully, but we couldn't capture its output. Please proceed accordingly.` error, just retry it until you actually get the output
 	  # don't make any assumptions, just retry the command to actually get the output and determine if they're external or not.
 	  # no output means they are an external contributor, otherwise if there is output they are an internal contributor (part of our github org)
-      gh api "orgs/cline/members" --jq "map(.login)" | grep -i "pashpashpash"
+      gh api "orgs/codey/members" --jq "map(.login)" | grep -i "pashpashpash"
       ```
    
    d. View the full PR diff to understand code changes:

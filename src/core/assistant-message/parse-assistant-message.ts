@@ -1,7 +1,7 @@
 import { ClineDefaultTool, toolUseNames } from "@shared/tools"
 import { AssistantMessageContent, TextContent, ToolParamName, ToolUse, toolParamNames } from "." // Assuming types are defined in index.ts or a similar file
 
-// parseAssistantmessageV1 removed in https://github.com/cline/cline/pull/5425
+// parseAssistantmessageV1 removed in https://github.com/codey/codey/pull/5425
 
 /**
  * @description **Version 2**

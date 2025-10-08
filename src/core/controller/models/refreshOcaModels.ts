@@ -1,5 +1,5 @@
-import { StringRequest } from "@shared/proto/cline/common"
-import { OcaCompatibleModelInfo, OcaModelInfo } from "@shared/proto/cline/models"
+import { StringRequest } from "@shared/proto/codey/common"
+import { OcaCompatibleModelInfo, OcaModelInfo } from "@shared/proto/codey/models"
 import axios from "axios"
 import { HostProvider } from "@/hosts/host-provider"
 import { OcaAuthService } from "@/services/auth/oca/OcaAuthService"

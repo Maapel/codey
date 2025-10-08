@@ -1,5 +1,5 @@
 import { sapAiCoreModels } from "@shared/api"
-import { SapAiCoreModelDeployment } from "@shared/proto/index.cline"
+import { SapAiCoreModelDeployment } from "@shared/proto/index.codey"
 import { VSCodeDropdown, VSCodeOption } from "@vscode/webview-ui-toolkit/react"
 import React, { memo, useEffect, useMemo } from "react"
 import { DropdownContainer } from "./common/ModelSelector"
@@ -70,13 +70,13 @@ const SapAiCoreModelPicker: React.FC<SapAiCoreModelPickerProps> = ({
 	const categorizedModels = useMemo(() => {
 		const allSupportedModels = Object.keys(sapAiCoreModels)
 
-		// Models that are both deployed AND supported in Cline
+		// Models that are both deployed AND supported in Codey
 		const deployedModelNames = sapAiCoreModelDeployments.map((d) => d.modelName)
 		const deployedAndSupported = deployedModelNames.filter((deployedModel: string) =>
 			allSupportedModels.includes(deployedModel),
 		)
 
-		// Models that are supported in Cline but NOT deployed
+		// Models that are supported in Codey but NOT deployed
 		const supportedButNotDeployed = allSupportedModels.filter(
 			(supportedModel: string) => !deployedModelNames.includes(supportedModel),
 		)

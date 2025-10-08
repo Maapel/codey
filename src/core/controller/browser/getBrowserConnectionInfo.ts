@@ -1,5 +1,5 @@
-import { BrowserConnectionInfo } from "@shared/proto/cline/browser"
-import { EmptyRequest } from "@shared/proto/cline/common"
+import { BrowserConnectionInfo } from "@shared/proto/codey/browser"
+import { EmptyRequest } from "@shared/proto/codey/common"
 import { Controller } from "../index"
 
 /**

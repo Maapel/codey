@@ -1,5 +1,5 @@
-import type { ToggleWindsurfRuleRequest } from "@shared/proto/cline/file"
-import { ClineRulesToggles } from "@shared/proto/cline/file"
+import type { ToggleWindsurfRuleRequest } from "@shared/proto/codey/file"
+import { ClineRulesToggles } from "@shared/proto/codey/file"
 import type { Controller } from "../index"
 
 /**

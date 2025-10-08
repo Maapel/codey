@@ -13,7 +13,7 @@ const NETWORK_ERROR_MAP = new Map<string, string>([
 
 // HTTP status code error messages using Map for O(1) lookup
 const STATUS_ERROR_MAP = new Map<number, string>([
-	[401, "Authentication failed. Please reauthenticate your Cline account"],
+	[401, "Authentication failed. Please reauthenticate your Codey account"],
 	[402, "Insufficient credits for transcription service."],
 	[500, "Transcription server error. Please try again later."],
 ])
@@ -82,7 +82,7 @@ export class VoiceTranscriptionService {
 
 			// Default case for unhandled status codes
 			return {
-				error: "Transcription failed. Please try again later or raise an issue on https://github.com/cline/cline/issues",
+				error: "Transcription failed. Please try again later or raise an issue on https://github.com/codey/codey/issues",
 			}
 		}
 
@@ -102,7 +102,7 @@ export class VoiceTranscriptionService {
 
 	async transcribeAudio(audioBase64: string, language?: string): Promise<{ text?: string; error?: string }> {
 		try {
-			Logger.info("Transcribing audio with Cline transcription service...")
+			Logger.info("Transcribing audio with Codey transcription service...")
 
 			// Check if using organization account for telemetry
 			const userInfo = await this.clineAccountService.fetchMe()

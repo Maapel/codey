@@ -52,8 +52,8 @@ Line count difference: 245 vs 246
 
 First differences:
 Line 23:
-  - Expected: You are Cline, an AI assistant created by Anthropic.
-  + Actual:   You are Cline, an AI coding assistant created by Anthropic.
+  - Expected: You are Codey, an AI assistant created by Anthropic.
+  + Actual:   You are Codey, an AI coding assistant created by Anthropic.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🔧 HOW TO FIX:

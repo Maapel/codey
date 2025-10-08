@@ -1,5 +1,5 @@
-import { UserCreditsData } from "@shared/proto/cline/account"
-import type { EmptyRequest } from "@shared/proto/cline/common"
+import { UserCreditsData } from "@shared/proto/codey/account"
+import type { EmptyRequest } from "@shared/proto/codey/common"
 import type { Controller } from "../index"
 
 /**

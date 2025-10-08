@@ -17,7 +17,7 @@ import { initializeContext } from "./vscode-context"
 let globalLockManager: SqliteLockManager | undefined
 
 async function main() {
-	log("\n\n\nStarting cline-core service...\n\n\n")
+	log("\n\n\nStarting codey-core service...\n\n\n")
 	log(`Environment variables: ${JSON.stringify(process.env)}`)
 
 	// Parse command line arguments
@@ -45,7 +45,7 @@ async function main() {
 	}
 
 	try {
-		log("\n\n\nStarting cline-core service...\n\n\n")
+		log("\n\n\nStarting codey-core service...\n\n\n")
 
 		// Set up error handlers FIRST (before any service starts)
 		setupGlobalErrorHandlers()
@@ -97,7 +97,7 @@ function setupHostProvider(extensionContext: any, extensionDir: string, dataDir:
 	const getCallbackUrl = (): Promise<string> => {
 		return AuthHandler.getInstance().getCallbackUrl()
 	}
-	// cline-core expects the binaries to be unpacked in the directory where it is running.
+	// codey-core expects the binaries to be unpacked in the directory where it is running.
 	const getBinaryLocation = async (name: string): Promise<string> => path.join(process.cwd(), name)
 
 	HostProvider.initialize(
@@ -173,7 +173,7 @@ async function requestHostBridgeShutdown(): Promise<void> {
 }
 
 /**
- * Gracefully shutdown the cline-core process by:
+ * Gracefully shutdown the codey-core process by:
  * 1. Calling shutdown RPC on the paired host bridge
  * 2. Cleaning up the lock manager entry
  * 3. Tearing down services
@@ -255,14 +255,14 @@ function parseArgs(): CliArgs {
 
 function showHelp() {
 	console.log(`
-Cline Core - Standalone Server
+Codey Core - Standalone Server
 
-Usage: node cline-core.js [options]
+Usage: node codey-core.js [options]
 
 Options:
   -p, --port <port>              Port for the main gRPC service (default: ${PROTOBUS_PORT})
   --host-bridge-port <port>      Port for the host bridge service (default: ${HOSTBRIDGE_PORT})
-  -c, --config <path>            Directory for Cline data storage (default: ~/.cline)
+  -c, --config <path>            Directory for Codey data storage (default: ~/.codey)
   -h, --help                     Show this help message
 
 Environment Variables:

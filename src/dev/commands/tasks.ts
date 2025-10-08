@@ -13,7 +13,7 @@ import { ShowMessageType } from "@/shared/proto/host/window"
  */
 export function registerTaskCommands(controller: Controller): vscode.Disposable[] {
 	return [
-		vscode.commands.registerCommand("cline.dev.createTestTasks", async () => {
+		vscode.commands.registerCommand("codey.dev.createTestTasks", async () => {
 			const count = (
 				await HostProvider.window.showInputBox({
 					title: "Test Tasks",
@@ -128,7 +128,7 @@ function createRealisticMessageSequence(baseTimestamp: number, taskPrompt: strin
 
 	// Create a realistic message sequence
 	const messages: ClineMessage[] = [
-		// Initial task message - uses "say" with "text" which is the format used in Cline.ts
+		// Initial task message - uses "say" with "text" which is the format used in Codey.ts
 		{
 			ts: baseTimestamp,
 			type: "say",

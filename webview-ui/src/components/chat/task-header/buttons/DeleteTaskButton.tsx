@@ -1,5 +1,5 @@
 import { Button, cn } from "@heroui/react"
-import { StringArrayRequest } from "@shared/proto/cline/common"
+import { StringArrayRequest } from "@shared/proto/codey/common"
 import { TrashIcon } from "lucide-react"
 import HeroTooltip from "@/components/common/HeroTooltip"
 import { TaskServiceClient } from "@/services/grpc-client"

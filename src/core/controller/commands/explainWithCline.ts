@@ -1,11 +1,11 @@
 import { getFileMentionFromPath } from "@/core/mentions"
 import { HostProvider } from "@/hosts/host-provider"
 import { telemetryService } from "@/services/telemetry"
-import { CommandContext, Empty } from "@/shared/proto/index.cline"
+import { CommandContext, Empty } from "@/shared/proto/index.codey"
 import { ShowMessageType } from "@/shared/proto/index.host"
 import { Controller } from "../index"
 
-export async function explainWithCline(controller: Controller, request: CommandContext): Promise<Empty> {
+export async function explainWithCodey(controller: Controller, request: CommandContext): Promise<Empty> {
 	if (!request.selectedText || !request.selectedText.trim()) {
 		HostProvider.window.showMessage({
 			type: ShowMessageType.INFORMATION,

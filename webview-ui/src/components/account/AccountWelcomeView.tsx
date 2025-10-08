@@ -12,12 +12,12 @@ export const AccountWelcomeView = () => (
 		</p>
 
 		<VSCodeButton className="w-full mb-4" onClick={() => handleSignIn()}>
-			Sign up with Cline
+			Sign up with Codey
 		</VSCodeButton>
 
 		<p className="text-[var(--vscode-descriptionForeground)] text-xs text-center m-0">
-			By continuing, you agree to the <VSCodeLink href="https://cline.bot/tos">Terms of Service</VSCodeLink> and{" "}
-			<VSCodeLink href="https://cline.bot/privacy">Privacy Policy.</VSCodeLink>
+			By continuing, you agree to the <VSCodeLink href="https://codey.bot/tos">Terms of Service</VSCodeLink> and{" "}
+			<VSCodeLink href="https://codey.bot/privacy">Privacy Policy.</VSCodeLink>
 		</p>
 	</div>
 )

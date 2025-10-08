@@ -1,7 +1,7 @@
-# Cline
+# Codey
 
 <p align="center">
-    <img src="https://media.githubusercontent.com/media/cline/cline/main/assets/docs/demo.gif" width="100%" />
+    <img src="https://media.githubusercontent.com/media/codey/codey/main/assets/docs/demo.gif" width="100%" />
 </p>
 
 <div align="center">
@@ -11,16 +11,16 @@
 <a href="https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev" target="_blank"><strong>VS Marketplace에서 다운로드</strong></a>
 </td>
 <td align="center">
-<a href="https://discord.gg/cline" target="_blank"><strong>Discord</strong></a>
+<a href="https://discord.gg/codey" target="_blank"><strong>Discord</strong></a>
 </td>
 <td align="center">
-<a href="https://www.reddit.com/r/cline/" target="_blank"><strong>r/cline</strong></a>
+<a href="https://www.reddit.com/r/codey/" target="_blank"><strong>r/codey</strong></a>
 </td>
 <td align="center">
-<a href="https://github.com/cline/cline/discussions/categories/feature-requests?discussions_q=is%3Aopen+category%3A%22Feature+Requests%22+sort%3Atop" target="_blank"><strong>기능 요청</strong></a>
+<a href="https://github.com/codey/codey/discussions/categories/feature-requests?discussions_q=is%3Aopen+category%3A%22Feature+Requests%22+sort%3Atop" target="_blank"><strong>기능 요청</strong></a>
 </td>
 <td align="center">
-<a href="https://cline.bot/join-us" target="_blank"><strong>채용 정보</strong></a>
+<a href="https://codey.bot/join-us" target="_blank"><strong>채용 정보</strong></a>
 </td>
 </tbody>
 </table>
@@ -39,7 +39,7 @@ Cline을 만나보세요, **CLI** 및 **에디터**를 활용할 수 있는 AI �
 4. 작업이 완료되면 Cline은 `open -a "Google Chrome" index.html`과 같은 터미널 명령을 제공하여 버튼 클릭 한 번으로 결과를 확인할 수 있도록 합니다.
 
 > [!TIP]
-> `CMD/CTRL + Shift + P` 단축키를 사용하여 명령 팔레트를 열고 "Cline: Open In New Tab"을 입력하여 에디터의 탭으로 확장 프로그램을 엽니다. 이를 통해 파일 탐색기와 병행하여 Cline을 사용하고 워크스페이스의 변경을 더 명확하게 확인할 수 있습니다.
+> `CMD/CTRL + Shift + P` 단축키를 사용하여 명령 팔레트를 열고 "Codey: Open In New Tab"을 입력하여 에디터의 탭으로 확장 프로그램을 엽니다. 이를 통해 파일 탐색기와 병행하여 Cline을 사용하고 워크스페이스의 변경을 더 명확하게 확인할 수 있습니다.
 
 ---
 
@@ -122,18 +122,18 @@ Cline이 작업을 진행하는 동안 확장 프로그램은 각 단계에서 �
 
 ## 기여
 
-프로젝트에 기여하려면, [기여 가이드](CONTRIBUTING.md)에서 기본 사항을 익히세요. 또한, [Discord](https://discord.gg/cline)에 참여하여 `#contributors` 채널에서 다른 기여자들과 이야기할 수 있습니다. 풀타임 직업을 찾고 있다면, [채용 페이지](https://cline.bot/join-us)에서 열려있는 포지션을 확인하세요.
+프로젝트에 기여하려면, [기여 가이드](CONTRIBUTING.md)에서 기본 사항을 익히세요. 또한, [Discord](https://discord.gg/codey)에 참여하여 `#contributors` 채널에서 다른 기여자들과 이야기할 수 있습니다. 풀타임 직업을 찾고 있다면, [채용 페이지](https://codey.bot/join-us)에서 열려있는 포지션을 확인하세요.
 
 <details>
 <summary>로컬 개발 방법</summary>
 
 1. 리포지토리를 클론합니다 _(Requires [git-lfs](https://git-lfs.com/))_：
         ```bash
-        git clone https://github.com/cline/cline.git
+        git clone https://github.com/codey/codey.git
         ```
 2. 프로젝트를 VSCode에서 엽니다：
         ```bash
-        code cline
+        code codey
         ```
 3. 확장 프로그램과 webview-gui의 필요한 의존성을 설치합니다：
         ```bash
@@ -169,4 +169,4 @@ Cline이 작업을 진행하는 동안 확장 프로그램은 각 단계에서 �
 
 ## 라이센스
 
-[Apache 2.0 © 2025 Cline Bot Inc.](/LICENSE)
+[Apache 2.0 © 2025 Codey Bot Inc.](/LICENSE)

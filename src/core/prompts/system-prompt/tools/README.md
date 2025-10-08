@@ -1,6 +1,6 @@
 # Tool Registration System
 
-This directory contains the tool registration system for Cline tools. The system automatically collects and registers all tool variants with the `ClineToolSet` provider.
+This directory contains the tool registration system for Codey tools. The system automatically collects and registers all tool variants with the `ClineToolSet` provider.
 
 ## Overview
 

@@ -1,4 +1,4 @@
-import { EmptyRequest } from "@shared/proto/cline/common"
+import { EmptyRequest } from "@shared/proto/codey/common"
 import { Mode } from "@shared/storage/types"
 import { useCallback, useMemo, useState } from "react"
 import { useMount } from "react-use"

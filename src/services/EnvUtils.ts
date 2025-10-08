@@ -1,7 +1,7 @@
 import { isMultiRootWorkspace } from "@/core/workspace/utils/workspace-detection"
 import { HostProvider } from "@/hosts/host-provider"
 import { ExtensionRegistryInfo } from "@/registry"
-import { EmptyRequest } from "@/shared/proto/cline/common"
+import { EmptyRequest } from "@/shared/proto/codey/common"
 
 // Canonical header names for extra client/host context
 export const ClineHeaders = {

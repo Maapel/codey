@@ -54,7 +54,7 @@ export class PostHogErrorProvider implements IErrorProvider {
 		}
 
 		// Check extension-specific telemetry setting
-		const config = vscode.workspace.getConfiguration("cline")
+		const config = vscode.workspace.getConfiguration("codey")
 		if (config.get("telemetrySetting") === "disabled") {
 			this.errorSettings.enabled = false
 		}

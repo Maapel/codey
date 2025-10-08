@@ -1,6 +1,6 @@
 import { detectImageUrl } from "@integrations/misc/link-preview"
-import { StringRequest } from "@shared/proto/cline/common"
-import { IsImageUrl } from "@shared/proto/cline/web"
+import { StringRequest } from "@shared/proto/codey/common"
+import { IsImageUrl } from "@shared/proto/codey/web"
 import { Controller } from "../index"
 
 /**

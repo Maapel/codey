@@ -1,4 +1,4 @@
-import { McpServers, UpdateMcpTimeoutRequest } from "@shared/proto/cline/mcp"
+import { McpServers, UpdateMcpTimeoutRequest } from "@shared/proto/codey/mcp"
 import { convertMcpServersToProtoMcpServers } from "@/shared/proto-conversions/mcp/mcp-server-conversion"
 import { Controller } from ".."
 

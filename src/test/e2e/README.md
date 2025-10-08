@@ -1,6 +1,6 @@
 # E2E Tests
 
-This directory contains the end-to-end tests for the Cline VS Code extension using Playwright. These tests simulate user interactions with the extension in a real VS Code environment.
+This directory contains the end-to-end tests for the Codey VS Code extension using Playwright. These tests simulate user interactions with the extension in a real VS Code environment.
 
 ## Test Structure
 
@@ -28,7 +28,7 @@ The E2E test suite consists of several key components:
 - **`fixtures/workspace/`** - Single-root workspace test files (HTML, TypeScript, etc.)
 - **`fixtures/workspace_2/`** - Additional workspace with Python provider files
 - **`fixtures/multiroots.code-workspace`** - Multi-root workspace configuration
-- **`fixtures/server/`** - Mock API server for testing Cline's backend interactions
+- **`fixtures/server/`** - Mock API server for testing Codey's backend interactions
 
 ## Running Tests
 
@@ -90,12 +90,12 @@ import { expect } from "@playwright/test"
 import { e2e } from "./utils/helpers"
 
 e2e("Test description", async ({ sidebar, helper, page }) => {
-  // Sign in to Cline
+  // Sign in to Codey
   await helper.signin(sidebar)
   
   // Test interactions
   const inputbox = sidebar.getByTestId("chat-input")
-  await inputbox.fill("Hello, Cline!")
+  await inputbox.fill("Hello, Codey!")
   await sidebar.getByTestId("send-button").click()
   
   // Assertions
@@ -117,7 +117,7 @@ e2eMultiRoot("[Multi-roots] Test description", async ({ sidebar, helper }) => {
 
 The test fixtures provide the following objects:
 
-- **`sidebar`** - Playwright Frame object for the Cline extension's sidebar
+- **`sidebar`** - Playwright Frame object for the Codey extension's sidebar
 - **`helper`** - E2ETestHelper instance with utility methods
 - **`page`** - Playwright Page object for the main VS Code window
 - **`app`** - ElectronApplication instance for VS Code
@@ -169,7 +169,7 @@ The `--debug` flag enables Playwright's interactive debugging features:
    ```
 
 2. **Playwright will open:**
-   - A VS Code window with Cline extension loaded
+   - A VS Code window with Codey extension loaded
    - Playwright Inspector for step-by-step debugging
    - Browser developer tools for element inspection
 
@@ -191,12 +191,12 @@ The test environment includes:
 
 - **VS Code Configuration:**
   - Disabled updates, workspace trust, and welcome screens
-  - Extension development mode with Cline loaded
+  - Extension development mode with Codey loaded
   - Temporary user data and extensions directories
 
 - **Mock API Server:**
   - Runs on `http://localhost:7777`
-  - Provides mock responses for Cline API calls
+  - Provides mock responses for Codey API calls
   - Supports authentication, chat completions, and user management
 
 - **Test Workspaces:**

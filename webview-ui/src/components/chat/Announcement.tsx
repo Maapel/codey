@@ -1,5 +1,5 @@
 import { Accordion, AccordionItem } from "@heroui/react"
-import { EmptyRequest } from "@shared/proto/cline/common"
+import { EmptyRequest } from "@shared/proto/codey/common"
 import { VSCodeButton, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 import { CSSProperties, memo, useState } from "react"
 import { useMount } from "react-use"
@@ -62,8 +62,8 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 			actModeOpenRouterModelId: modelId,
 			planModeOpenRouterModelInfo: openRouterModels[modelId],
 			actModeOpenRouterModelInfo: openRouterModels[modelId],
-			planModeApiProvider: "cline",
-			actModeApiProvider: "cline",
+			planModeApiProvider: "codey",
+			actModeApiProvider: "codey",
 		})
 
 		setTimeout(() => {
@@ -73,15 +73,15 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 	}
 
 	const setCodeSupernova = () => {
-		const modelId = "cline/code-supernova-1-million"
+		const modelId = "codey/code-supernova-1-million"
 		// set both plan and act modes to use code-supernova-1-million
 		handleFieldsChange({
 			planModeOpenRouterModelId: modelId,
 			actModeOpenRouterModelId: modelId,
 			planModeOpenRouterModelInfo: openRouterModels[modelId],
 			actModeOpenRouterModelInfo: openRouterModels[modelId],
-			planModeApiProvider: "cline",
-			actModeApiProvider: "cline",
+			planModeApiProvider: "codey",
+			actModeApiProvider: "codey",
 		})
 
 		setTimeout(() => {
@@ -112,15 +112,15 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 					<b>Voice Mode:</b> Experimental feature that must be enabled in settings for hands-free coding
 				</li>
 				<li>
-					<b>YOLO Mode:</b> Enable in settings to let Cline approve all actions and automatically switch between
+					<b>YOLO Mode:</b> Enable in settings to let Codey approve all actions and automatically switch between
 					plan/act mode
 				</li>
 				<li>
 					<b>JetBrains Updates:</b> We've brought support to Rider and made tons of improvements thanks to all the
 					feedback!
 					<br />
-					<VSCodeButtonLink href="https://cline.bot/jetbrains" style={{ margin: "5px 0" }}>
-						Get Cline for JetBrains
+					<VSCodeButtonLink href="https://codey.bot/jetbrains" style={{ margin: "5px 0" }}>
+						Get Codey for JetBrains
 					</VSCodeButtonLink>
 				</li>
 				<li>
@@ -141,15 +141,15 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 						</div>
 					) : (
 						<VSCodeButton appearance="primary" onClick={handleShowAccount} style={{ margin: "5px 0" }}>
-							Sign Up with Cline
+							Sign Up with Codey
 						</VSCodeButton>
 					)}
 				</li>
 				{user && (
 					<li>
-						Updated the Terms of Service for Cline account users:{" "}
-						<VSCodeLink href="https://cline.bot/tos" style={linkStyle}>
-							https://cline.bot/tos
+						Updated the Terms of Service for Codey account users:{" "}
+						<VSCodeLink href="https://codey.bot/tos" style={linkStyle}>
+							https://codey.bot/tos
 						</VSCodeLink>
 					</li>
 				)}
@@ -173,17 +173,17 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 								has been incredible and xAI is continuously improving the model's intelligence.
 							</li>
 							<li>
-								<b>Focus Chain:</b> Keeps cline focused on long-horizon tasks with automatic todo list management,
+								<b>Focus Chain:</b> Keeps codey focused on long-horizon tasks with automatic todo list management,
 								breaking down complex tasks into manageable steps with real-time progress tracking and passive
 								reminders.
 							</li>
 							<li>
 								<b>Auto Compact:</b> Auto summarizes your task and next steps when your conversation approaches
-								the model's context window limit. This significantly helps Cline stay on track for long task
+								the model's context window limit. This significantly helps Codey stay on track for long task
 								sessions!
 							</li>
 							<li>
-								<b>Deep Planning:</b> New <code>/deep-planning</code> slash command transforms Cline into an
+								<b>Deep Planning:</b> New <code>/deep-planning</code> slash command transforms Codey into an
 								architect who investigates your codebase, asks clarifying questions, and creates a comprehensive
 								plan before writing any code.
 							</li>
@@ -194,15 +194,15 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 			<div style={hrStyle} />
 			<p style={linkContainerStyle}>
 				Join us on{" "}
-				<VSCodeLink href="https://x.com/cline" style={linkStyle}>
+				<VSCodeLink href="https://x.com/codey" style={linkStyle}>
 					X,
 				</VSCodeLink>{" "}
-				<VSCodeLink href="https://discord.gg/cline" style={linkStyle}>
+				<VSCodeLink href="https://discord.gg/codey" style={linkStyle}>
 					discord,
 				</VSCodeLink>{" "}
 				or{" "}
-				<VSCodeLink href="https://www.reddit.com/r/cline/" style={linkStyle}>
-					r/cline
+				<VSCodeLink href="https://www.reddit.com/r/codey/" style={linkStyle}>
+					r/codey
 				</VSCodeLink>
 				for more updates!
 			</p>

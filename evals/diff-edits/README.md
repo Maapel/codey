@@ -1,10 +1,10 @@
-# A Note on Cline's Diff Evaluation Setup
+# A Note on Codey's Diff Evaluation Setup
 
-Hey there, this note explains what we're doing with Cline's diff evaluation (evals) system. It's all about checking how well various AI models (which users connect to Cline via their own API keys), prompts, and diffing tools can handle file changes.
+Hey there, this note explains what we're doing with Codey's diff evaluation (evals) system. It's all about checking how well various AI models (which users connect to Codey via their own API keys), prompts, and diffing tools can handle file changes.
 
 ## What We're Trying to Figure Out
 
-The main idea here is to figure out which AI models (configured by users) are best at making `replace_in_file` tool calls that work correctly. This helps us understand model capabilities and also speeds up our own experiments with prompts and diffing algorithms to make Cline better over time. We want to know a few key things.
+The main idea here is to figure out which AI models (configured by users) are best at making `replace_in_file` tool calls that work correctly. This helps us understand model capabilities and also speeds up our own experiments with prompts and diffing algorithms to make Codey better over time. We want to know a few key things.
 
 First, can the model create diffs, which are just sets of SEARCH and REPLACE blocks, that apply cleanly to a file? This is what we call `diffEditSuccess`.
 

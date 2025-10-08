@@ -17,7 +17,7 @@ interface ClineProviderProps {
 }
 
 /**
- * The Cline provider configuration component
+ * The Codey provider configuration component
  */
 export const ClineProvider = ({ showModelOptions, isPopup, currentMode }: ClineProviderProps) => {
 	const { apiConfiguration } = useExtensionState()
@@ -27,7 +27,7 @@ export const ClineProvider = ({ showModelOptions, isPopup, currentMode }: ClineP
 
 	return (
 		<div>
-			{/* Cline Account Info Card */}
+			{/* Codey Account Info Card */}
 			<div style={{ marginBottom: 14, marginTop: 4 }}>
 				<ClineAccountInfoCard />
 			</div>

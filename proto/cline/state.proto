@@ -1,9 +1,9 @@
 syntax = "proto3";
-package cline;
-import "cline/common.proto";
-import "cline/models.proto";
-option go_package = "github.com/cline/grpc-go/cline";
-option java_package = "bot.cline.proto";
+package codey;
+import "codey/common.proto";
+import "codey/models.proto";
+option go_package = "github.com/codey/grpc-go/codey";
+option java_package = "bot.codey.proto";
 option java_multiple_files = true;
 
 service StateService {
@@ -157,7 +157,7 @@ message UpdateSettingsRequest {
 message ApiConfiguration {
   // Global configuration fields (not mode-specific)
   optional string api_key = 1; // anthropic
-  optional string cline_api_key = 2;
+  optional string codey_api_key = 2;
   optional string ulid = 3;
   optional string lite_llm_base_url = 4;
   optional string lite_llm_api_key = 5;
@@ -285,7 +285,7 @@ message ApiConfiguration {
   optional string aws_authentication = 301;
   optional string aws_bedrock_api_key = 302;
 
-  optional string cline_account_id = 303;
+  optional string codey_account_id = 303;
 }
 
 message UpdateTerminalConnectionTimeoutRequest {
@@ -294,7 +294,7 @@ message UpdateTerminalConnectionTimeoutRequest {
 
 message FocusChainSettings {
   bool enabled = 1;
-  int32 remind_cline_interval = 2;
+  int32 remind_codey_interval = 2;
 }
 
 message Viewport {

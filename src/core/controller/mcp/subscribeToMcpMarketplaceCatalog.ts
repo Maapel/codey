@@ -1,5 +1,5 @@
-import { EmptyRequest } from "@shared/proto/cline/common"
-import { McpMarketplaceCatalog } from "@shared/proto/cline/mcp"
+import { EmptyRequest } from "@shared/proto/codey/common"
+import { McpMarketplaceCatalog } from "@shared/proto/codey/mcp"
 import { getRequestRegistry, StreamingResponseHandler } from "../grpc-handler"
 import { Controller } from "../index"
 

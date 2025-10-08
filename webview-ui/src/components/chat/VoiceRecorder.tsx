@@ -1,6 +1,6 @@
 import { cn } from "@heroui/react"
-import { TranscribeAudioRequest } from "@shared/proto/cline/dictation"
-import { EmptyRequest } from "@shared/proto/index.cline"
+import { TranscribeAudioRequest } from "@shared/proto/codey/dictation"
+import { EmptyRequest } from "@shared/proto/index.codey"
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import { DictationServiceClient } from "@/services/grpc-client"
 import { formatSeconds } from "@/utils/format"
@@ -41,7 +41,7 @@ const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
 	useEffect(() => {
 		if (isAuthenticated && error) {
 			// Clear error if it's related to authentication
-			if (error.toLowerCase().includes("sign in") || error.toLowerCase().includes("cline account")) {
+			if (error.toLowerCase().includes("sign in") || error.toLowerCase().includes("codey account")) {
 				setError(null)
 			}
 		}

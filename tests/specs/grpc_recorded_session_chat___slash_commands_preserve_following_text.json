@@ -3,7 +3,7 @@
   "entries": [
     {
       "requestId": "5643a2ef-2b56-4d06-81de-34b9375cd884",
-      "service": "cline.ModelsService",
+      "service": "codey.ModelsService",
       "method": "updateApiConfigurationProto",
       "isStreaming": false,
       "request": {
@@ -29,7 +29,7 @@
     },
     {
       "requestId": "4f25e39a-4357-4368-975b-3981ee4467f1",
-      "service": "cline.StateService",
+      "service": "codey.StateService",
       "method": "setWelcomeViewCompleted",
       "isStreaming": false,
       "request": {
@@ -48,7 +48,7 @@
     },
     {
       "requestId": "5643a2ef-2b56-4d06-81de-34b9375cd884",
-      "service": "cline.StateService",
+      "service": "codey.StateService",
       "method": "getLatestState",
       "isStreaming": false,
       "request": {
@@ -67,7 +67,7 @@
     },
     {
       "requestId": "4f25e39a-4357-4368-975b-3981ee4467f1",
-      "service": "cline.StateService",
+      "service": "codey.StateService",
       "method": "getLatestState",
       "isStreaming": false,
       "request": {

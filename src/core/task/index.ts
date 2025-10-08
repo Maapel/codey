@@ -12,7 +12,7 @@ import {
 	getGlobalClineRules,
 	getLocalClineRules,
 	refreshClineRulesToggles,
-} from "@core/context/instructions/user-instructions/cline-rules"
+} from "@core/context/instructions/user-instructions/codey-rules"
 import {
 	getLocalCursorRules,
 	getLocalWindsurfRules,
@@ -53,7 +53,7 @@ import { combineCommandSequences } from "@shared/combineCommandSequences"
 import { ClineApiReqCancelReason, ClineApiReqInfo, ClineAsk, ClineMessage, ClineSay } from "@shared/ExtensionMessage"
 import { HistoryItem } from "@shared/HistoryItem"
 import { DEFAULT_LANGUAGE_SETTINGS, getLanguageKey, LanguageDisplay } from "@shared/Languages"
-import { convertClineMessageToProto } from "@shared/proto-conversions/cline-message"
+import { convertClineMessageToProto } from "@shared/proto-conversions/codey-message"
 import { ClineDefaultTool } from "@shared/tools"
 import { ClineAskResponse } from "@shared/WebviewMessage"
 import { isLocalModel, isNextGenModelFamily } from "@utils/model-utils"
@@ -439,9 +439,9 @@ export class Task {
 		files?: string[]
 		askTs?: number
 	}> {
-		// If this Cline instance was aborted by the provider, then the only thing keeping us alive is a promise still running in the background, in which case we don't want to send its result to the webview as it is attached to a new instance of Cline now. So we can safely ignore the result of any active promises, and this class will be deallocated. (Although we set Cline = undefined in provider, that simply removes the reference to this instance, but the instance is still alive until this promise resolves or rejects.)
+		// If this Codey instance was aborted by the provider, then the only thing keeping us alive is a promise still running in the background, in which case we don't want to send its result to the webview as it is attached to a new instance of Codey now. So we can safely ignore the result of any active promises, and this class will be deallocated. (Although we set Codey = undefined in provider, that simply removes the reference to this instance, but the instance is still alive until this promise resolves or rejects.)
 		if (this.taskState.abort) {
-			throw new Error("Cline instance aborted")
+			throw new Error("Codey instance aborted")
 		}
 		let askTs: number
 		if (partial !== undefined) {
@@ -471,7 +471,7 @@ export class Task {
 					// this.askResponseImages = undefined
 					askTs = Date.now()
 					this.taskState.lastMessageTs = askTs
-					await this.messageStateHandler.addToClineMessages({
+					await this.messageStateHandler.addToCodeyMessages({
 						ts: askTs,
 						type: "ask",
 						ask: type,
@@ -514,7 +514,7 @@ export class Task {
 					this.taskState.askResponseFiles = undefined
 					askTs = Date.now()
 					this.taskState.lastMessageTs = askTs
-					await this.messageStateHandler.addToClineMessages({
+					await this.messageStateHandler.addToCodeyMessages({
 						ts: askTs,
 						type: "ask",
 						ask: type,
@@ -532,7 +532,7 @@ export class Task {
 			this.taskState.askResponseFiles = undefined
 			askTs = Date.now()
 			this.taskState.lastMessageTs = askTs
-			await this.messageStateHandler.addToClineMessages({
+			await this.messageStateHandler.addToCodeyMessages({
 				ts: askTs,
 				type: "ask",
 				ask: type,
@@ -575,7 +575,7 @@ export class Task {
 		partial?: boolean,
 	): Promise<number | undefined> {
 		if (this.taskState.abort) {
-			throw new Error("Cline instance aborted")
+			throw new Error("Codey instance aborted")
 		}
 
 		if (partial !== undefined) {
@@ -596,7 +596,7 @@ export class Task {
 					// this is a new partial message, so add it with partial state
 					const sayTs = Date.now()
 					this.taskState.lastMessageTs = sayTs
-					await this.messageStateHandler.addToClineMessages({
+					await this.messageStateHandler.addToCodeyMessages({
 						ts: sayTs,
 						type: "say",
 						say: type,
@@ -629,7 +629,7 @@ export class Task {
 					// this is a new partial=false message, so add it like normal
 					const sayTs = Date.now()
 					this.taskState.lastMessageTs = sayTs
-					await this.messageStateHandler.addToClineMessages({
+					await this.messageStateHandler.addToCodeyMessages({
 						ts: sayTs,
 						type: "say",
 						say: type,
@@ -645,7 +645,7 @@ export class Task {
 			// this is a new non-partial message, so add it like normal
 			const sayTs = Date.now()
 			this.taskState.lastMessageTs = sayTs
-			await this.messageStateHandler.addToClineMessages({
+			await this.messageStateHandler.addToCodeyMessages({
 				ts: sayTs,
 				type: "say",
 				say: type,
@@ -661,7 +661,7 @@ export class Task {
 	async sayAndCreateMissingParamError(toolName: ClineDefaultTool, paramName: string, relPath?: string) {
 		await this.say(
 			"error",
-			`Cline tried to use ${toolName}${
+			`Codey tried to use ${toolName}${
 				relPath ? ` for '${relPath.toPosix()}'` : ""
 			} without value for required parameter '${paramName}'. Retrying...`,
 		)
@@ -695,7 +695,7 @@ export class Task {
 			// Optionally, inform the user or handle the error appropriately
 		}
 		// conversationHistory (for API) and clineMessages (for webview) need to be in sync
-		// if the extension process were killed, then on restart the clineMessages might not be empty, so we need to set it to [] when we create a new Cline client (otherwise webview would show stale messages from previous session)
+		// if the extension process were killed, then on restart the clineMessages might not be empty, so we need to set it to [] when we create a new Codey client (otherwise webview would show stale messages from previous session)
 		this.messageStateHandler.setClineMessages([])
 		this.messageStateHandler.setApiConversationHistory([])
 
@@ -760,7 +760,7 @@ export class Task {
 		await this.messageStateHandler.overwriteClineMessages(savedClineMessages)
 		this.messageStateHandler.setClineMessages(await getSavedClineMessages(this.taskId))
 
-		// Now present the cline messages to the user and ask if they want to resume (NOTE: we ran into a bug before where the apiconversationhistory wouldn't be initialized when opening a old task, and it was because we were waiting for resume)
+		// Now present the codey messages to the user and ask if they want to resume (NOTE: we ran into a bug before where the apiconversationhistory wouldn't be initialized when opening a old task, and it was because we were waiting for resume)
 		// This is important in case the user deletes messages without resuming the task first
 		const savedApiConversationHistory = await getSavedApiConversationHistory(this.taskId)
 		this.messageStateHandler.setApiConversationHistory(savedApiConversationHistory)
@@ -796,7 +796,7 @@ export class Task {
 			responseFiles = files
 		}
 
-		// need to make sure that the api conversation history can be resumed by the api, even if it goes out of sync with cline messages
+		// need to make sure that the api conversation history can be resumed by the api, even if it goes out of sync with codey messages
 
 		const existingApiConversationHistory: Anthropic.Messages.MessageParam[] = await getSavedApiConversationHistory(
 			this.taskId,
@@ -909,8 +909,8 @@ export class Task {
 			const didEndLoop = await this.recursivelyMakeClineRequests(nextUserContent, includeFileDetails)
 			includeFileDetails = false // we only need file details the first time
 
-			//  The way this agentic loop works is that cline will be given a task that he then calls tools to complete. unless there's an attempt_completion call, we keep responding back to him with his tool's responses until he either attempt_completion or does not use anymore tools. If he does not use anymore tools, we ask him to consider if he's completed the task and then call attempt_completion, otherwise proceed with completing the task.
-			// There is a MAX_REQUESTS_PER_TASK limit to prevent infinite requests, but Cline is prompted to finish the task as efficiently as he can.
+			//  The way this agentic loop works is that codey will be given a task that he then calls tools to complete. unless there's an attempt_completion call, we keep responding back to him with his tool's responses until he either attempt_completion or does not use anymore tools. If he does not use anymore tools, we ask him to consider if he's completed the task and then call attempt_completion, otherwise proceed with completing the task.
+			// There is a MAX_REQUESTS_PER_TASK limit to prevent infinite requests, but Codey is prompted to finish the task as efficiently as he can.
 
 			//const totalCost = this.calculateApiCost(totalInputTokens, totalOutputTokens)
 			if (didEndLoop) {
@@ -920,7 +920,7 @@ export class Task {
 			} else {
 				// this.say(
 				// 	"tool",
-				// 	"Cline responded with only text blocks but has not called attempt_completion yet. Forcing him to continue with task..."
+				// 	"Codey responded with only text blocks but has not called attempt_completion yet. Forcing him to continue with task..."
 				// )
 				nextUserContent = [
 					{
@@ -1267,7 +1267,7 @@ export class Task {
 	 * Migrates the disableBrowserTool setting from VSCode configuration to browserSettings
 	 */
 	private async migrateDisableBrowserToolSetting(): Promise<void> {
-		const config = vscode.workspace.getConfiguration("cline")
+		const config = vscode.workspace.getConfiguration("codey")
 		const disableBrowserTool = config.get<boolean>("disableBrowserTool")
 
 		if (disableBrowserTool !== undefined) {
@@ -1326,7 +1326,7 @@ export class Task {
 		await this.migrateDisableBrowserToolSetting()
 		const browserSettings = this.stateManager.getGlobalSettingsKey("browserSettings")
 		const disableBrowserTool = browserSettings.disableToolUse ?? false
-		// cline browser tool uses image recognition for navigation (requires model image support).
+		// codey browser tool uses image recognition for navigation (requires model image support).
 		const modelSupportsBrowserUse = providerInfo.model.info.supportsImages ?? false
 
 		const supportsBrowserUse = modelSupportsBrowserUse && !disableBrowserTool // only enable browser use if the model supports it and the user hasn't disabled it
@@ -1506,7 +1506,7 @@ export class Task {
 
 	async presentAssistantMessage() {
 		if (this.taskState.abort) {
-			throw new Error("Cline instance aborted")
+			throw new Error("Codey instance aborted")
 		}
 
 		if (this.taskState.presentAssistantMessageLocked) {
@@ -1622,7 +1622,7 @@ export class Task {
 
 	async recursivelyMakeClineRequests(userContent: UserContent, includeFileDetails: boolean = false): Promise<boolean> {
 		if (this.taskState.abort) {
-			throw new Error("Cline instance aborted")
+			throw new Error("Codey instance aborted")
 		}
 
 		// Increment API request counter for focus chain list management
@@ -1646,14 +1646,14 @@ export class Task {
 			if (autoApprovalSettings.enabled && autoApprovalSettings.enableNotifications) {
 				showSystemNotification({
 					subtitle: "Error",
-					message: "Cline is having trouble. Would you like to continue the task?",
+					message: "Codey is having trouble. Would you like to continue the task?",
 				})
 			}
 			const { response, text, images, files } = await this.ask(
 				"mistake_limit_reached",
 				this.api.getModel().id.includes("claude")
 					? `This may indicate a failure in his thought process or inability to use a tool properly, which can be mitigated with some user guidance (e.g. "Try breaking down the task into smaller steps").`
-					: "Cline uses complex prompts and iterative task execution that may be challenging for less capable models. For best results, it's recommended to use Claude 4 Sonnet for its advanced agentic coding capabilities.",
+					: "Codey uses complex prompts and iterative task execution that may be challenging for less capable models. For best results, it's recommended to use Claude 4 Sonnet for its advanced agentic coding capabilities.",
 			)
 			if (response === "messageResponse") {
 				// Display the user's message in the chat UI
@@ -1695,12 +1695,12 @@ export class Task {
 			if (autoApprovalSettings.enableNotifications) {
 				showSystemNotification({
 					subtitle: "Max Requests Reached",
-					message: `Cline has auto-approved ${autoApprovalSettings.maxRequests.toString()} API requests.`,
+					message: `Codey has auto-approved ${autoApprovalSettings.maxRequests.toString()} API requests.`,
 				})
 			}
 			const { response, text, images, files } = await this.ask(
 				"auto_approval_max_req_reached",
-				`Cline has auto-approved ${autoApprovalSettings.maxRequests.toString()} API requests. Would you like to reset the count and proceed with the task?`,
+				`Codey has auto-approved ${autoApprovalSettings.maxRequests.toString()} API requests. Would you like to reset the count and proceed with the task?`,
 			)
 			// if we get past the promise it means the user approved and did not start a new task
 			this.taskState.consecutiveAutoApprovedRequestsCount = 0
@@ -1849,7 +1849,7 @@ export class Task {
 				// first+second user messages take up entire context-window, but in this case there's already an issue). TODO: Examine other
 				// approaches such as storing this.taskState.currentlySummarizing on disk in the clineMessages. This was intentionally not done
 				// for now to prevent additional disk from needing to be used.
-				// The worse case scenario is effectively cline summarizing a summary, which is bad UX, but doesn't break other logic.
+				// The worse case scenario is effectively codey summarizing a summary, which is bad UX, but doesn't break other logic.
 				if (shouldCompact && this.taskState.conversationHistoryDeletedRange) {
 					const apiHistory = this.messageStateHandler.getApiConversationHistory()
 					const activeMessageCount = apiHistory.length - this.taskState.conversationHistoryDeletedRange[1] - 1
@@ -2055,7 +2055,7 @@ export class Task {
 								await this.say("reasoning", reasoningMessage, undefined, undefined, true)
 							}
 							break
-						// for cline/openrouter providers
+						// for codey/openrouter providers
 						case "reasoning_details":
 							reasoningDetails.push(chunk.reasoning_details)
 							break
@@ -2096,7 +2096,7 @@ export class Task {
 					if (this.taskState.abort) {
 						console.log("aborting stream...")
 						if (!this.taskState.abandoned) {
-							// only need to gracefully abort if this instance isn't abandoned (sometimes openrouter stream hangs, in which case this would affect future instances of cline)
+							// only need to gracefully abort if this instance isn't abandoned (sometimes openrouter stream hangs, in which case this would affect future instances of codey)
 							await abortStream("user_cancelled")
 						}
 						break // aborts the stream
@@ -2118,7 +2118,7 @@ export class Task {
 					}
 				}
 			} catch (error) {
-				// abandoned happens when extension is no longer waiting for the cline instance to finish aborting (error is thrown here when any function in the for loop throws due to this.abort)
+				// abandoned happens when extension is no longer waiting for the codey instance to finish aborting (error is thrown here when any function in the for loop throws due to this.abort)
 				if (!this.taskState.abandoned) {
 					this.abortTask() // if the stream failed, there's various states the task could be in (i.e. could have streamed some tools the user may have executed), so we just resort to replicating a cancel task
 					const clineError = ErrorService.get().toClineError(error, this.api.getModel().id)
@@ -2131,7 +2131,7 @@ export class Task {
 				this.taskState.isStreaming = false
 			}
 
-			// OpenRouter/Cline may not return token usage as part of the stream (since it may abort early), so we fetch after the stream is finished
+			// OpenRouter/Codey may not return token usage as part of the stream (since it may abort early), so we fetch after the stream is finished
 			// (updateApiReq below will update the api_req_started message with the usage details. we do this async so it updates the api_req_started message in the background)
 			if (!didReceiveUsageChunk) {
 				this.api.getApiStreamUsage?.().then(async (apiStreamUsage) => {
@@ -2159,7 +2159,7 @@ export class Task {
 
 			// need to call here in case the stream was aborted
 			if (this.taskState.abort) {
-				throw new Error("Cline instance aborted")
+				throw new Error("Codey instance aborted")
 			}
 
 			this.taskState.didCompleteReadingStream = true
@@ -2210,7 +2210,7 @@ export class Task {
 						{
 							type: "text",
 							text: assistantMessage,
-							// reasoning_details only exists for cline/openrouter providers
+							// reasoning_details only exists for codey/openrouter providers
 							// @ts-ignore-next-line
 							reasoning_details: reasoningDetails.length > 0 ? reasoningDetails : undefined,
 						},
@@ -2264,7 +2264,7 @@ export class Task {
 				})
 
 				const baseErrorMessage =
-					"Invalid API Response: The provider returned an empty or unparsable response. This is a provider-side issue where the model failed to generate valid output or returned tool calls that Cline cannot process. Retrying the request may help resolve this issue."
+					"Invalid API Response: The provider returned an empty or unparsable response. This is a provider-side issue where the model failed to generate valid output or returned tool calls that Codey cannot process. Retrying the request may help resolve this issue."
 				const errorText = reqId ? `${baseErrorMessage} (Request ID: ${reqId})` : baseErrorMessage
 
 				await this.say("error", errorText)
@@ -2450,7 +2450,7 @@ export class Task {
 		// Workspace roots (multi-root)
 		details += this.formatWorkspaceRootsSection()
 
-		// It could be useful for cline to know if the user went from one or no file to another between messages, so we always include this context
+		// It could be useful for codey to know if the user went from one or no file to another between messages, so we always include this context
 		details += `\n\n# ${host.platform} Visible Files`
 		const rawVisiblePaths = (await HostProvider.window.getVisibleTabs({})).paths
 		const filteredVisiblePaths = await filterExistingFiles(rawVisiblePaths)

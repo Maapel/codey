@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package cline;
-import "cline/common.proto";
-option go_package = "github.com/cline/grpc-go/cline";
-option java_package = "bot.cline.proto";
+package codey;
+import "codey/common.proto";
+option go_package = "github.com/codey/grpc-go/codey";
+option java_package = "bot.codey.proto";
 option java_multiple_files = true;
 
 service DictationService {

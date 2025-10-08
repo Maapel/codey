@@ -1,5 +1,5 @@
-import { EmptyRequest } from "@shared/proto/cline/common"
-import { McpServers } from "@shared/proto/cline/mcp"
+import { EmptyRequest } from "@shared/proto/codey/common"
+import { McpServers } from "@shared/proto/codey/mcp"
 import { convertMcpServersToProtoMcpServers } from "@shared/proto-conversions/mcp/mcp-server-conversion"
 import { getRequestRegistry, StreamingResponseHandler } from "../grpc-handler"
 import { Controller } from "../index"

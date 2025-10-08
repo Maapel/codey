@@ -86,8 +86,8 @@ async function updateAutoApprovalSettings(controller?: Controller) {
  * @returns The created HTTP server instance
  */
 export async function createTestServer(controller: Controller): Promise<http.Server> {
-	// Try to show the Cline sidebar
-	Logger.log("[createTestServer] Opening Cline in sidebar...")
+	// Try to show the Codey sidebar
+	Logger.log("[createTestServer] Opening Codey in sidebar...")
 	vscode.commands.executeCommand(`workbench.view.${ExtensionRegistryInfo.name}-ActivityBar`)
 
 	// Then ensure the webview is focused/loaded
@@ -152,7 +152,7 @@ export async function createTestServer(controller: Controller): Promise<http.Ser
 				const visibleWebview = WebviewProvider.getVisibleInstance()
 				if (!visibleWebview || !visibleWebview.controller) {
 					res.writeHead(500)
-					res.end(JSON.stringify({ error: "No active Cline instance found" }))
+					res.end(JSON.stringify({ error: "No active Codey instance found" }))
 					return
 				}
 
@@ -214,7 +214,7 @@ export async function createTestServer(controller: Controller): Promise<http.Ser
 						// Update API configuration with API key
 						const updatedConfig = {
 							...apiConfiguration,
-							apiProvider: "cline" as ApiProvider,
+							apiProvider: "codey" as ApiProvider,
 							clineAccountId: apiKey,
 						}
 
@@ -223,12 +223,12 @@ export async function createTestServer(controller: Controller): Promise<http.Ser
 
 						visibleWebview.controller.stateManager.setApiConfiguration(updatedConfig)
 
-						// Update cache service to use cline provider
+						// Update cache service to use codey provider
 						const currentConfig = visibleWebview.controller.stateManager.getApiConfiguration()
 						visibleWebview.controller.stateManager.setApiConfiguration({
 							...currentConfig,
-							planModeApiProvider: "cline",
-							actModeApiProvider: "cline",
+							planModeApiProvider: "codey",
+							actModeApiProvider: "codey",
 						})
 
 						// Post state to webview to reflect changes
@@ -308,7 +308,7 @@ export async function createTestServer(controller: Controller): Promise<http.Ser
 								messages = await getSavedClineMessages(taskId)
 							}
 						} catch (error) {
-							Logger.log(`Error getting saved Cline messages: ${error}`)
+							Logger.log(`Error getting saved Codey messages: ${error}`)
 						}
 
 						try {

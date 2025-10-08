@@ -1,4 +1,4 @@
-import type { EmptyRequest, String as ProtoString } from "@shared/proto/cline/common"
+import type { EmptyRequest, String as ProtoString } from "@shared/proto/codey/common"
 import { getRequestRegistry, type StreamingResponseHandler } from "../grpc-handler"
 import type { Controller } from "../index"
 

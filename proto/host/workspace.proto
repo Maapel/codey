@@ -1,11 +1,11 @@
 syntax = "proto3";
 
 package host;
-option go_package = "github.com/cline/grpc-go/host";
-option java_package = "bot.cline.host.proto";
+option go_package = "github.com/codey/grpc-go/host";
+option java_package = "bot.codey.host.proto";
 option java_multiple_files = true;
 
-import "cline/common.proto";
+import "codey/common.proto";
 
 // Provides methods for working with workspaces/projects.
 service WorkspaceService {
@@ -35,7 +35,7 @@ service WorkspaceService {
 
 message GetWorkspacePathsRequest {
   // The unique ID for the workspace/project.
-  // This is currently optional in vscode. It is required in other environments where cline is running at
+  // This is currently optional in vscode. It is required in other environments where codey is running at
   // the application level, and the user can open multiple projects.
   optional string id = 1;
 }
@@ -55,11 +55,11 @@ message SaveOpenDocumentIfDirtyResponse {
 }
 
 message GetDiagnosticsRequest {
-  optional cline.Metadata metadata = 1;
+  optional codey.Metadata metadata = 1;
 }
 
 message GetDiagnosticsResponse {
-  repeated cline.FileDiagnostics file_diagnostics = 1;
+  repeated codey.FileDiagnostics file_diagnostics = 1;
 }
 
 // Request for host-side workspace search (files/folders) used by mentions autocomplete

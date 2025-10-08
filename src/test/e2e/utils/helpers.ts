@@ -84,7 +84,7 @@ export class E2ETestHelper {
 
 				try {
 					const title = await frame.title()
-					if (title.startsWith("Cline")) {
+					if (title.startsWith("Codey")) {
 						this.cachedFrame = frame
 						return frame
 					}
@@ -138,7 +138,7 @@ export class E2ETestHelper {
 	}
 
 	public static async openClineSidebar(page: Page): Promise<void> {
-		await page.getByRole("tab", { name: /Cline/ }).locator("a").click()
+		await page.getByRole("tab", { name: /Codey/ }).locator("a").click()
 	}
 
 	public static async runCommandPalette(page: Page, command: string): Promise<void> {
@@ -159,11 +159,11 @@ export class E2ETestHelper {
 }
 
 /**
- * NOTE: Use the `e2e` test fixture for all E2E tests to test the Cline extension.
+ * NOTE: Use the `e2e` test fixture for all E2E tests to test the Codey extension.
  *
- * Extended Playwright test configuration for Cline E2E testing.
+ * Extended Playwright test configuration for Codey E2E testing.
  *
- * This test configuration provides a comprehensive setup for end-to-end testing of the Cline VS Code extension,
+ * This test configuration provides a comprehensive setup for end-to-end testing of the Codey VS Code extension,
  * including server mocking, temporary directories, VS Code instance management, and helper utilities.
  *
  * NOTE: Default to run in single-root workspace; use `e2eMultiRoot` for multi-root workspace tests.
@@ -178,8 +178,8 @@ export class E2ETestHelper {
  * - `openVSCode`: Function that returns a Promise resolving to an ElectronApplication instance
  * - `app`: ElectronApplication instance with automatic cleanup
  * - `helper`: E2ETestHelper instance for test utilities
- * - `page`: Playwright Page object representing the main VS Code window with Cline sidebar opened
- * - `sidebar`: Playwright Frame object representing the Cline extension's sidebar iframe
+ * - `page`: Playwright Page object representing the main VS Code window with Codey sidebar opened
+ * - `sidebar`: Playwright Frame object representing the Codey extension's sidebar iframe
  *
  * @returns Extended test object with all fixtures available for E2E test scenarios:
  * - **server**: Automatically starts and manages a ClineApiServerMock instance
@@ -189,8 +189,8 @@ export class E2ETestHelper {
  * - **openVSCode**: Factory function that launches VS Code with proper configuration for testing
  * - **app**: Manages the VS Code ElectronApplication lifecycle with automatic cleanup
  * - **helper**: Provides E2ETestHelper utilities for test operations
- * - **page**: Configures the main VS Code window with notifications disabled and Cline sidebar open
- * - **sidebar**: Provides access to the Cline extension's sidebar frame
+ * - **page**: Configures the main VS Code window with notifications disabled and Codey sidebar open
+ * - **sidebar**: Provides access to the Codey extension's sidebar frame
  *
  * @example
  * ```typescript
@@ -201,7 +201,7 @@ export class E2ETestHelper {
  *
  * @remarks
  * - Automatically handles VS Code download and setup
- * - Installs the Cline extension in development mode
+ * - Installs the Codey extension in development mode
  * - Records test videos for debugging
  * - Performs cleanup of temporary directories after each test
  * - Configures VS Code with disabled updates, workspace trust, and welcome screens

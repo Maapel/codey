@@ -1,4 +1,4 @@
-import { RuleFileRequest } from "@shared/proto/index.cline"
+import { RuleFileRequest } from "@shared/proto/index.codey"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import { useEffect, useRef, useState } from "react"
 import { useClickAway } from "react-use"
@@ -66,7 +66,7 @@ const NewRuleRow: React.FC<NewRuleRowProps> = ({ isGlobal, ruleType }) => {
 					RuleFileRequest.create({
 						isGlobal,
 						filename: finalFilename,
-						type: ruleType || "cline",
+						type: ruleType || "codey",
 					}),
 				)
 			} catch (err) {

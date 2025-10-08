@@ -1,8 +1,8 @@
-import { String } from "@shared/proto/cline/common"
+import { String } from "@shared/proto/codey/common"
 import { clineEnvConfig } from "@/config"
 import { Controller } from "@/core/controller"
 import { WebviewProvider } from "@/core/webview"
-import { CLINE_API_ENDPOINT } from "@/shared/cline/api"
+import { CLINE_API_ENDPOINT } from "@/shared/codey/api"
 import { AuthService } from "./AuthService"
 
 // TODO: Consider adding a mock auth provider implementing IAuthProvider for more realistic testing

@@ -1,5 +1,5 @@
-import { EmptyRequest } from "@shared/proto/cline/common"
-import { ClineMessage } from "@shared/proto/cline/ui"
+import { EmptyRequest } from "@shared/proto/codey/common"
+import { ClineMessage } from "@shared/proto/codey/ui"
 import { getRequestRegistry, StreamingResponseHandler } from "../grpc-handler"
 import { Controller } from "../index"
 

@@ -1,5 +1,5 @@
-import { Empty } from "@shared/proto/cline/common"
-import { AskResponseRequest } from "@shared/proto/cline/task"
+import { Empty } from "@shared/proto/codey/common"
+import { AskResponseRequest } from "@shared/proto/codey/task"
 import { ClineAskResponse } from "../../../shared/WebviewMessage"
 import { Controller } from ".."
 

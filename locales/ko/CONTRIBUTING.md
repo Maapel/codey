@@ -1,22 +1,22 @@
-# Cline
+# Codey
 
 Cline에 기여하는 것에 관심을 가져주셔서 감사합니다! 버그 수정, 기능 추가, 문서 개선 등 모든 기여는 Cline을 더욱 스마트하게 만드는 데 기여합니다. 활기차고 환영하는 커뮤니티를 유지하기 위해 모든 구성원은 [행동 강령](CODE_OF_CONDUCT.md)을 준수해야 합니다.
 
 ## 버그와 문제 보고
 
-버그 보고는 Cline을 모두에게 더 나은 것으로 만드는 데 도움이 됩니다! 새로운 이슈를 생성하기 전에, 중복을 피하기 위해 [기존 이슈를 검색](https://github.com/cline/cline/issues)해 주세요. 버그를 보고할 준비가 되었다면, [이슈 페이지](https://github.com/cline/cline/issues/new/choose)로 이동하여 관련 정보를 작성하기 위한 템플릿을 사용해 주세요.
+버그 보고는 Cline을 모두에게 더 나은 것으로 만드는 데 도움이 됩니다! 새로운 이슈를 생성하기 전에, 중복을 피하기 위해 [기존 이슈를 검색](https://github.com/codey/codey/issues)해 주세요. 버그를 보고할 준비가 되었다면, [이슈 페이지](https://github.com/codey/codey/issues/new/choose)로 이동하여 관련 정보를 작성하기 위한 템플릿을 사용해 주세요.
 
 <blockquote class='warning-note'>
-    🔐 <b>중요:</b> 보안 취약점을 발견한 경우, <a href="https://github.com/cline/cline/security/advisories/new">GitHub 보안 도구를 사용하여 비공개로 보고</a>해 주세요.
+    🔐 <b>중요:</b> 보안 취약점을 발견한 경우, <a href="https://github.com/codey/codey/security/advisories/new">GitHub 보안 도구를 사용하여 비공개로 보고</a>해 주세요.
 </blockquote>
 
 ## 작업 내용 결정하기
 
-첫 기여를 찾고 계신가요? ["good first issue"](https://github.com/cline/cline/labels/good%20first%20issue)나 ["help wanted"](https://github.com/cline/cline/labels/help%20wanted) 라벨이 붙은 이슈를 확인해 보세요. 이러한 이슈들은 새로운 기여자를 위해 특별히 선정된 작업으로, 도움이 필요한 영역이 표시되어 있습니다!
+첫 기여를 찾고 계신가요? ["good first issue"](https://github.com/codey/codey/labels/good%20first%20issue)나 ["help wanted"](https://github.com/codey/codey/labels/help%20wanted) 라벨이 붙은 이슈를 확인해 보세요. 이러한 이슈들은 새로운 기여자를 위해 특별히 선정된 작업으로, 도움이 필요한 영역이 표시되어 있습니다!
 
-또한, [문서](https://github.com/cline/cline/tree/main/docs)에 대한 기여도 환영합니다! 오타 수정, 기존 가이드 개선, 새로운 교육 콘텐츠 작성 등, 커뮤니티 주도의 리소스 저장소를 구축하는 데 여러분의 도움이 필요합니다. `/docs`를 살펴보고 개선이 필요한 부분을 찾아보세요.
+또한, [문서](https://github.com/codey/codey/tree/main/docs)에 대한 기여도 환영합니다! 오타 수정, 기존 가이드 개선, 새로운 교육 콘텐츠 작성 등, 커뮤니티 주도의 리소스 저장소를 구축하는 데 여러분의 도움이 필요합니다. `/docs`를 살펴보고 개선이 필요한 부분을 찾아보세요.
 
-큰 기능에 대해 작업할 계획이 있다면, 먼저 [기능 요청](https://github.com/cline/cline/discussions/categories/feature-requests?discussions_q=is%3Aopen+category%3A%22Feature+Requests%22+sort%3Atop)을 생성하여 이것이 Cline의 비전과 부합하는지 논의하는 것이 좋습니다.
+큰 기능에 대해 작업할 계획이 있다면, 먼저 [기능 요청](https://github.com/codey/codey/discussions/categories/feature-requests?discussions_q=is%3Aopen+category%3A%22Feature+Requests%22+sort%3Atop)을 생성하여 이것이 Cline의 비전과 부합하는지 논의하는 것이 좋습니다.
 
 ## 개발 환경 설정
 

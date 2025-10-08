@@ -51,7 +51,7 @@ const meta: Meta<typeof ErrorRow> = {
 		docs: {
 			description: {
 				component:
-					"Displays different types of error messages in the chat interface, including API errors, credit limit errors, diff errors, and clineignore errors. Handles special error parsing for Cline provider errors and provides appropriate user actions.",
+					"Displays different types of error messages in the chat interface, including API errors, credit limit errors, diff errors, and clineignore errors. Handles special error parsing for Codey provider errors and provides appropriate user actions.",
 			},
 		},
 	},
@@ -120,7 +120,7 @@ export const ApiStreamingFailed: Story = {
 	},
 }
 
-// Cline-specific errors
+// Codey-specific errors
 export const ClineBalanceError: Story = {
 	args: {
 		message: createMockMessage(),
@@ -129,7 +129,7 @@ export const ClineBalanceError: Story = {
 			message: "Insufficient credits to complete this request.",
 			code: "insufficient_credits",
 			request_id: "req_123456789",
-			providerId: "cline",
+			providerId: "codey",
 			details: {
 				current_balance: 0.5,
 				total_spent: 25.75,
@@ -148,7 +148,7 @@ export const ClineRateLimitError: Story = {
 		apiRequestFailedMessage: JSON.stringify({
 			message: "Rate limit exceeded. Please wait before making another request.",
 			request_id: "req_987654321",
-			providerId: "cline",
+			providerId: "codey",
 		}),
 	},
 }
@@ -162,7 +162,7 @@ export const AuthenticationErrors: Story = {
 			message: "Authentication failed. Please sign in to continue.",
 			code: "ERR_BAD_REQUEST",
 			request_id: "req_auth_123",
-			providerId: "cline",
+			providerId: "codey",
 		}),
 	},
 	argTypes: {
@@ -206,17 +206,17 @@ export const InteractiveSignIn: Story = {
 		message: createMockMessage(),
 		errorType: "error",
 		apiRequestFailedMessage: JSON.stringify({
-			message: "Please sign in to access Cline services.",
+			message: "Please sign in to access Codey services.",
 			code: "ERR_BAD_REQUEST",
 			request_id: "req_signin_test",
-			providerId: "cline",
+			providerId: "codey",
 		}),
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement)
 
 		// Find the sign in button
-		const signInButton = canvas.getByRole("button", { name: /sign in to cline/i })
+		const signInButton = canvas.getByRole("button", { name: /sign in to codey/i })
 		await expect(signInButton).toBeInTheDocument()
 
 		// Test button is clickable
@@ -255,7 +255,7 @@ export const ErrorWithRequestId: Story = {
 		apiRequestFailedMessage: JSON.stringify({
 			message: "An unexpected error occurred while processing your request.",
 			request_id: "req_detailed_123456",
-			providerId: "cline",
+			providerId: "codey",
 		}),
 	},
 	play: async ({ canvasElement }) => {

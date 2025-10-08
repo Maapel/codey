@@ -20,7 +20,7 @@ export function filterVisibleMessages(messages: ClineMessage[]): ClineMessage[] 
 	return messages.filter((message) => {
 		switch (message.ask) {
 			case "completion_result":
-				// don't show a chat row for a completion_result ask without text. This specific type of message only occurs if cline wants to execute a command as part of its completion result, in which case we interject the completion_result tool with the execute_command tool.
+				// don't show a chat row for a completion_result ask without text. This specific type of message only occurs if codey wants to execute a command as part of its completion result, in which case we interject the completion_result tool with the execute_command tool.
 				if (message.text === "") {
 					return false
 				}
@@ -37,7 +37,7 @@ export function filterVisibleMessages(messages: ClineMessage[]): ClineMessage[] 
 			case "task_progress": // task progress messages are displayed in TaskHeader, not in main chat
 				return false
 			case "text":
-				// Sometimes cline returns an empty text message, we don't want to render these. (We also use a say text for user messages, so in case they just sent images we still render that)
+				// Sometimes codey returns an empty text message, we don't want to render these. (We also use a say text for user messages, so in case they just sent images we still render that)
 				if ((message.text ?? "") === "" && (message.images?.length ?? 0) === 0) {
 					return false
 				}

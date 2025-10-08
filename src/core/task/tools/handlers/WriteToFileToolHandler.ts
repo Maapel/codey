@@ -124,7 +124,6 @@ export class WriteToFileToolHandler implements IFullyManagedTool {
 
 			const { relPath, absolutePath, fileExists, diff, content, newContent, workspaceContext } = result
 
-
 			// Handle approval flow
 			const sharedMessageProps: ClineSayTool = {
 				tool: fileExists ? "editedExistingFile" : "newFileCreated",
@@ -171,7 +170,7 @@ export class WriteToFileToolHandler implements IFullyManagedTool {
 				await setTimeoutPromise(3_500)
 			} else {
 				// Manual approval flow with detailed feedback handling
-				const notificationMessage = `Cline wants to ${fileExists ? "edit" : "create"} ${getWorkspaceBasename(relPath, "WriteToFile.notification")}`
+				const notificationMessage = `Codey wants to ${fileExists ? "edit" : "create"} ${getWorkspaceBasename(relPath, "WriteToFile.notification")}`
 
 				// Show notification
 				showNotificationForApprovalIfAutoApprovalEnabled(
@@ -254,7 +253,7 @@ export class WriteToFileToolHandler implements IFullyManagedTool {
 				}
 			}
 
-			// Mark the file as edited by Cline
+			// Mark the file as edited by Codey
 			config.services.fileContextTracker.markFileAsEditedByCline(relPath)
 
 			// Save the changes and get the result
@@ -372,7 +371,7 @@ export class WriteToFileToolHandler implements IFullyManagedTool {
 				diff = removeInvalidChars(diff)
 			}
 
-			// open the editor if not done already.  This is to fix diff error when model provides correct search-replace text but Cline throws error
+			// open the editor if not done already.  This is to fix diff error when model provides correct search-replace text but Codey throws error
 			// because file is not open.
 			if (!config.services.diffViewProvider.isEditing) {
 				await config.services.diffViewProvider.open(absolutePath, { displayPath: relPath })

@@ -1,4 +1,4 @@
-import { ClineRulesToggles } from "@shared/cline-rules"
+import { ClineRulesToggles } from "@shared/codey-rules"
 import fs from "fs/promises"
 import { telemetryService } from "@/services/telemetry"
 import {

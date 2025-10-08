@@ -22,7 +22,7 @@ import { PostHogClientProvider } from "./services/telemetry/providers/posthog/Po
 import { ShowMessageType } from "./shared/proto/host/window"
 import { getLatestAnnouncementId } from "./utils/announcements"
 /**
- * Performs intialization for Cline that is common to all platforms.
+ * Performs intialization for Codey that is common to all platforms.
  *
  * @param context
  * @returns The webview provider
@@ -34,7 +34,7 @@ export async function initialize(context: vscode.ExtensionContext): Promise<Webv
 		console.error("[Controller] CRITICAL: Failed to initialize StateManager - extension may not function properly:", error)
 		HostProvider.window.showMessage({
 			type: ShowMessageType.ERROR,
-			message: "Failed to initialize Cline's application state. Please restart the extension.",
+			message: "Failed to initialize Codey's application state. Please restart the extension.",
 		})
 	}
 
@@ -48,7 +48,7 @@ export async function initialize(context: vscode.ExtensionContext): Promise<Webv
 	await ErrorService.initialize()
 	await featureFlagsService.poll()
 
-	// Migrate custom instructions to global Cline rules (one-time cleanup)
+	// Migrate custom instructions to global Codey rules (one-time cleanup)
 	await migrateCustomInstructionsToGlobalRules(context)
 
 	// Migrate welcomeViewCompleted setting based on existing API keys (one-time cleanup)
@@ -79,17 +79,17 @@ async function showVersionUpdateAnnouncement(context: vscode.ExtensionContext) {
 	// Perform post-update actions if necessary
 	try {
 		if (!previousVersion || currentVersion !== previousVersion) {
-			Logger.log(`Cline version changed: ${previousVersion} -> ${currentVersion}. First run or update detected.`)
+			Logger.log(`Codey version changed: ${previousVersion} -> ${currentVersion}. First run or update detected.`)
 
 			// Use the same condition as announcements: focus when there's a new announcement to show
 			const lastShownAnnouncementId = context.globalState.get<string>("lastShownAnnouncementId")
 			const latestAnnouncementId = getLatestAnnouncementId()
 
 			if (lastShownAnnouncementId !== latestAnnouncementId) {
-				// Focus Cline when there's a new announcement to show (major/minor updates or fresh installs)
+				// Focus Codey when there's a new announcement to show (major/minor updates or fresh installs)
 				const message = previousVersion
-					? `Cline has been updated to v${currentVersion}`
-					: `Welcome to Cline v${currentVersion}`
+					? `Codey has been updated to v${currentVersion}`
+					: `Welcome to Codey v${currentVersion}`
 				await HostProvider.workspace.openClineSidebarPanel({})
 				await new Promise((resolve) => setTimeout(resolve, 200))
 				HostProvider.window.showMessage({
@@ -107,7 +107,7 @@ async function showVersionUpdateAnnouncement(context: vscode.ExtensionContext) {
 }
 
 /**
- * Performs cleanup when Cline is deactivated that is common to all platforms.
+ * Performs cleanup when Codey is deactivated that is common to all platforms.
  */
 export async function tearDown(): Promise<void> {
 	// Clean up audio recording service to ensure no orphaned processes

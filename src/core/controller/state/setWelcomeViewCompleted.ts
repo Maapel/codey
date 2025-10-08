@@ -1,5 +1,5 @@
-import type { BooleanRequest } from "@shared/proto/cline/common"
-import { Empty } from "@shared/proto/cline/common"
+import type { BooleanRequest } from "@shared/proto/codey/common"
+import { Empty } from "@shared/proto/codey/common"
 import type { Controller } from "../index"
 
 /**

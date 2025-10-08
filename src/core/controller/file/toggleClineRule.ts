@@ -1,14 +1,14 @@
 import { getWorkspaceBasename } from "@core/workspace"
-import type { ToggleClineRuleRequest } from "@shared/proto/cline/file"
-import { ToggleClineRules } from "@shared/proto/cline/file"
+import type { ToggleClineRuleRequest } from "@shared/proto/codey/file"
+import { ToggleClineRules } from "@shared/proto/codey/file"
 import { telemetryService } from "@/services/telemetry"
 import type { Controller } from "../index"
 
 /**
- * Toggles a Cline rule (enable or disable)
+ * Toggles a Codey rule (enable or disable)
  * @param controller The controller instance
  * @param request The toggle request
- * @returns The updated Cline rule toggles
+ * @returns The updated Codey rule toggles
  */
 export async function toggleClineRule(controller: Controller, request: ToggleClineRuleRequest): Promise<ToggleClineRules> {
 	const { isGlobal, rulePath, enabled } = request

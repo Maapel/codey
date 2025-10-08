@@ -1,4 +1,4 @@
-import { EmptyRequest } from "@shared/proto/cline/common"
+import { EmptyRequest } from "@shared/proto/codey/common"
 import {
 	ClineRulesToggles,
 	RefreshedRules,
@@ -6,7 +6,7 @@ import {
 	ToggleCursorRuleRequest,
 	ToggleWindsurfRuleRequest,
 	ToggleWorkflowRequest,
-} from "@shared/proto/cline/file"
+} from "@shared/proto/codey/file"
 import { VSCodeButton, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 import React, { useEffect, useRef, useState } from "react"
 import { useClickAway, useWindowSize } from "react-use"
@@ -115,7 +115,7 @@ const ClineRulesToggleModal: React.FC = () => {
 				}
 			})
 			.catch((error) => {
-				console.error("Error toggling Cline rule:", error)
+				console.error("Error toggling Codey rule:", error)
 			})
 	}
 
@@ -196,10 +196,10 @@ const ClineRulesToggleModal: React.FC = () => {
 	return (
 		<div ref={modalRef}>
 			<div className="inline-flex min-w-0 max-w-full" ref={buttonRef}>
-				<Tooltip tipText="Manage Cline Rules & Workflows" visible={isVisible ? false : undefined}>
+				<Tooltip tipText="Manage Codey Rules & Workflows" visible={isVisible ? false : undefined}>
 					<VSCodeButton
 						appearance="icon"
-						aria-label={isVisible ? "Hide Cline Rules & Workflows" : "Show Cline Rules & Workflows"}
+						aria-label={isVisible ? "Hide Codey Rules & Workflows" : "Show Codey Rules & Workflows"}
 						onClick={() => setIsVisible(!isVisible)}
 						style={{ padding: "0px 0px", height: "20px" }}>
 						<div className="flex items-center gap-1 text-xs whitespace-nowrap min-w-0 w-full">
@@ -256,18 +256,18 @@ const ClineRulesToggleModal: React.FC = () => {
 					<div className="text-xs text-[var(--vscode-descriptionForeground)] mb-4">
 						{currentView === "rules" ? (
 							<p>
-								Rules allow you to provide Cline with system-level guidance. Think of them as a persistent way to
+								Rules allow you to provide Codey with system-level guidance. Think of them as a persistent way to
 								include context and preferences for your projects or globally for every conversation.{" "}
 								<VSCodeLink
 									className="text-xs"
-									href="https://docs.cline.bot/features/cline-rules"
+									href="https://docs.codey.bot/features/codey-rules"
 									style={{ display: "inline" }}>
 									Docs
 								</VSCodeLink>
 							</p>
 						) : (
 							<p>
-								Workflows allow you to define a series of steps to guide Cline through a repetitive set of tasks,
+								Workflows allow you to define a series of steps to guide Codey through a repetitive set of tasks,
 								such as deploying a service or submitting a PR. To invoke a workflow, type{" "}
 								<span
 									className=" 
@@ -277,7 +277,7 @@ const ClineRulesToggleModal: React.FC = () => {
 								in the chat.{" "}
 								<VSCodeLink
 									className="text-xs"
-									href="https://docs.cline.bot/features/slash-commands/workflows"
+									href="https://docs.codey.bot/features/slash-commands/workflows"
 									style={{ display: "inline" }}>
 									Docs
 								</VSCodeLink>
@@ -294,7 +294,7 @@ const ClineRulesToggleModal: React.FC = () => {
 									isGlobal={true}
 									listGap="small"
 									rules={globalRules}
-									ruleType={"cline"}
+									ruleType={"codey"}
 									showNewRule={true}
 									showNoRules={false}
 									toggleRule={(rulePath, enabled) => toggleRule(true, rulePath, enabled)}
@@ -308,7 +308,7 @@ const ClineRulesToggleModal: React.FC = () => {
 									isGlobal={false}
 									listGap="small"
 									rules={localRules}
-									ruleType={"cline"}
+									ruleType={"codey"}
 									showNewRule={false}
 									showNoRules={false}
 									toggleRule={(rulePath, enabled) => toggleRule(false, rulePath, enabled)}

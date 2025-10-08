@@ -1,5 +1,5 @@
 import { CLAUDE_SONNET_1M_SUFFIX, openRouterDefaultModelId } from "@shared/api"
-import { StringRequest } from "@shared/proto/cline/common"
+import { StringRequest } from "@shared/proto/codey/common"
 import { Mode } from "@shared/storage/types"
 import { VSCodeLink, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
 import Fuse from "fuse.js"
@@ -44,11 +44,11 @@ export interface OpenRouterModelPickerProps {
 	currentMode: Mode
 }
 
-// Featured models for Cline provider
+// Featured models for Codey provider
 const featuredModels = [
 	{
 		id: "anthropic/claude-sonnet-4.5",
-		description: "Recommended for agentic coding in Cline",
+		description: "Recommended for agentic coding in Codey",
 		label: "New",
 	},
 	{
@@ -57,7 +57,7 @@ const featuredModels = [
 		label: "Free",
 	},
 	{
-		id: "cline/code-supernova-1-million",
+		id: "codey/code-supernova-1-million",
 		description: "Stealth coding model with image support",
 		label: "Free",
 	},
@@ -120,12 +120,12 @@ const OpenRouterModelPicker: React.FC<OpenRouterModelPickerProps> = ({ isPopup, 
 	const modelIds = useMemo(() => {
 		const unfilteredModelIds = Object.keys(openRouterModels).sort((a, b) => a.localeCompare(b))
 
-		if (modeFields.apiProvider === "cline") {
-			// For Cline provider: exclude :free models
+		if (modeFields.apiProvider === "codey") {
+			// For Codey provider: exclude :free models
 			return unfilteredModelIds.filter((id) => !id.includes(":free"))
 		} else {
-			// For OpenRouter provider: exclude Cline-specific models
-			return unfilteredModelIds.filter((id) => !id.startsWith("cline/"))
+			// For OpenRouter provider: exclude Codey-specific models
+			return unfilteredModelIds.filter((id) => !id.startsWith("codey/"))
 		}
 	}, [openRouterModels, modeFields.apiProvider])
 
@@ -243,7 +243,7 @@ const OpenRouterModelPicker: React.FC<OpenRouterModelPickerProps> = ({ isPopup, 
 					<span style={{ fontWeight: 500 }}>Model</span>
 				</label>
 
-				{modeFields.apiProvider === "cline" && (
+				{modeFields.apiProvider === "codey" && (
 					<div style={{ marginBottom: "6px", marginTop: 4 }}>
 						{featuredModels.map((model) => (
 							<FeaturedModelCard
@@ -362,7 +362,7 @@ const OpenRouterModelPicker: React.FC<OpenRouterModelPickerProps> = ({ isPopup, 
 					<VSCodeLink href="https://openrouter.ai/models" style={{ display: "inline", fontSize: "inherit" }}>
 						OpenRouter.
 					</VSCodeLink>
-					If you're unsure which model to choose, Cline works best with{" "}
+					If you're unsure which model to choose, Codey works best with{" "}
 					<VSCodeLink
 						onClick={() => handleModelChange("anthropic/claude-sonnet-4.5")}
 						style={{ display: "inline", fontSize: "inherit" }}>

@@ -37,7 +37,7 @@ const useDevEnv = process.env.IS_DEV === "true" || process.env.CLINE_ENVIRONMENT
 export const posthogConfig: PostHogClientConfig = {
 	apiKey: process.env.TELEMETRY_SERVICE_API_KEY,
 	errorTrackingApiKey: process.env.ERROR_SERVICE_API_KEY,
-	host: "https://data.cline.bot",
+	host: "https://data.codey.bot",
 	uiHost: useDevEnv ? "https://us.i.posthog.com" : "https://us.posthog.com",
 }
 

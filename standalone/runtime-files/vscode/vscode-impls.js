@@ -173,7 +173,7 @@ vscode.Uri = {
 	},
 }
 
-// Export the terminal manager globally for Cline core to use
+// Export the terminal manager globally for Codey core to use
 global.standaloneTerminalManager = globalTerminalManager
 
 console.log("Finished loading stub impls...")

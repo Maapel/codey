@@ -1,4 +1,4 @@
-import { UpdateTerminalConnectionTimeoutResponse } from "@shared/proto/index.cline"
+import { UpdateTerminalConnectionTimeoutResponse } from "@shared/proto/index.codey"
 import { VSCodeCheckbox, VSCodeDropdown, VSCodeOption, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
 import React, { useState } from "react"
 import { useExtensionState } from "@/context/ExtensionStateContext"
@@ -92,7 +92,7 @@ export const TerminalSettingsSection: React.FC<TerminalSettingsSectionProps> = (
 							))}
 						</VSCodeDropdown>
 						<p className="text-xs text-[var(--vscode-descriptionForeground)] mt-1">
-							Select the default terminal Cline will use. 'Default' uses your VSCode global setting.
+							Select the default terminal Codey will use. 'Default' uses your VSCode global setting.
 						</p>
 					</div>
 
@@ -111,7 +111,7 @@ export const TerminalSettingsSection: React.FC<TerminalSettingsSectionProps> = (
 							{inputError && <div className="text-[var(--vscode-errorForeground)] text-xs mt-1">{inputError}</div>}
 						</div>
 						<p className="text-xs text-[var(--vscode-descriptionForeground)]">
-							Set how long Cline waits for shell integration to activate before executing commands. Increase this
+							Set how long Codey waits for shell integration to activate before executing commands. Increase this
 							value if you experience terminal connection timeouts.
 						</p>
 					</div>
@@ -125,7 +125,7 @@ export const TerminalSettingsSection: React.FC<TerminalSettingsSectionProps> = (
 							</VSCodeCheckbox>
 						</div>
 						<p className="text-xs text-[var(--vscode-descriptionForeground)]">
-							When enabled, Cline will reuse existing terminal windows that aren't in the current working directory.
+							When enabled, Codey will reuse existing terminal windows that aren't in the current working directory.
 							Disable this if you experience issues with task lockout after a terminal command.
 						</p>
 					</div>
@@ -135,7 +135,7 @@ export const TerminalSettingsSection: React.FC<TerminalSettingsSectionProps> = (
 							<strong>Having terminal issues?</strong> Check our{" "}
 							<a
 								className="text-[var(--vscode-textLink-foreground)] underline hover:no-underline"
-								href="https://docs.cline.bot/troubleshooting/terminal-quick-fixes"
+								href="https://docs.codey.bot/troubleshooting/terminal-quick-fixes"
 								rel="noopener noreferrer"
 								target="_blank">
 								Terminal Quick Fixes
@@ -143,7 +143,7 @@ export const TerminalSettingsSection: React.FC<TerminalSettingsSectionProps> = (
 							or the{" "}
 							<a
 								className="text-[var(--vscode-textLink-foreground)] underline hover:no-underline"
-								href="https://docs.cline.bot/troubleshooting/terminal-integration-guide"
+								href="https://docs.codey.bot/troubleshooting/terminal-integration-guide"
 								rel="noopener noreferrer"
 								target="_blank">
 								Complete Troubleshooting Guide

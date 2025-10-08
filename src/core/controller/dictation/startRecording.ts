@@ -1,4 +1,4 @@
-import { RecordingResult } from "@shared/proto/cline/dictation"
+import { RecordingResult } from "@shared/proto/codey/dictation"
 import * as os from "os"
 import { HostProvider } from "@/hosts/host-provider"
 import { audioRecordingService } from "@/services/dictation/AudioRecordingService"
@@ -8,7 +8,7 @@ import { ShowMessageType } from "@/shared/proto/host/window"
 import { Controller } from ".."
 
 /**
- * Handles the installation of missing dependencies with Cline
+ * Handles the installation of missing dependencies with Codey
  */
 async function handleInstallWithCline(
 	controller: Controller,
@@ -17,7 +17,7 @@ async function handleInstallWithCline(
 	platform: string,
 ): Promise<void> {
 	const platformName = platform === "darwin" ? "macOS" : platform === "win32" ? "Windows" : "Linux"
-	const installTask = `Please install ${dependencyName} for voice recording on ${platformName}.\n\nRun this command:\n\`\`\`bash\n${installCommand}\n\`\`\`\n\nThis will enable voice recording functionality in Cline.`
+	const installTask = `Please install ${dependencyName} for voice recording on ${platformName}.\n\nRun this command:\n\`\`\`bash\n${installCommand}\n\`\`\`\n\nThis will enable voice recording functionality in Codey.`
 
 	// Clear any existing task and start the installation task
 	await controller.clearTask()
@@ -47,7 +47,7 @@ async function handleMissingDependency(
 	platform: string,
 	config: (typeof AUDIO_PROGRAM_CONFIG)[keyof typeof AUDIO_PROGRAM_CONFIG],
 ): Promise<void> {
-	const installWithCline = "Install with Cline"
+	const installWithCline = "Install with Codey"
 	const installManually = "Copy Command"
 	const dismiss = "Dismiss"
 
@@ -69,7 +69,7 @@ async function handleMissingDependency(
  * Handles sign-in errors for dictation
  */
 async function handleSignInError(controller: Controller, errorMessage: string): Promise<void> {
-	const signInAction = "Sign in to Cline"
+	const signInAction = "Sign in to Codey"
 	const action = await HostProvider.window.showMessage({
 		type: ShowMessageType.ERROR,
 		message: `Voice recording error: ${errorMessage}`,
@@ -114,7 +114,7 @@ export const startRecording = async (controller: Controller): Promise<RecordingR
 		// Verify user authentication
 		const userInfo = controller.authService.getInfo()
 		if (!userInfo?.user?.uid) {
-			throw new Error("Please sign in to your Cline Account to use Dictation.")
+			throw new Error("Please sign in to your Codey Account to use Dictation.")
 		}
 
 		// Attempt to start recording

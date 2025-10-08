@@ -1,4 +1,4 @@
-// HubSpot Tracking Code for Cline Documentation
+// HubSpot Tracking Code for Codey Documentation
 ;(() => {
 	// Check if HubSpot script is already loaded to prevent duplicates
 	if (!document.getElementById("hs-script-loader")) {

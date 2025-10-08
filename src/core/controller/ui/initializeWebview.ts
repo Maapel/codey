@@ -1,6 +1,6 @@
 import { McpMarketplaceCatalog } from "@shared/mcp"
-import { Empty, EmptyRequest } from "@shared/proto/cline/common"
-import { OpenRouterCompatibleModelInfo } from "@shared/proto/cline/models"
+import { Empty, EmptyRequest } from "@shared/proto/codey/common"
+import { OpenRouterCompatibleModelInfo } from "@shared/proto/codey/models"
 import { telemetryService } from "@/services/telemetry"
 import type { Controller } from "../index"
 import { sendMcpMarketplaceCatalogEvent } from "../mcp/subscribeToMcpMarketplaceCatalog"

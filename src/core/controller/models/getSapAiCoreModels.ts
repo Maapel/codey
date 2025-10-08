@@ -1,5 +1,5 @@
 import axios from "axios"
-import { SapAiCoreModelDeployment, SapAiCoreModelsRequest, SapAiCoreModelsResponse } from "@/shared/proto/cline/models"
+import { SapAiCoreModelDeployment, SapAiCoreModelsRequest, SapAiCoreModelsResponse } from "@/shared/proto/codey/models"
 import { Controller } from ".."
 
 interface Token {
@@ -59,7 +59,7 @@ async function fetchAiCoreDeploymentsAndOrchestration(
 		Authorization: `Bearer ${accessToken}`,
 		"AI-Resource-Group": resourceGroup || "default",
 		"Content-Type": "application/json",
-		"AI-Client-Type": "Cline",
+		"AI-Client-Type": "Codey",
 	}
 
 	const url = `${baseUrl}/v2/lm/deployments?$top=10000&$skip=0`

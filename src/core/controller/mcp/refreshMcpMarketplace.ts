@@ -1,5 +1,5 @@
-import type { EmptyRequest } from "@shared/proto/cline/common"
-import { McpMarketplaceCatalog } from "@shared/proto/cline/mcp"
+import type { EmptyRequest } from "@shared/proto/codey/common"
+import { McpMarketplaceCatalog } from "@shared/proto/codey/mcp"
 import type { Controller } from "../index"
 
 /**
