@@ -14,8 +14,10 @@ import { HostProvider } from "@/hosts/host-provider"
 import { TerminalInfo } from "@/integrations/terminal/TerminalRegistry"
 import { McpDisplayMode } from "@/shared/McpDisplayMode"
 import { ShowMessageType } from "@/shared/proto/host/window"
+import { getDashboardService } from "../../../services/dashboard"
 import { telemetryService } from "../../../services/telemetry"
 import { BrowserSettings as SharedBrowserSettings } from "../../../shared/BrowserSettings"
+import { getWorkspacePath } from "../../../utils/path"
 import { Controller } from ".."
 
 /**
@@ -289,6 +291,56 @@ export async function updateSettings(controller: Controller, request: UpdateSett
 
 		if (request.multiRootEnabled !== undefined) {
 			controller.stateManager.setGlobalState("multiRootEnabled", !!request.multiRootEnabled)
+		}
+
+		// Update dashboard integration settings
+		if (request.dashboardIntegrationEnabled !== undefined) {
+			controller.stateManager.setGlobalState("dashboardIntegrationEnabled", request.dashboardIntegrationEnabled)
+		}
+
+		if (request.dashboardSessionName !== undefined) {
+			controller.stateManager.setGlobalState("dashboardSessionName", request.dashboardSessionName)
+		}
+
+		if (request.dashboardUrl !== undefined) {
+			controller.stateManager.setGlobalState("dashboardUrl", request.dashboardUrl)
+		}
+
+		// Update dashboard service configuration if dashboard settings changed
+		const dashboardSettingsChanged =
+			request.dashboardIntegrationEnabled !== undefined ||
+			request.dashboardSessionName !== undefined ||
+			request.dashboardUrl !== undefined
+
+		if (dashboardSettingsChanged) {
+			const dashboardEnabled = Boolean(controller.stateManager.getGlobalSettingsKey("dashboardIntegrationEnabled") ?? false)
+			const sessionName = String(controller.stateManager.getGlobalSettingsKey("dashboardSessionName") ?? "")
+			const dashboardUrl = String(controller.stateManager.getGlobalSettingsKey("dashboardUrl") ?? "")
+
+			if (dashboardEnabled && sessionName) {
+				try {
+					// Get the workspace path using the utility function
+					const workspacePath = await getWorkspacePath()
+
+					if (workspacePath) {
+						const dashboardService = getDashboardService(workspacePath)
+						dashboardService.updateConfig({
+							enabled: dashboardEnabled,
+							sessionName: sessionName,
+							dashboardUrl: dashboardUrl || undefined,
+						})
+
+						// Send a test update to verify the configuration
+						await dashboardService.sendUpdate({
+							message: "Dashboard integration configured successfully",
+							timestamp: Date.now(),
+							metadata: { configuration: true },
+						})
+					}
+				} catch (error) {
+					console.error("Failed to configure dashboard service:", error)
+				}
+			}
 		}
 
 		// Post updated state to webview

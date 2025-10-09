@@ -567,6 +567,11 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			// Feature flag - defaults to false
 			// For now, always return false to disable multi-root support by default
 			multiRootEnabled: !!multiRootEnabled,
+
+			// Dashboard integration settings - defaults to disabled
+			dashboardIntegrationEnabled: false,
+			dashboardSessionName: undefined,
+			dashboardUrl: undefined,
 		}
 	} catch (error) {
 		console.error("[StateHelpers] Failed to read global state:", error)

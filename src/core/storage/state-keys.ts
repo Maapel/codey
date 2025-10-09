@@ -171,6 +171,11 @@ export interface Settings {
 	actModeVercelAiGatewayModelInfo: ModelInfo | undefined
 	actModeOcaModelId: string | undefined
 	actModeOcaModelInfo: OcaModelInfo | undefined
+
+	// Dashboard integration settings
+	dashboardIntegrationEnabled: boolean | undefined
+	dashboardSessionName: string | undefined
+	dashboardUrl: string | undefined
 }
 
 export interface Secrets {

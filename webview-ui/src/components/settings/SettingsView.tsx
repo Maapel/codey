@@ -6,6 +6,7 @@ import {
 	CheckCheck,
 	FlaskConical,
 	Info,
+	LayoutDashboard,
 	LucideIcon,
 	SlidersHorizontal,
 	SquareMousePointer,
@@ -22,6 +23,7 @@ import SectionHeader from "./SectionHeader"
 import AboutSection from "./sections/AboutSection"
 import ApiConfigurationSection from "./sections/ApiConfigurationSection"
 import BrowserSettingsSection from "./sections/BrowserSettingsSection"
+import DashboardSection from "./sections/DashboardSection"
 import DebugSection from "./sections/DebugSection"
 import FeatureSettingsSection from "./sections/FeatureSettingsSection"
 import GeneralSettingsSection from "./sections/GeneralSettingsSection"
@@ -62,6 +64,13 @@ export const SETTINGS_TABS: SettingsTab[] = [
 		tooltipText: "Feature Settings",
 		headerText: "Feature Settings",
 		icon: CheckCheck,
+	},
+	{
+		id: "dashboard",
+		name: "Dashboard",
+		tooltipText: "Dashboard Integration",
+		headerText: "Dashboard Integration",
+		icon: LayoutDashboard,
 	},
 	{
 		id: "browser",
@@ -131,6 +140,7 @@ const SettingsView = ({ onDone, targetSection }: SettingsViewProps) => {
 			"api-config": ApiConfigurationSection,
 			general: GeneralSettingsSection,
 			features: FeatureSettingsSection,
+			dashboard: DashboardSection,
 			browser: BrowserSettingsSection,
 			terminal: TerminalSettingsSection,
 			about: AboutSection,

@@ -217,6 +217,11 @@ export const ExtensionStateContextProvider: React.FC<{
 		primaryRootIndex: 0,
 		isMultiRootWorkspace: false,
 		multiRootSetting: { user: false, featureFlag: false },
+
+		// Dashboard integration settings with defaults
+		dashboardIntegrationEnabled: false,
+		dashboardSessionName: undefined,
+		dashboardUrl: undefined,
 	})
 	const [expandTaskHeader, setExpandTaskHeader] = useState(true)
 	const [didHydrateState, setDidHydrateState] = useState(false)

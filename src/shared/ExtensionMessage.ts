@@ -82,6 +82,11 @@ export interface ExtensionState {
 	multiRootSetting: ClineFeatureSetting
 	lastDismissedInfoBannerVersion: number
 	lastDismissedModelBannerVersion: number
+
+	// Dashboard integration settings
+	dashboardIntegrationEnabled?: boolean
+	dashboardSessionName?: string
+	dashboardUrl?: string
 }
 
 export interface ClineMessage {
