@@ -43,13 +43,25 @@ const convertToProtoValue = (field: keyof UpdateSettingsRequest, value: any): an
  * @param field - The field key to update
  * @param value - The new value for the field
  */
-export const updateSetting = (field: keyof UpdateSettingsRequest, value: any) => {
+export const updateSetting = (field: string, value: any) => {
+	// Handle dashboard settings with simple logging (no backend implementation)
+	if (field === "dashboardSettings") {
+		console.log(`Dashboard setting ${field} updated:`, value)
+		// TODO: Implement actual dashboard settings update when backend is ready
+		return
+	}
+
+	// Handle other settings with proper protobuf conversion
 	const updateRequest: Partial<UpdateSettingsRequest> = {}
 
-	const convertedValue = convertToProtoValue(field, value)
-	updateRequest[field] = convertedValue
+	try {
+		const convertedValue = convertToProtoValue(field as keyof UpdateSettingsRequest, value)
+		;(updateRequest as any)[field] = convertedValue
 
-	StateServiceClient.updateSettings(UpdateSettingsRequest.create(updateRequest)).catch((error) => {
-		console.error(`Failed to update setting ${field}:`, error)
-	})
+		StateServiceClient.updateSettings(UpdateSettingsRequest.create(updateRequest)).catch((error) => {
+			console.error(`Failed to update setting ${field}:`, error)
+		})
+	} catch (error) {
+		console.error(`Error updating setting ${field}:`, error)
+	}
 }

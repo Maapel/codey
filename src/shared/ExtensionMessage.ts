@@ -6,6 +6,7 @@ import { ApiConfiguration } from "./api"
 import { BrowserSettings } from "./BrowserSettings"
 import { ClineFeatureSetting } from "./ClineFeatureSetting"
 import { ClineRulesToggles } from "./cline-rules"
+import { DashboardSettings } from "./DashboardSettings"
 import { DictationSettings } from "./DictationSettings"
 import { FocusChainSettings } from "./FocusChainSettings"
 import { HistoryItem } from "./HistoryItem"
@@ -71,6 +72,7 @@ export interface ExtensionState {
 	yoloModeToggled?: boolean
 	useAutoCondense?: boolean
 	focusChainSettings: FocusChainSettings
+	dashboardSettings: DashboardSettings
 	dictationSettings: DictationSettings
 	customPrompt?: string
 	autoCondenseThreshold?: number
@@ -82,11 +84,6 @@ export interface ExtensionState {
 	multiRootSetting: ClineFeatureSetting
 	lastDismissedInfoBannerVersion: number
 	lastDismissedModelBannerVersion: number
-
-	// Dashboard integration settings
-	dashboardIntegrationEnabled?: boolean
-	dashboardSessionName?: string
-	dashboardUrl?: string
 }
 
 export interface ClineMessage {

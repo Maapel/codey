@@ -1,4 +1,5 @@
 import { ApiProvider, ModelInfo, type OcaModelInfo } from "@shared/api"
+import { DashboardSettings } from "@shared/DashboardSettings"
 import { FocusChainSettings } from "@shared/FocusChainSettings"
 import { LanguageModelChatSelector } from "vscode"
 import { WorkspaceRoot } from "@/core/workspace/WorkspaceRoot"
@@ -98,6 +99,7 @@ export interface Settings {
 	mode: Mode
 	dictationSettings: DictationSettings
 	focusChainSettings: FocusChainSettings
+	dashboardSettings: DashboardSettings
 	customPrompt: "compact" | undefined
 	difyBaseUrl: string | undefined
 	autoCondenseThreshold: number | undefined // number from 0 to 1
@@ -171,11 +173,6 @@ export interface Settings {
 	actModeVercelAiGatewayModelInfo: ModelInfo | undefined
 	actModeOcaModelId: string | undefined
 	actModeOcaModelInfo: OcaModelInfo | undefined
-
-	// Dashboard integration settings
-	dashboardIntegrationEnabled: boolean | undefined
-	dashboardSessionName: string | undefined
-	dashboardUrl: string | undefined
 }
 
 export interface Secrets {

@@ -1,4 +1,5 @@
-import { VSCodeCheckbox, VSCodeLink, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
+import { VSCodeCheckbox, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
+import { useState } from "react"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import Section from "../Section"
 import { updateSetting } from "../utils/settingsHandlers"
@@ -8,7 +9,9 @@ interface DashboardSectionProps {
 }
 
 const DashboardSection = ({ renderSectionHeader }: DashboardSectionProps) => {
-	const { dashboardIntegrationEnabled, dashboardSessionName, dashboardUrl } = useExtensionState()
+	const { dashboardSettings } = useExtensionState()
+	// Local state to track changes immediately
+	const [localSettings, setLocalSettings] = useState(dashboardSettings || { enabled: false, sessionName: "", dashboardUrl: "" })
 
 	return (
 		<div>
@@ -16,39 +19,41 @@ const DashboardSection = ({ renderSectionHeader }: DashboardSectionProps) => {
 			<Section>
 				<div style={{ marginBottom: 20 }}>
 					<VSCodeCheckbox
-						checked={dashboardIntegrationEnabled}
+						checked={localSettings.enabled}
 						onChange={(e: any) => {
 							const checked = e.target.checked === true
-							updateSetting("dashboardIntegrationEnabled", checked)
+							const newSettings = { ...localSettings, enabled: checked }
+							setLocalSettings(newSettings)
+							updateSetting("dashboardSettings", newSettings)
 						}}>
 						Enable Dashboard Integration
 					</VSCodeCheckbox>
 					<p className="text-xs text-[var(--vscode-descriptionForeground)]">
-						Enable integration with external dashboard for task progress tracking and reporting. When enabled, Codey
-						will communicate with dashboard scripts for real-time updates.
+						Enable integration with external dashboard for task progress tracking and reporting.
 					</p>
 				</div>
 
-				{dashboardIntegrationEnabled && (
+				{localSettings.enabled && (
 					<>
-						<div className="mb-4">
+						<div style={{ marginTop: 10, marginLeft: 20 }}>
 							<label className="block text-sm font-medium text-[var(--vscode-foreground)] mb-1">Session Name</label>
 							<VSCodeTextField
 								className="w-full"
 								onChange={(e: any) => {
 									const value = e.target.value
-									updateSetting("dashboardSessionName", value)
+									const newSettings = { ...localSettings, sessionName: value }
+									setLocalSettings(newSettings)
+									updateSetting("dashboardSettings", newSettings)
 								}}
-								placeholder="Enter session name (e.g., code-auditor)"
-								value={dashboardSessionName || ""}>
-								Session Name
-							</VSCodeTextField>
+								placeholder="Enter session name"
+								value={localSettings.sessionName}
+							/>
 							<p className="text-xs mt-[5px] text-[var(--vscode-descriptionForeground)]">
-								Unique identifier for this Codey session used when communicating with the dashboard.
+								Unique identifier for this session used when communicating with the dashboard.
 							</p>
 						</div>
 
-						<div className="mb-4">
+						<div style={{ marginTop: 10, marginLeft: 20 }}>
 							<label className="block text-sm font-medium text-[var(--vscode-foreground)] mb-1">
 								Dashboard URL (Optional)
 							</label>
@@ -56,58 +61,16 @@ const DashboardSection = ({ renderSectionHeader }: DashboardSectionProps) => {
 								className="w-full"
 								onChange={(e: any) => {
 									const value = e.target.value
-									updateSetting("dashboardUrl", value)
+									const newSettings = { ...localSettings, dashboardUrl: value }
+									setLocalSettings(newSettings)
+									updateSetting("dashboardSettings", newSettings)
 								}}
 								placeholder="https://your-dashboard.com"
-								value={dashboardUrl || ""}>
-								Dashboard URL
-							</VSCodeTextField>
+								value={localSettings.dashboardUrl}
+							/>
 							<p className="text-xs mt-[5px] text-[var(--vscode-descriptionForeground)]">
-								Optional: URL of your dashboard endpoint. If not provided, uses default dashboard.
+								Optional: URL of your dashboard endpoint.
 							</p>
-						</div>
-
-						<div className="mt-4 p-3 bg-[var(--vscode-textBlockQuote-background)] rounded border border-[var(--vscode-textBlockQuote-border)]">
-							<p className="text-[13px] m-0">
-								<strong>Dashboard Integration Features:</strong>
-							</p>
-							<ul className="text-xs mt-2 ml-4 text-[var(--vscode-descriptionForeground)]">
-								<li>Real-time progress updates via update.sh</li>
-								<li>Task completion reporting via report_and_fetch.sh</li>
-								<li>Session-based tracking and management</li>
-								<li>External dashboard communication</li>
-							</ul>
-							<p className="text-xs mt-2 text-[var(--vscode-descriptionForeground)]">
-								See{" "}
-								<VSCodeLink
-									className="text-inherit"
-									href="https://docs.cline.bot/features/dashboard-integration"
-									style={{ fontSize: "inherit", textDecoration: "underline" }}>
-									dashboard integration guide
-								</VSCodeLink>{" "}
-								for setup instructions.
-							</p>
-						</div>
-
-						<div className="mt-4 p-3 bg-[var(--vscode-textBlockQuote-background)] rounded border border-[var(--vscode-textBlockQuote-border)]">
-							<p className="text-[13px] m-0">
-								<strong>Execution Status:</strong>
-							</p>
-							<p className="text-xs mt-2 text-[var(--vscode-descriptionForeground)]">
-								Dashboard integration execution is currently in development. Scripts will be executed when this
-								feature is fully implemented.
-							</p>
-							<div className="mt-2 text-xs text-[var(--vscode-descriptionForeground)]">
-								<p>
-									<strong>Status:</strong> <span className="text-yellow-600">In Development</span>
-								</p>
-								<p>
-									<strong>Scripts:</strong> update.sh, report_and_fetch.sh
-								</p>
-								<p>
-									<strong>Integration:</strong> Ready for testing
-								</p>
-							</div>
 						</div>
 					</>
 				)}

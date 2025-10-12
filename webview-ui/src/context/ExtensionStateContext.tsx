@@ -1,6 +1,7 @@
 import { DEFAULT_AUTO_APPROVAL_SETTINGS } from "@shared/AutoApprovalSettings"
 import { findLastIndex } from "@shared/array"
 import { DEFAULT_BROWSER_SETTINGS } from "@shared/BrowserSettings"
+import { DEFAULT_DASHBOARD_SETTINGS } from "@shared/DashboardSettings"
 import { DEFAULT_DICTATION_SETTINGS, DictationSettings } from "@shared/DictationSettings"
 import { DEFAULT_PLATFORM, type ExtensionState } from "@shared/ExtensionMessage"
 import { DEFAULT_FOCUS_CHAIN_SETTINGS } from "@shared/FocusChainSettings"
@@ -219,9 +220,7 @@ export const ExtensionStateContextProvider: React.FC<{
 		multiRootSetting: { user: false, featureFlag: false },
 
 		// Dashboard integration settings with defaults
-		dashboardIntegrationEnabled: false,
-		dashboardSessionName: undefined,
-		dashboardUrl: undefined,
+		dashboardSettings: DEFAULT_DASHBOARD_SETTINGS,
 	})
 	const [expandTaskHeader, setExpandTaskHeader] = useState(true)
 	const [didHydrateState, setDidHydrateState] = useState(false)
