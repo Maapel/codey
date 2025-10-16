@@ -71,6 +71,7 @@ import { HostProvider } from "@/hosts/host-provider"
 import { ErrorService } from "@/services/error"
 import { TerminalHangStage, TerminalUserInterventionAction, telemetryService } from "@/services/telemetry"
 import { ShowMessageType } from "@/shared/proto/index.host"
+import { getDashboardIntegrationManager } from "../../services/dashboard/DashboardIntegrationManager"
 import { isInTestMode } from "../../services/test/TestMode"
 import { ensureLocalClineDirExists } from "../context/instructions/user-instructions/rule-helpers"
 import { refreshWorkflowToggles } from "../context/instructions/user-instructions/workflows"
@@ -372,6 +373,10 @@ export class Task {
 		if (historyItem) {
 			this.resumeTaskFromHistory()
 		} else if (task || images || files) {
+			// Track task start in dashboard
+			const dashboardManager = getDashboardIntegrationManager()
+			dashboardManager.trackTaskStart(this.taskId, task || "Task with images/files")
+
 			this.startTask(task, images, files)
 		}
 
@@ -423,6 +428,28 @@ export class Task {
 
 	public resetConsecutiveAutoApprovedRequestsCount(): void {
 		this.taskState.consecutiveAutoApprovedRequestsCount = 0
+	}
+
+	/**
+	 * Update dashboard configuration for this task
+	 * Called when dashboard settings change while a task is running
+	 */
+	public updateDashboardConfiguration(): void {
+		try {
+			const { getDashboardIntegrationManager } = require("../../services/dashboard/DashboardIntegrationManager")
+			const dashboardManager = getDashboardIntegrationManager()
+			const dashboardSettings = this.stateManager.getGlobalSettingsKey("dashboardSettings")
+
+			if (dashboardSettings && dashboardSettings.enabled) {
+				console.log(`[Task ${this.taskId}] Updating dashboard configuration: enabled`)
+				// The dashboard manager will handle the configuration update
+				// and the task will automatically use the new settings for future tracking calls
+			} else {
+				console.log(`[Task ${this.taskId}] Dashboard disabled, tracking will be skipped`)
+			}
+		} catch (error) {
+			console.error(`[Task ${this.taskId}] Failed to update dashboard configuration:`, error)
+		}
 	}
 
 	// Communicate with webview
@@ -938,6 +965,15 @@ export class Task {
 		if (this.FocusChainManager) {
 			this.FocusChainManager.checkIncompleteProgressOnCompletion()
 		}
+
+		// Track task completion in dashboard
+		const dashboardManager = getDashboardIntegrationManager()
+		dashboardManager.trackTaskCompletion({
+			taskId: this.taskId,
+			ulid: this.ulid,
+			aborted: true,
+			reason: "user_aborted",
+		})
 
 		this.taskState.abort = true // will stop any autonomously running promises
 		this.terminalManager.disposeAll()
@@ -1925,6 +1961,13 @@ export class Task {
 			content: userContent,
 		})
 
+		// Track API call in dashboard
+		const dashboardManager = getDashboardIntegrationManager()
+		dashboardManager.trackApiCall({
+			role: "user",
+			content: userContent,
+		})
+
 		telemetryService.captureConversationTurnEvent(this.ulid, providerId, model.id, "user")
 
 		// Capture task initialization timing telemetry for the first API request
@@ -2211,6 +2254,23 @@ export class Task {
 							type: "text",
 							text: assistantMessage,
 							// reasoning_details only exists for cline/openrouter providers
+							// @ts-ignore-next-line
+							reasoning_details: reasoningDetails.length > 0 ? reasoningDetails : undefined,
+						},
+					] as Array<
+						Anthropic.Messages.RedactedThinkingBlock | Anthropic.Messages.ThinkingBlock | Anthropic.Messages.TextBlock
+					>,
+				})
+
+				// Track assistant response in dashboard
+				const dashboardManager = getDashboardIntegrationManager()
+				dashboardManager.trackApiCall({
+					role: "assistant",
+					content: [
+						...antThinkingContent,
+						{
+							type: "text",
+							text: assistantMessage,
 							// @ts-ignore-next-line
 							reasoning_details: reasoningDetails.length > 0 ? reasoningDetails : undefined,
 						},

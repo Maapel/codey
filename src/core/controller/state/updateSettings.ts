@@ -180,21 +180,52 @@ export async function updateSettings(controller: Controller, request: UpdateSett
 
 		// Update focus chain settings
 		if (request.focusChainSettings !== undefined) {
-			{
-				const currentSettings = controller.stateManager.getGlobalSettingsKey("focusChainSettings")
-				const wasEnabled = currentSettings?.enabled ?? false
-				const isEnabled = request.focusChainSettings.enabled
+			const currentSettings = controller.stateManager.getGlobalSettingsKey("focusChainSettings")
+			const wasEnabled = currentSettings?.enabled ?? false
+			const isEnabled = request.focusChainSettings.enabled
 
-				const focusChainSettings = {
-					enabled: isEnabled,
-					remindClineInterval: request.focusChainSettings.remindClineInterval,
-				}
-				controller.stateManager.setGlobalState("focusChainSettings", focusChainSettings)
+			const focusChainSettings = {
+				enabled: isEnabled,
+				remindClineInterval: request.focusChainSettings.remindClineInterval,
+			}
+			controller.stateManager.setGlobalState("focusChainSettings", focusChainSettings)
 
-				// Capture telemetry when setting changes
-				if (wasEnabled !== isEnabled) {
-					telemetryService.captureFocusChainToggle(isEnabled)
+			// Capture telemetry when setting changes
+			if (wasEnabled !== isEnabled) {
+				telemetryService.captureFocusChainToggle(isEnabled)
+			}
+		}
+
+		// Update dashboard settings
+		if (request.dashboardSettings !== undefined) {
+			const currentSettings = controller.stateManager.getGlobalSettingsKey("dashboardSettings")
+			const wasEnabled = currentSettings?.enabled ?? false
+			const isEnabled = request.dashboardSettings.enabled
+
+			const dashboardSettings = {
+				enabled: isEnabled,
+				sessionName: request.dashboardSettings.sessionName,
+				dashboardUrl: request.dashboardSettings.dashboardUrl,
+			}
+			controller.stateManager.setGlobalState("dashboardSettings", dashboardSettings)
+
+			// Update dashboard integration manager configuration
+			try {
+				const { getDashboardIntegrationManager } = require("../../../services/dashboard/DashboardIntegrationManager")
+				const dashboardManager = getDashboardIntegrationManager()
+				dashboardManager.updateConfiguration(dashboardSettings)
+
+				// Update existing task's dashboard configuration if it exists
+				if (controller.task) {
+					controller.task.updateDashboardConfiguration()
 				}
+			} catch (error) {
+				console.error("[Controller] Failed to update dashboard integration configuration:", error)
+			}
+
+			// Capture telemetry when setting changes
+			if (wasEnabled !== isEnabled) {
+				telemetryService.captureDashboardToggle(isEnabled)
 			}
 		}
 
@@ -291,8 +322,6 @@ export async function updateSettings(controller: Controller, request: UpdateSett
 		if (request.multiRootEnabled !== undefined) {
 			controller.stateManager.setGlobalState("multiRootEnabled", !!request.multiRootEnabled)
 		}
-
-		// Dashboard settings handling removed - implementation details removed as requested
 
 		// Post updated state to webview
 		await controller.postStateToWebview()
