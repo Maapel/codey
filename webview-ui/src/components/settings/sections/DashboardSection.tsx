@@ -1,5 +1,5 @@
 import { VSCodeCheckbox, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
-import { useState } from "react"
+import { memo } from "react"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import Section from "../Section"
 import { updateSetting } from "../utils/settingsHandlers"
@@ -10,8 +10,6 @@ interface DashboardSectionProps {
 
 const DashboardSection = ({ renderSectionHeader }: DashboardSectionProps) => {
 	const { dashboardSettings } = useExtensionState()
-	// Local state to track changes immediately
-	const [localSettings, setLocalSettings] = useState(dashboardSettings || { enabled: false, sessionName: "", dashboardUrl: "" })
 
 	return (
 		<div>
@@ -19,11 +17,10 @@ const DashboardSection = ({ renderSectionHeader }: DashboardSectionProps) => {
 			<Section>
 				<div style={{ marginBottom: 20 }}>
 					<VSCodeCheckbox
-						checked={localSettings.enabled}
+						checked={dashboardSettings?.enabled || false}
 						onChange={(e: any) => {
 							const checked = e.target.checked === true
-							const newSettings = { ...localSettings, enabled: checked }
-							setLocalSettings(newSettings)
+							const newSettings = { ...dashboardSettings, enabled: checked }
 							updateSetting("dashboardSettings", newSettings)
 						}}>
 						Enable Dashboard Integration
@@ -33,7 +30,7 @@ const DashboardSection = ({ renderSectionHeader }: DashboardSectionProps) => {
 					</p>
 				</div>
 
-				{localSettings.enabled && (
+				{dashboardSettings?.enabled && (
 					<>
 						<div style={{ marginTop: 10, marginLeft: 20 }}>
 							<label className="block text-sm font-medium text-[var(--vscode-foreground)] mb-1">Session Name</label>
@@ -41,12 +38,11 @@ const DashboardSection = ({ renderSectionHeader }: DashboardSectionProps) => {
 								className="w-full"
 								onChange={(e: any) => {
 									const value = e.target.value
-									const newSettings = { ...localSettings, sessionName: value }
-									setLocalSettings(newSettings)
+									const newSettings = { ...dashboardSettings, sessionName: value }
 									updateSetting("dashboardSettings", newSettings)
 								}}
 								placeholder="Enter session name"
-								value={localSettings.sessionName}
+								value={dashboardSettings?.sessionName || ""}
 							/>
 							<p className="text-xs mt-[5px] text-[var(--vscode-descriptionForeground)]">
 								Unique identifier for this session used when communicating with the dashboard.
@@ -61,12 +57,11 @@ const DashboardSection = ({ renderSectionHeader }: DashboardSectionProps) => {
 								className="w-full"
 								onChange={(e: any) => {
 									const value = e.target.value
-									const newSettings = { ...localSettings, dashboardUrl: value }
-									setLocalSettings(newSettings)
+									const newSettings = { ...dashboardSettings, dashboardUrl: value }
 									updateSetting("dashboardSettings", newSettings)
 								}}
 								placeholder="https://your-dashboard.com"
-								value={localSettings.dashboardUrl}
+								value={dashboardSettings?.dashboardUrl || ""}
 							/>
 							<p className="text-xs mt-[5px] text-[var(--vscode-descriptionForeground)]">
 								Optional: URL of your dashboard endpoint.
@@ -79,4 +74,4 @@ const DashboardSection = ({ renderSectionHeader }: DashboardSectionProps) => {
 	)
 }
 
-export default DashboardSection
+export default memo(DashboardSection)

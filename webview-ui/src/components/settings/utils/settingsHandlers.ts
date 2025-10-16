@@ -44,13 +44,6 @@ const convertToProtoValue = (field: keyof UpdateSettingsRequest, value: any): an
  * @param value - The new value for the field
  */
 export const updateSetting = (field: string, value: any) => {
-	// Handle dashboard settings with simple logging (no backend implementation)
-	if (field === "dashboardSettings") {
-		console.log(`Dashboard setting ${field} updated:`, value)
-		// TODO: Implement actual dashboard settings update when backend is ready
-		return
-	}
-
 	// Handle other settings with proper protobuf conversion
 	const updateRequest: Partial<UpdateSettingsRequest> = {}
 

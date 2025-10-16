@@ -17,6 +17,7 @@ import { HostProvider } from "@/hosts/host-provider"
 import { ShowMessageType } from "@/shared/proto/host/window"
 import { MessageStateHandler } from "../../core/task/message-state"
 import { TaskState } from "../../core/task/TaskState"
+import { getDashboardIntegrationManager } from "../../services/dashboard/DashboardIntegrationManager"
 import { ICheckpointManager } from "./types"
 
 // Type definitions for better code organization
@@ -113,8 +114,13 @@ export class TaskCheckpointManager implements ICheckpointManager {
 	 * Creates a checkpoint of the current workspace state
 	 * @param isAttemptCompletionMessage - Whether this checkpoint is for an attempt completion message
 	 * @param completionMessageTs - Optional timestamp of the completion message to update with checkpoint hash
+	 * @param checkpointSummary - Optional summary of what was accomplished in this checkpoint
 	 */
-	async saveCheckpoint(isAttemptCompletionMessage: boolean = false, completionMessageTs?: number): Promise<void> {
+	async saveCheckpoint(
+		isAttemptCompletionMessage: boolean = false,
+		completionMessageTs?: number,
+		checkpointSummary?: string,
+	): Promise<void> {
 		try {
 			// If checkpoints are disabled or previously encountered a timeout error, return early
 			if (
@@ -174,6 +180,90 @@ export class TaskCheckpointManager implements ICheckpointManager {
 								if (commitHash) {
 									targetMessage.lastCheckpointHash = commitHash
 									await this.services.messageStateHandler.saveClineMessagesAndUpdateHistory()
+
+									// Update dashboard with checkpoint creation (only if enabled)
+									const dashboardManager = getDashboardIntegrationManager()
+									const dashboardStatus = dashboardManager.getStatus()
+									const isDashboardEnabled = dashboardStatus.dashboardService?.enabled === true
+									const isServiceEnabled = dashboardStatus.dashboardService?.enabled === true
+
+									console.log(`[TaskCheckpointManager] Dashboard check:`, {
+										initialized: dashboardStatus.initialized,
+										enabled: isDashboardEnabled,
+										serviceEnabled: isServiceEnabled,
+										endpoint: dashboardStatus.dashboardService?.endpoint,
+										sessionName: dashboardStatus.dashboardService?.sessionName,
+									})
+
+									if (dashboardStatus.initialized && isDashboardEnabled && isServiceEnabled) {
+										console.log(
+											`[TaskCheckpointManager] Updating dashboard for checkpoint creation: taskId=${this.task.taskId}, commitHash=${commitHash}, messageTs=${messageTs}`,
+										)
+										HostProvider.window.showMessage({
+											type: ShowMessageType.INFORMATION,
+											message: "Updating dashboard with checkpoint creation...",
+										})
+										try {
+											// Call the new checkpoint-specific API method with enhanced return type
+											const apiResult = await dashboardManager.trackCheckpointCreation(
+												this.task.taskId,
+												commitHash,
+												messageTs,
+												targetMessage.checkpointSummary,
+											)
+
+											// Only set dashboard update status if the update actually happened
+											targetMessage.dashboardUpdateStatus = true
+											await this.services.messageStateHandler.saveClineMessagesAndUpdateHistory()
+
+											if (apiResult.success) {
+												// Show success message with API call details
+												HostProvider.window.showMessage({
+													type: ShowMessageType.INFORMATION,
+													message: `✅ Dashboard API call successful!
+
+📍 Endpoint: ${apiResult.endpoint}
+🔖 Checkpoint: ${commitHash}
+📋 Summary: ${targetMessage.checkpointSummary || "Checkpoint created"}`,
+												})
+											} else {
+												// Show API disabled message
+												HostProvider.window.showMessage({
+													type: ShowMessageType.INFORMATION,
+													message: `ℹ️ Dashboard update skipped: ${apiResult.error}`,
+												})
+											}
+										} catch (error) {
+											const errorMessage = error instanceof Error ? error.message : "Unknown error"
+											console.error(
+												`[TaskCheckpointManager] Dashboard update failed for checkpoint: ${commitHash}:`,
+												errorMessage,
+											)
+
+											// Show detailed error message with API call feedback
+											const dashboardService = dashboardManager.getStatus().dashboardService
+											const endpoint = dashboardService?.getApiEndpoint
+												? dashboardService.getApiEndpoint()
+												: "Unknown endpoint"
+
+											HostProvider.window.showMessage({
+												type: ShowMessageType.ERROR,
+												message: `❌ Dashboard API call failed!
+
+🔴 Error: ${errorMessage}
+📍 Endpoint: ${endpoint}
+🔖 Checkpoint: ${commitHash}`,
+											})
+										}
+									} else {
+										console.log(
+											`[TaskCheckpointManager] Dashboard not enabled or not initialized, skipping checkpoint update`,
+										)
+										HostProvider.window.showMessage({
+											type: ShowMessageType.INFORMATION,
+											message: "Dashboard not enabled or not initialized, skipping checkpoint update",
+										})
+									}
 								}
 							})
 							.catch((error) => {
@@ -206,12 +296,20 @@ export class TaskCheckpointManager implements ICheckpointManager {
 							.find((m) => m.ts === completionMessageTs)
 						if (targetMessage) {
 							targetMessage.lastCheckpointHash = commitHash
+							// Store the checkpoint summary if provided
+							if (checkpointSummary) {
+								targetMessage.checkpointSummary = checkpointSummary
+							}
 							await this.services.messageStateHandler.saveClineMessagesAndUpdateHistory()
 						}
 					} else {
 						// Fallback to findLast if no timestamp provided - update the last completion_result message
 						if (lastCompletionResultMessage) {
 							lastCompletionResultMessage.lastCheckpointHash = commitHash
+							// Store the checkpoint summary if provided
+							if (checkpointSummary) {
+								lastCompletionResultMessage.checkpointSummary = checkpointSummary
+							}
 							await this.services.messageStateHandler.saveClineMessagesAndUpdateHistory()
 						}
 					}

@@ -101,6 +101,8 @@ export interface ClineMessage {
 	isOperationOutsideWorkspace?: boolean
 	conversationHistoryIndex?: number
 	conversationHistoryDeletedRange?: [number, number] // for when conversation history is truncated for API requests
+	dashboardUpdateStatus?: boolean // indicates if dashboard was updated for this checkpoint
+	checkpointSummary?: string // concise summary of the checkpoint for dashboard display
 }
 
 export type ClineAsk =

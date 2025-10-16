@@ -131,6 +131,26 @@ export class Controller {
 		})
 	}
 
+	/**
+	 * Initialize dashboard integration with current settings
+	 */
+	private initializeDashboardIntegration(): void {
+		try {
+			const { getDashboardIntegrationManager } = require("@services/dashboard/DashboardIntegrationManager")
+			const dashboardManager = getDashboardIntegrationManager()
+			const dashboardSettings = this.stateManager.getGlobalSettingsKey("dashboardSettings")
+
+			if (dashboardSettings && dashboardSettings.enabled) {
+				console.log("[Controller] Initializing dashboard integration with settings:", dashboardSettings)
+				dashboardManager.initialize(dashboardSettings)
+			} else {
+				console.log("[Controller] Dashboard integration disabled or no settings found")
+			}
+		} catch (error) {
+			console.error("[Controller] Failed to initialize dashboard integration:", error)
+		}
+	}
+
 	/*
 	VSCode extensions use the disposable pattern to clean up resources when the sidebar/editor tab is closed by the user or system. This applies to event listening, commands, interacting with the UI, etc.
 	- https://vscode-docs.readthedocs.io/en/stable/extensions/patterns-and-principles/

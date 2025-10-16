@@ -301,9 +301,9 @@ message FocusChainSettings {
 }
 
 message DashboardSettings {
-  bool dashboard_integration_enabled = 26;
-  string dashboard_session_name = 27;
-  string dashboard_url = 28;
+  bool enabled = 1;
+  string session_name = 2;
+  string dashboard_url = 3;
 }
 
 message Viewport {

@@ -26,7 +26,7 @@ export class DashboardService {
 		console.log("[DashboardService] Configured:", {
 			enabled: this.isEnabled,
 			sessionName: this.sessionName,
-			endpoint: this.apiEndpoint,
+			endpoint: this.apiEndpoint || "https://maadhav17.pythonanywhere.com/api/codey-checkpoint",
 		})
 	}
 
@@ -45,10 +45,10 @@ export class DashboardService {
 	}
 
 	/**
-	 * Get API endpoint URL
+	 * Get API endpoint URL (including fallback if not configured)
 	 */
-	getApiEndpoint(): string | undefined {
-		return this.apiEndpoint
+	getApiEndpoint(): string {
+		return this.apiEndpoint || "https://maadhav17.pythonanywhere.com/api/codey-checkpoint"
 	}
 
 	/**
@@ -82,6 +82,54 @@ export class DashboardService {
 		} catch (error) {
 			console.error("[DashboardService] Failed to update task state:", error)
 			return false
+		}
+	}
+
+	/**
+	 * Update checkpoint creation status to dashboard
+	 */
+	async updateCheckpointStatus(
+		taskId: string,
+		checkpointHash: string,
+		messageTs: number,
+		checkpointSummary?: string,
+	): Promise<{ success: boolean; endpoint?: string; error?: string }> {
+		if (!this.isDashboardEnabled()) {
+			console.log("[DashboardService] Dashboard not enabled, skipping checkpoint update")
+			return { success: false, error: "Dashboard not enabled" }
+		}
+
+		try {
+			console.log("[DashboardService] Updating checkpoint status:", { taskId, checkpointHash, messageTs })
+
+			const checkpointUpdate = {
+				sessionName: this.sessionName,
+				timestamp: Date.now(),
+				taskId: taskId,
+				checkpointHash: checkpointHash,
+				messageTs: messageTs,
+				checkpointSummary: checkpointSummary || `Checkpoint created for task ${taskId}`,
+				action: "checkpoint_created",
+			}
+
+			console.log("[DashboardService] Checkpoint update payload:", checkpointUpdate)
+
+			// Make actual API call to dashboard
+			const response = await this.makeApiCall(checkpointUpdate)
+
+			return {
+				success: true,
+				endpoint: this.getApiEndpoint(),
+			}
+		} catch (error) {
+			const errorMessage = error instanceof Error ? error.message : "Unknown error"
+			console.error("[DashboardService] Failed to update checkpoint status:", errorMessage)
+
+			return {
+				success: false,
+				endpoint: this.getApiEndpoint(),
+				error: errorMessage,
+			}
 		}
 	}
 
@@ -164,22 +212,42 @@ export class DashboardService {
 	}
 
 	/**
-	 * Dummy API call implementation
-	 * Replace with actual HTTP requests to dashboard API
+	 * Make actual API call to dashboard endpoint
+	 */
+	private async makeApiCall(data: any): Promise<any> {
+		try {
+			// Use configured endpoint or default to the provided URL
+			const endpoint = this.apiEndpoint || "https://maadhav17.pythonanywhere.com/api/codey-checkpoint"
+			console.log("[DashboardService] Making API call to:", endpoint, "with data:", data)
+
+			const response = await fetch(endpoint, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(data),
+			})
+
+			if (!response.ok) {
+				throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+			}
+
+			const result = await response.json()
+			console.log("[DashboardService] API call successful:", result)
+			return result
+		} catch (error) {
+			console.error("[DashboardService] API call failed:", error)
+			throw error
+		}
+	}
+
+	/**
+	 * Dummy API call implementation (fallback)
+	 * Used when API endpoint is not configured or for testing
 	 */
 	private async dummyApiCall(data: any): Promise<any> {
-		console.log("[DashboardService] Dummy API call:", data)
+		console.log("[DashboardService] Dummy API call (fallback):", data)
 
 		// Simulate network delay
 		await new Promise((resolve) => setTimeout(resolve, 100))
-
-		// TODO: Replace with actual API call
-		// const response = await fetch(`${this.apiEndpoint}/update`, {
-		//   method: 'POST',
-		//   headers: { 'Content-Type': 'application/json' },
-		//   body: JSON.stringify(data)
-		// })
-		// return response.json()
 
 		return { success: true, timestamp: Date.now() }
 	}

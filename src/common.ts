@@ -63,6 +63,46 @@ export async function initialize(context: vscode.ExtensionContext): Promise<Webv
 	// Clean up orphaned file context warnings (startup cleanup)
 	await FileContextTracker.cleanupOrphanedWarnings(context)
 
+	// Initialize dashboard integration manager with current settings
+	try {
+		const { getDashboardIntegrationManager } = require("@services/dashboard/DashboardIntegrationManager")
+		const dashboardManager = getDashboardIntegrationManager()
+		const dashboardSettings = context.globalState.get("dashboardSettings") as any
+
+		const statusBefore = dashboardManager.getStatus()
+		const settingsInfo = dashboardSettings
+			? `enabled: ${dashboardSettings.enabled}, session: ${dashboardSettings.sessionName || "none"}, url: ${dashboardSettings.dashboardUrl || "none"}`
+			: "no settings found"
+
+		HostProvider.window.showMessage({
+			type: ShowMessageType.INFORMATION,
+			message: `🔧 Dashboard Init Debug:\n• Settings: ${settingsInfo}\n• Manager initialized: ${statusBefore.initialized}`,
+		})
+
+		// Always initialize with current settings, regardless of enabled state
+		if (dashboardSettings) {
+			console.log("[Common] Initializing dashboard with settings:", dashboardSettings)
+			dashboardManager.initialize(dashboardSettings)
+			const statusAfter = dashboardManager.getStatus()
+
+			HostProvider.window.showMessage({
+				type: ShowMessageType.INFORMATION,
+				message: `✅ Dashboard initialized!\n• Manager: ${statusAfter.initialized ? "YES" : "NO"}\n• Service enabled: ${statusAfter.dashboardService?.enabled ? "YES" : "NO"}\n• Endpoint: ${statusAfter.dashboardService?.endpoint || "none"}`,
+			})
+		} else {
+			HostProvider.window.showMessage({
+				type: ShowMessageType.INFORMATION,
+				message: `ℹ️ Dashboard initialization skipped: ${settingsInfo}`,
+			})
+		}
+	} catch (error) {
+		const errorMessage = error instanceof Error ? error.message : "Unknown error"
+		HostProvider.window.showMessage({
+			type: ShowMessageType.ERROR,
+			message: `❌ Dashboard initialization failed: ${errorMessage}`,
+		})
+	}
+
 	const webview = HostProvider.get().createWebviewProvider()
 
 	await showVersionUpdateAnnouncement(context)

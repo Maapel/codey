@@ -3,8 +3,8 @@ export interface DashboardSettings {
 	enabled: boolean
 	// Session name for dashboard identification
 	sessionName: string
-	// Optional dashboard URL endpoint
-	dashboardUrl?: string
+	// Dashboard URL endpoint
+	dashboardUrl: string
 }
 
 export const DEFAULT_DASHBOARD_SETTINGS: DashboardSettings = {

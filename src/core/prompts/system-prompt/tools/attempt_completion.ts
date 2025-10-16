@@ -35,6 +35,13 @@ IMPORTANT NOTE: This tool CANNOT be used until you've confirmed from the user th
 			description:
 				"If you were using task_progress to update the task progress, you must include the completed list in the result as well.",
 		},
+		{
+			name: "checkpoint_summary",
+			required: false,
+			instruction:
+				"A concise 6-7 word summary of what was accomplished in this checkpoint. This will be displayed on the dashboard to show progress updates.",
+			usage: "Your 6-7 word summary here",
+		},
 	],
 }
 

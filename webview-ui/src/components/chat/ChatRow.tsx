@@ -1098,7 +1098,29 @@ export const ChatRowContent = memo(
 					case "clineignore_error":
 						return <ErrorRow errorType="clineignore_error" message={message} />
 					case "checkpoint_created":
-						return <CheckmarkControl isCheckpointCheckedOut={message.isCheckpointCheckedOut} messageTs={message.ts} />
+						return (
+							<div>
+								<CheckmarkControl
+									isCheckpointCheckedOut={message.isCheckpointCheckedOut}
+									messageTs={message.ts}
+								/>
+								{message.dashboardUpdateStatus && (
+									<div
+										style={{
+											marginTop: "4px",
+											marginLeft: "20px",
+											fontSize: "11px",
+											color: "var(--vscode-descriptionForeground)",
+											display: "flex",
+											alignItems: "center",
+											gap: "4px",
+										}}>
+										<i className="codicon codicon-cloud-upload" style={{ fontSize: "10px" }} />
+										<span>Dashboard updated</span>
+									</div>
+								)}
+							</div>
+						)
 					case "load_mcp_documentation":
 						return (
 							<div

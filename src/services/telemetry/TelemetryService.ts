@@ -16,7 +16,7 @@ import { TelemetryProviderFactory } from "./TelemetryProviderFactory"
  * When adding a new category, add it both here and to the initial values in telemetryCategoryEnabled
  * Ensure `if (!this.isCategoryEnabled('<category_name>')` is added to the capture method
  */
-type TelemetryCategory = "checkpoints" | "browser" | "focus_chain" | "dictation"
+type TelemetryCategory = "checkpoints" | "browser" | "focus_chain" | "dictation" | "dashboard"
 
 /**
  * Enum for terminal output failure reasons
@@ -78,6 +78,7 @@ export class TelemetryService {
 		["browser", true], // Browser telemetry enabled
 		["dictation", true], // Dictation telemetry enabled
 		["focus_chain", true], // Focus Chain telemetry enabled
+		["dashboard", true], // Dashboard telemetry enabled
 	])
 
 	// Event constants for tracking user interactions and system events
@@ -164,6 +165,10 @@ export class TelemetryService {
 			FOCUS_CHAIN_ENABLED: "task.focus_chain_enabled",
 			// Tracks when users disable the focus chain feature
 			FOCUS_CHAIN_DISABLED: "task.focus_chain_disabled",
+			// Tracks when users enable the dashboard integration feature
+			DASHBOARD_ENABLED: "task.dashboard_enabled",
+			// Tracks when users disable the dashboard integration feature
+			DASHBOARD_DISABLED: "task.dashboard_disabled",
 			// Tracks when the first focus chain return is returned by the model
 			FOCUS_CHAIN_PROGRESS_FIRST: "task.focus_chain_progress_first",
 			// Tracks when subsequent focus chain list returns are returned
@@ -1019,6 +1024,22 @@ export class TelemetryService {
 
 		this.capture({
 			event: enabled ? TelemetryService.EVENTS.TASK.FOCUS_CHAIN_ENABLED : TelemetryService.EVENTS.TASK.FOCUS_CHAIN_DISABLED,
+			properties: {
+				enabled,
+			},
+		})
+	}
+
+	/**
+	 * Records when dashboard integration is enabled/disabled by the user
+	 * @param enabled Whether dashboard integration was enabled (true) or disabled (false)
+	 */
+	public captureDashboardToggle(enabled: boolean) {
+		if (!this.isCategoryEnabled("dashboard")) {
+			return
+		}
+		this.capture({
+			event: enabled ? TelemetryService.EVENTS.TASK.DASHBOARD_ENABLED : TelemetryService.EVENTS.TASK.DASHBOARD_DISABLED,
 			properties: {
 				enabled,
 			},
