@@ -39,7 +39,7 @@ IMPORTANT NOTE: This tool CANNOT be used until you've confirmed from the user th
 			name: "checkpoint_summary",
 			required: false,
 			instruction:
-				"A concise 6-7 word summary of what was accomplished in this checkpoint. This will be displayed on the dashboard to show progress updates.",
+				"A concise 6-7 word summary of what was accomplished in this checkpoint. Focus on the specific task completed, feature implemented, or progress made. Examples: 'Implemented user authentication system', 'Added responsive navigation menu', 'Fixed database connection issue', 'Created API endpoints for user management'. This will be displayed on the dashboard to show progress updates.",
 			usage: "Your 6-7 word summary here",
 		},
 	],

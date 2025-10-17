@@ -103,7 +103,11 @@ export class ToolExecutor {
 			images?: string[]
 			files?: string[]
 		}>,
-		private saveCheckpoint: (isAttemptCompletionMessage?: boolean, completionMessageTs?: number) => Promise<void>,
+		private saveCheckpoint: (
+			isAttemptCompletionMessage?: boolean,
+			completionMessageTs?: number,
+			checkpointSummary?: string,
+		) => Promise<void>,
 		private sayAndCreateMissingParamError: (toolName: ClineDefaultTool, paramName: string, relPath?: string) => Promise<any>,
 		private removeLastPartialMessageIfExistsWithType: (type: "ask" | "say", askOrSay: ClineAsk | ClineSay) => Promise<void>,
 		private executeCommandTool: (command: string, timeoutSeconds: number | undefined) => Promise<[boolean, any]>,

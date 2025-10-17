@@ -1,3 +1,4 @@
+import type { ApiHandler } from "@core/api"
 import type { FileContextTracker } from "@core/context/context-tracking/FileContextTracker"
 import type { MessageStateHandler } from "@core/task/message-state"
 import type { TaskState } from "@core/task/TaskState"
@@ -35,6 +36,7 @@ type BuildArgs = {
 	fileContextTracker: FileContextTracker
 	diffViewProvider: DiffViewProvider
 	taskState: TaskState
+	api?: ApiHandler
 	// multi-root deps
 	workspaceManager?: WorkspaceRootManager
 
@@ -63,6 +65,7 @@ export function buildCheckpointManager(args: BuildArgs): ICheckpointManager {
 		fileContextTracker,
 		diffViewProvider,
 		taskState,
+		api,
 		workspaceManager,
 		updateTaskHistory,
 		say,
@@ -90,6 +93,7 @@ export function buildCheckpointManager(args: BuildArgs): ICheckpointManager {
 			fileContextTracker,
 			taskState,
 			workspaceManager,
+			api,
 		},
 		{
 			updateTaskHistory,

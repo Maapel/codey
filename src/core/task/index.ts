@@ -268,51 +268,6 @@ export class Task {
 			this.taskState.checkpointManagerErrorMessage = "Checkpoints are not currently supported in multi-root workspaces."
 		}
 
-		// Initialize checkpoint manager based on workspace configuration
-		if (!isMultiRootWorkspace) {
-			try {
-				this.checkpointManager = buildCheckpointManager({
-					taskId: this.taskId,
-					messageStateHandler: this.messageStateHandler,
-					fileContextTracker: this.fileContextTracker,
-					diffViewProvider: this.diffViewProvider,
-					taskState: this.taskState,
-					workspaceManager: this.workspaceManager,
-					updateTaskHistory: this.updateTaskHistory,
-					say: this.say.bind(this),
-					cancelTask: this.cancelTask,
-					postStateToWebview: this.postStateToWebview,
-					initialConversationHistoryDeletedRange: this.taskState.conversationHistoryDeletedRange,
-					initialCheckpointManagerErrorMessage: this.taskState.checkpointManagerErrorMessage,
-					stateManager: this.stateManager,
-				})
-
-				// If multi-root, kick off non-blocking initialization
-				// Unreachable for now, leaving in for future multi-root checkpoint support
-				if (
-					shouldUseMultiRoot({
-						workspaceManager: this.workspaceManager,
-						enableCheckpoints: this.stateManager.getGlobalSettingsKey("enableCheckpointsSetting"),
-						stateManager: this.stateManager,
-					})
-				) {
-					this.checkpointManager.initialize?.().catch((error: Error) => {
-						console.error("Failed to initialize multi-root checkpoint manager:", error)
-						this.taskState.checkpointManagerErrorMessage = error?.message || String(error)
-					})
-				}
-			} catch (error) {
-				console.error("Failed to initialize checkpoint manager:", error)
-				if (this.stateManager.getGlobalSettingsKey("enableCheckpointsSetting")) {
-					const errorMessage = error instanceof Error ? error.message : "Unknown error"
-					HostProvider.window.showMessage({
-						type: ShowMessageType.ERROR,
-						message: `Failed to initialize checkpoint manager: ${errorMessage}`,
-					})
-				}
-			}
-		}
-
 		// Prepare effective API configuration
 		const apiConfiguration = this.stateManager.getApiConfiguration()
 		const effectiveApiConfiguration: ApiConfiguration = {
@@ -366,6 +321,52 @@ export class Task {
 		// Now that ulid is initialized, we can build the API handler
 		this.api = buildApiHandler(effectiveApiConfiguration, mode)
 
+		// Initialize checkpoint manager based on workspace configuration (after API handler is created)
+		if (!isMultiRootWorkspace) {
+			try {
+				this.checkpointManager = buildCheckpointManager({
+					taskId: this.taskId,
+					messageStateHandler: this.messageStateHandler,
+					fileContextTracker: this.fileContextTracker,
+					diffViewProvider: this.diffViewProvider,
+					taskState: this.taskState,
+					api: this.api,
+					workspaceManager: this.workspaceManager,
+					updateTaskHistory: this.updateTaskHistory,
+					say: this.say.bind(this),
+					cancelTask: this.cancelTask,
+					postStateToWebview: this.postStateToWebview,
+					initialConversationHistoryDeletedRange: this.taskState.conversationHistoryDeletedRange,
+					initialCheckpointManagerErrorMessage: this.taskState.checkpointManagerErrorMessage,
+					stateManager: this.stateManager,
+				})
+
+				// If multi-root, kick off non-blocking initialization
+				// Unreachable for now, leaving in for future multi-root checkpoint support
+				if (
+					shouldUseMultiRoot({
+						workspaceManager: this.workspaceManager,
+						enableCheckpoints: this.stateManager.getGlobalSettingsKey("enableCheckpointsSetting"),
+						stateManager: this.stateManager,
+					})
+				) {
+					this.checkpointManager.initialize?.().catch((error: Error) => {
+						console.error("Failed to initialize multi-root checkpoint manager:", error)
+						this.taskState.checkpointManagerErrorMessage = error?.message || String(error)
+					})
+				}
+			} catch (error) {
+				console.error("Failed to initialize checkpoint manager:", error)
+				if (this.stateManager.getGlobalSettingsKey("enableCheckpointsSetting")) {
+					const errorMessage = error instanceof Error ? error.message : "Unknown error"
+					HostProvider.window.showMessage({
+						type: ShowMessageType.ERROR,
+						message: `Failed to initialize checkpoint manager: ${errorMessage}`,
+					})
+				}
+			}
+		}
+
 		// Set ulid on browserSession for telemetry tracking
 		this.browserSession.setUlid(this.ulid)
 
@@ -373,9 +374,12 @@ export class Task {
 		if (historyItem) {
 			this.resumeTaskFromHistory()
 		} else if (task || images || files) {
-			// Track task start in dashboard
+			// Track task start in dashboard only if dashboard is enabled
 			const dashboardManager = getDashboardIntegrationManager()
-			dashboardManager.trackTaskStart(this.taskId, task || "Task with images/files")
+			const dashboardStatus = dashboardManager.getStatus()
+			if (dashboardStatus.initialized && dashboardStatus.dashboardService.enabled) {
+				dashboardManager.trackTaskStart(this.taskId, task || "Task with images/files")
+			}
 
 			this.startTask(task, images, files)
 		}
@@ -442,8 +446,7 @@ export class Task {
 
 			if (dashboardSettings && dashboardSettings.enabled) {
 				console.log(`[Task ${this.taskId}] Updating dashboard configuration: enabled`)
-				// The dashboard manager will handle the configuration update
-				// and the task will automatically use the new settings for future tracking calls
+				dashboardManager.updateConfiguration(dashboardSettings)
 			} else {
 				console.log(`[Task ${this.taskId}] Dashboard disabled, tracking will be skipped`)
 			}
@@ -704,8 +707,15 @@ export class Task {
 		}
 	}
 
-	private async saveCheckpointCallback(isAttemptCompletionMessage?: boolean, completionMessageTs?: number): Promise<void> {
-		return this.checkpointManager?.saveCheckpoint(isAttemptCompletionMessage, completionMessageTs) ?? Promise.resolve()
+	private async saveCheckpointCallback(
+		isAttemptCompletionMessage?: boolean,
+		completionMessageTs?: number,
+		checkpointSummary?: string,
+	): Promise<void> {
+		return (
+			this.checkpointManager?.saveCheckpoint(isAttemptCompletionMessage, completionMessageTs, checkpointSummary) ??
+			Promise.resolve()
+		)
 	}
 
 	private async switchToActModeCallback(): Promise<boolean> {
@@ -1961,12 +1971,15 @@ export class Task {
 			content: userContent,
 		})
 
-		// Track API call in dashboard
+		// Track API call in dashboard only if dashboard is enabled
 		const dashboardManager = getDashboardIntegrationManager()
-		dashboardManager.trackApiCall({
-			role: "user",
-			content: userContent,
-		})
+		const dashboardStatus = dashboardManager.getStatus()
+		if (dashboardStatus.initialized && dashboardStatus.dashboardService.enabled) {
+			dashboardManager.trackApiCall({
+				role: "user",
+				content: userContent,
+			})
+		}
 
 		telemetryService.captureConversationTurnEvent(this.ulid, providerId, model.id, "user")
 

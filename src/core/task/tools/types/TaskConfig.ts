@@ -91,7 +91,11 @@ export interface TaskCallbacks {
 		files?: string[]
 	}>
 
-	saveCheckpoint: (isAttemptCompletionMessage?: boolean, completionMessageTs?: number) => Promise<void>
+	saveCheckpoint: (
+		isAttemptCompletionMessage?: boolean,
+		completionMessageTs?: number,
+		checkpointSummary?: string,
+	) => Promise<void>
 
 	sayAndCreateMissingParamError: (toolName: ClineDefaultTool, paramName: string, relPath?: string) => Promise<any>
 

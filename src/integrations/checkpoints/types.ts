@@ -3,7 +3,7 @@
  * Allows single-root and multi-root managers to be used interchangeably
  */
 export interface ICheckpointManager {
-	saveCheckpoint(isAttemptCompletionMessage?: boolean, completionMessageTs?: number): Promise<void>
+	saveCheckpoint(isAttemptCompletionMessage?: boolean, completionMessageTs?: number, checkpointSummary?: string): Promise<void>
 
 	restoreCheckpoint(messageTs: number, restoreType: any, offset?: number): Promise<any>
 

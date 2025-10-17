@@ -5,8 +5,11 @@ import { processFilesIntoText } from "@integrations/misc/extract-text"
 import { showSystemNotification } from "@integrations/notifications"
 import { findLastIndex } from "@shared/array"
 import { COMPLETION_RESULT_CHANGES_FLAG } from "@shared/ExtensionMessage"
-import { telemetryService } from "@/services/telemetry"
-import { ClineDefaultTool } from "@/shared/tools"
+import { HostProvider } from "../../../../hosts/host-provider"
+import { getDashboardIntegrationManager } from "../../../../services/dashboard/DashboardIntegrationManager"
+import { telemetryService } from "../../../../services/telemetry"
+import { ShowMessageType } from "../../../../shared/proto/index.host"
+import { ClineDefaultTool } from "../../../../shared/tools"
 import type { ToolResponse } from "../../index"
 import type { IPartialBlockHandler, IToolHandler } from "../ToolExecutorCoordinator"
 import type { TaskConfig } from "../types/TaskConfig"
@@ -43,11 +46,54 @@ export class AttemptCompletionHandler implements IToolHandler, IPartialBlockHand
 	async execute(config: TaskConfig, block: ToolUse): Promise<ToolResponse> {
 		const result: string | undefined = block.params.result
 		const command: string | undefined = block.params.command
+		let checkpointSummary: string | undefined = (block.params as any).checkpoint_summary
 
 		// Validate required parameters
 		if (!result) {
 			config.taskState.consecutiveMistakeCount++
 			return await config.callbacks.sayAndCreateMissingParamError(this.name, "result")
+		}
+
+		// Check if dashboard is enabled and enforce checkpoint summary requirement
+		const dashboardManager = getDashboardIntegrationManager()
+		const dashboardStatus = dashboardManager.getStatus()
+		const dashboardEnabled = dashboardStatus.initialized && dashboardStatus.dashboardService.enabled
+
+		// Debug: Show dashboard status
+		HostProvider.window.showMessage({
+			type: ShowMessageType.INFORMATION,
+			message: `🔍 DEBUG: Dashboard enabled: ${dashboardEnabled}, Initialized: ${dashboardStatus.initialized}, Service enabled: ${dashboardStatus.dashboardService.enabled}`,
+		})
+
+		// Debug: Show checkpoint summary status
+		HostProvider.window.showMessage({
+			type: ShowMessageType.INFORMATION,
+			message: `🔍 DEBUG: Checkpoint summary provided: ${!!checkpointSummary}, Value: "${checkpointSummary || "undefined"}"`,
+		})
+
+		if (dashboardEnabled && !checkpointSummary) {
+			// Extract first line from result as summary
+			const firstLine = result.split("\n")[0].trim()
+			checkpointSummary = firstLine || "Task completed"
+
+			// Show error message about missing summary
+			await config.callbacks.say(
+				"error",
+				`Dashboard is enabled but no checkpoint summary provided. Using first line of result as summary: "${checkpointSummary}"`,
+			)
+			config.taskState.consecutiveMistakeCount++
+
+			// Debug: Show fallback summary
+			HostProvider.window.showMessage({
+				type: ShowMessageType.INFORMATION,
+				message: `🔍 DEBUG: Using fallback summary: "${checkpointSummary}"`,
+			})
+		} else if (dashboardEnabled && checkpointSummary) {
+			// Debug: Show provided summary
+			HostProvider.window.showMessage({
+				type: ShowMessageType.INFORMATION,
+				message: `🔍 DEBUG: Using AI-provided summary: "${checkpointSummary}"`,
+			})
 		}
 
 		config.taskState.consecutiveMistakeCount = 0
@@ -87,12 +133,12 @@ export class AttemptCompletionHandler implements IToolHandler, IPartialBlockHand
 			if (lastMessage && lastMessage.ask !== "command") {
 				// haven't sent a command message yet so first send completion_result then command
 				const completionMessageTs = await config.callbacks.say("completion_result", result, undefined, undefined, false)
-				await config.callbacks.saveCheckpoint(true, completionMessageTs)
+				await config.callbacks.saveCheckpoint(true, completionMessageTs, checkpointSummary)
 				await addNewChangesFlagToLastCompletionResultMessage()
 				telemetryService.captureTaskCompleted(config.ulid)
 			} else {
 				// we already sent a command message, meaning the complete completion message has also been sent
-				await config.callbacks.saveCheckpoint(true)
+				await config.callbacks.saveCheckpoint(true, undefined, checkpointSummary)
 			}
 
 			// Attempt completion is a special tool where we want to update the focus chain list before the user provides response
@@ -116,7 +162,7 @@ export class AttemptCompletionHandler implements IToolHandler, IPartialBlockHand
 			commandResult = execCommandResult
 		} else {
 			const completionMessageTs = await config.callbacks.say("completion_result", result, undefined, undefined, false)
-			await config.callbacks.saveCheckpoint(true, completionMessageTs)
+			await config.callbacks.saveCheckpoint(true, completionMessageTs, checkpointSummary)
 			await addNewChangesFlagToLastCompletionResultMessage()
 			telemetryService.captureTaskCompleted(config.ulid)
 		}

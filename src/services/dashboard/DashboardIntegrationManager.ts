@@ -30,7 +30,7 @@ export class DashboardIntegrationManager {
 		this.stateTracker.configure(settings.enabled, settings.sessionName)
 		this.promptManager.configure(settings.enabled, settings.sessionName)
 
-		this.isInitialized = true
+		this.isInitialized = settings.enabled
 
 		console.log("[DashboardIntegrationManager] Initialization complete")
 	}
@@ -42,22 +42,16 @@ export class DashboardIntegrationManager {
 		try {
 			console.log("[DashboardIntegrationManager] Updating configuration:", settings)
 
-			// If dashboard is being disabled, mark as not initialized
-			if (!settings.enabled) {
-				this.isInitialized = false
-				console.log("[DashboardIntegrationManager] Dashboard disabled, marking as not initialized")
-			}
-
 			// Reconfigure all services
 			this.dashboardService.configure(settings)
 			this.stateTracker.configure(settings.enabled, settings.sessionName)
 			this.promptManager.configure(settings.enabled, settings.sessionName)
 
-			// If dashboard is being enabled, mark as initialized
-			if (settings.enabled) {
-				this.isInitialized = true
-				console.log("[DashboardIntegrationManager] Dashboard enabled, marking as initialized")
-			}
+			// Update initialization state based on enabled status
+			this.isInitialized = settings.enabled
+			console.log(
+				`[DashboardIntegrationManager] Dashboard ${settings.enabled ? "enabled" : "disabled"}, marking as ${settings.enabled ? "initialized" : "not initialized"}`,
+			)
 
 			console.log("[DashboardIntegrationManager] Configuration updated successfully")
 		} catch (error) {

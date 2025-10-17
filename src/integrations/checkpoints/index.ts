@@ -1,3 +1,5 @@
+import { Anthropic } from "@anthropic-ai/sdk"
+import { ApiHandler } from "@core/api"
 import { ContextManager } from "@core/context/context-management/ContextManager"
 import { FileContextTracker } from "@core/context/context-tracking/FileContextTracker"
 import { sendRelinquishControlEvent } from "@core/controller/ui/subscribeToRelinquishControl"
@@ -42,6 +44,7 @@ interface CheckpointManagerServices {
 	readonly messageStateHandler: MessageStateHandler
 	readonly taskState: TaskState
 	readonly workspaceManager?: WorkspaceRootManager
+	readonly api?: ApiHandler
 }
 interface CheckpointManagerCallbacks {
 	readonly updateTaskHistory: UpdateTaskHistoryFunction
@@ -179,25 +182,42 @@ export class TaskCheckpointManager implements ICheckpointManager {
 							.then(async (commitHash) => {
 								if (commitHash) {
 									targetMessage.lastCheckpointHash = commitHash
+
+									// Check if dashboard is enabled and generate checkpoint summary if needed
+									const dashboardManager = getDashboardIntegrationManager()
+									const dashboardStatus = dashboardManager.getStatus()
+									const isDashboardEnabled =
+										dashboardStatus.initialized && dashboardStatus.dashboardService?.enabled === true
+
+									if (isDashboardEnabled && !targetMessage.checkpointSummary) {
+										// Generate a summary based on recent messages
+										const recentMessages = messages.slice(-10) // Look at last 10 messages
+										const summary = await this.generateCheckpointSummary(recentMessages)
+										targetMessage.checkpointSummary = summary
+
+										// Debug: Show recent messages and generated summary
+										const debugMessages = recentMessages
+											.map((m) => `${m.say}: ${m.text?.substring(0, 50) || "no text"}`)
+											.join("\n")
+										HostProvider.window.showMessage({
+											type: ShowMessageType.INFORMATION,
+											message: `🔍 DEBUG Recent Messages:\n${debugMessages}\n\n📋 Generated Summary: "${summary}"`,
+										})
+									}
+
 									await this.services.messageStateHandler.saveClineMessagesAndUpdateHistory()
 
 									// Update dashboard with checkpoint creation (only if enabled)
-									const dashboardManager = getDashboardIntegrationManager()
-									const dashboardStatus = dashboardManager.getStatus()
-									const isDashboardEnabled = dashboardStatus.dashboardService?.enabled === true
-									const isServiceEnabled = dashboardStatus.dashboardService?.enabled === true
-
 									console.log(`[TaskCheckpointManager] Dashboard check:`, {
 										initialized: dashboardStatus.initialized,
 										enabled: isDashboardEnabled,
-										serviceEnabled: isServiceEnabled,
 										endpoint: dashboardStatus.dashboardService?.endpoint,
 										sessionName: dashboardStatus.dashboardService?.sessionName,
 									})
 
-									if (dashboardStatus.initialized && isDashboardEnabled && isServiceEnabled) {
+									if (isDashboardEnabled) {
 										console.log(
-											`[TaskCheckpointManager] Updating dashboard for checkpoint creation: taskId=${this.task.taskId}, commitHash=${commitHash}, messageTs=${messageTs}`,
+											`[TaskCheckpointManager] Updating dashboard for checkpoint creation: taskId=${this.task.taskId}, commitHash=${commitHash}, messageTs=${messageTs}, summary=${targetMessage.checkpointSummary}`,
 										)
 										HostProvider.window.showMessage({
 											type: ShowMessageType.INFORMATION,
@@ -259,10 +279,6 @@ export class TaskCheckpointManager implements ICheckpointManager {
 										console.log(
 											`[TaskCheckpointManager] Dashboard not enabled or not initialized, skipping checkpoint update`,
 										)
-										HostProvider.window.showMessage({
-											type: ShowMessageType.INFORMATION,
-											message: "Dashboard not enabled or not initialized, skipping checkpoint update",
-										})
 									}
 								}
 							})
@@ -289,6 +305,13 @@ export class TaskCheckpointManager implements ICheckpointManager {
 				if (this.state.checkpointTracker) {
 					const commitHash = await this.state.checkpointTracker.commit()
 
+					// Generate a summary for the attempt completion if not provided
+					let finalCheckpointSummary = checkpointSummary
+					if (!finalCheckpointSummary) {
+						const recentMessages = this.services.messageStateHandler.getClineMessages().slice(-10)
+						finalCheckpointSummary = await this.generateCheckpointSummary(recentMessages)
+					}
+
 					// If a completionMessageTs is provided, update that specific message with the checkpoint hash
 					if (completionMessageTs) {
 						const targetMessage = this.services.messageStateHandler
@@ -296,21 +319,176 @@ export class TaskCheckpointManager implements ICheckpointManager {
 							.find((m) => m.ts === completionMessageTs)
 						if (targetMessage) {
 							targetMessage.lastCheckpointHash = commitHash
-							// Store the checkpoint summary if provided
-							if (checkpointSummary) {
-								targetMessage.checkpointSummary = checkpointSummary
-							}
+							// Store the checkpoint summary
+							targetMessage.checkpointSummary = finalCheckpointSummary
 							await this.services.messageStateHandler.saveClineMessagesAndUpdateHistory()
+
+							// Update dashboard with attempt completion checkpoint (only if enabled)
+							const dashboardManager = getDashboardIntegrationManager()
+							const dashboardStatus = dashboardManager.getStatus()
+
+							console.log(`[TaskCheckpointManager] Dashboard check for attempt completion:`, {
+								initialized: dashboardStatus.initialized,
+								dashboardServiceEnabled: dashboardStatus.dashboardService?.enabled,
+								endpoint: dashboardStatus.dashboardService?.endpoint,
+								sessionName: dashboardStatus.dashboardService?.sessionName,
+							})
+
+							if (dashboardStatus.initialized && dashboardStatus.dashboardService?.enabled === true) {
+								console.log(
+									`[TaskCheckpointManager] Updating dashboard for attempt completion checkpoint: taskId=${this.task.taskId}, commitHash=${commitHash}, messageTs=${completionMessageTs}, summary=${finalCheckpointSummary}`,
+								)
+								HostProvider.window.showMessage({
+									type: ShowMessageType.INFORMATION,
+									message: "Updating dashboard with attempt completion checkpoint...",
+								})
+								try {
+									// Call the checkpoint-specific API method with enhanced return type
+									if (commitHash) {
+										const apiResult = await dashboardManager.trackCheckpointCreation(
+											this.task.taskId,
+											commitHash,
+											completionMessageTs ||
+												(lastCompletionResultMessage ? lastCompletionResultMessage.ts : Date.now()),
+											finalCheckpointSummary,
+										)
+
+										// Only set dashboard update status if the update actually happened
+										targetMessage.dashboardUpdateStatus = true
+										await this.services.messageStateHandler.saveClineMessagesAndUpdateHistory()
+
+										if (apiResult.success) {
+											// Show success message with API call details
+											HostProvider.window.showMessage({
+												type: ShowMessageType.INFORMATION,
+												message: `✅ Dashboard API call successful!
+
+📍 Endpoint: ${apiResult.endpoint}
+🔖 Checkpoint: ${commitHash}
+📋 Summary: ${finalCheckpointSummary || "Task completed"}`,
+											})
+										} else {
+											// Show API disabled message
+											HostProvider.window.showMessage({
+												type: ShowMessageType.INFORMATION,
+												message: `ℹ️ Dashboard update skipped: ${apiResult.error}`,
+											})
+										}
+									}
+								} catch (error) {
+									const errorMessage = error instanceof Error ? error.message : "Unknown error"
+									console.error(
+										`[TaskCheckpointManager] Dashboard update failed for attempt completion checkpoint: ${commitHash}:`,
+										errorMessage,
+									)
+
+									// Show detailed error message with API call feedback
+									const dashboardService = dashboardManager.getStatus().dashboardService
+									const endpoint = dashboardService?.getApiEndpoint
+										? dashboardService.getApiEndpoint()
+										: "Unknown endpoint"
+
+									HostProvider.window.showMessage({
+										type: ShowMessageType.ERROR,
+										message: `❌ Dashboard API call failed!
+
+🔴 Error: ${errorMessage}
+📍 Endpoint: ${endpoint}
+🔖 Checkpoint: ${commitHash}`,
+									})
+								}
+							} else {
+								console.log(
+									`[TaskCheckpointManager] Dashboard not enabled or not initialized, skipping attempt completion checkpoint update`,
+								)
+							}
 						}
 					} else {
 						// Fallback to findLast if no timestamp provided - update the last completion_result message
 						if (lastCompletionResultMessage) {
 							lastCompletionResultMessage.lastCheckpointHash = commitHash
-							// Store the checkpoint summary if provided
-							if (checkpointSummary) {
-								lastCompletionResultMessage.checkpointSummary = checkpointSummary
-							}
+							// Store the checkpoint summary
+							lastCompletionResultMessage.checkpointSummary = finalCheckpointSummary
 							await this.services.messageStateHandler.saveClineMessagesAndUpdateHistory()
+
+							// Update dashboard with attempt completion checkpoint (only if enabled)
+							const dashboardManager = getDashboardIntegrationManager()
+							const dashboardStatus = dashboardManager.getStatus()
+
+							console.log(`[TaskCheckpointManager] Dashboard check for attempt completion (fallback):`, {
+								initialized: dashboardStatus.initialized,
+								dashboardServiceEnabled: dashboardStatus.dashboardService?.enabled,
+								endpoint: dashboardStatus.dashboardService?.endpoint,
+								sessionName: dashboardStatus.dashboardService?.sessionName,
+							})
+
+							if (dashboardStatus.initialized && dashboardStatus.dashboardService?.enabled === true) {
+								console.log(
+									`[TaskCheckpointManager] Updating dashboard for attempt completion checkpoint (fallback): taskId=${this.task.taskId}, commitHash=${commitHash}, messageTs=${lastCompletionResultMessage.ts}, summary=${finalCheckpointSummary}`,
+								)
+								HostProvider.window.showMessage({
+									type: ShowMessageType.INFORMATION,
+									message: "Updating dashboard with attempt completion checkpoint...",
+								})
+								try {
+									// Call the checkpoint-specific API method with enhanced return type
+									if (commitHash && lastCompletionResultMessage) {
+										const apiResult = await dashboardManager.trackCheckpointCreation(
+											this.task.taskId,
+											commitHash,
+											lastCompletionResultMessage.ts,
+											finalCheckpointSummary,
+										)
+
+										// Only set dashboard update status if the update actually happened
+										lastCompletionResultMessage.dashboardUpdateStatus = true
+										await this.services.messageStateHandler.saveClineMessagesAndUpdateHistory()
+
+										if (apiResult.success) {
+											// Show success message with API call details
+											HostProvider.window.showMessage({
+												type: ShowMessageType.INFORMATION,
+												message: `✅ Dashboard API call successful!
+
+📍 Endpoint: ${apiResult.endpoint}
+🔖 Checkpoint: ${commitHash}
+📋 Summary: ${finalCheckpointSummary || "Task completed"}`,
+											})
+										} else {
+											// Show API disabled message
+											HostProvider.window.showMessage({
+												type: ShowMessageType.INFORMATION,
+												message: `ℹ️ Dashboard update skipped: ${apiResult.error}`,
+											})
+										}
+									}
+								} catch (error) {
+									const errorMessage = error instanceof Error ? error.message : "Unknown error"
+									console.error(
+										`[TaskCheckpointManager] Dashboard update failed for attempt completion checkpoint (fallback): ${commitHash}:`,
+										errorMessage,
+									)
+
+									// Show detailed error message with API call feedback
+									const dashboardService = dashboardManager.getStatus().dashboardService
+									const endpoint = dashboardService?.getApiEndpoint
+										? dashboardService.getApiEndpoint()
+										: "Unknown endpoint"
+
+									HostProvider.window.showMessage({
+										type: ShowMessageType.ERROR,
+										message: `❌ Dashboard API call failed!
+
+🔴 Error: ${errorMessage}
+📍 Endpoint: ${endpoint}
+🔖 Checkpoint: ${commitHash}`,
+									})
+								}
+							} else {
+								console.log(
+									`[TaskCheckpointManager] Dashboard not enabled or not initialized, skipping attempt completion checkpoint update (fallback)`,
+								)
+							}
 						}
 					}
 				} else {
@@ -1010,6 +1188,385 @@ export class TaskCheckpointManager implements ICheckpointManager {
 	//private get deps(): Readonly<CheckpointManagerDependencies> {
 	//	return this.dependencies
 	//}
+
+	/**
+	 * Generates a checkpoint summary using LLM analysis of recent messages
+	 */
+	private async generateCheckpointSummary(recentMessages: ClineMessage[]): Promise<string> {
+		// If no API handler available, fall back to hardcoded method
+		if (!this.services.api) {
+			return this.generateCheckpointSummaryFallback(recentMessages)
+		}
+
+		try {
+			// Prepare the conversation context for the LLM
+			const conversationContext = recentMessages
+				.slice(-20) // Look at last 20 messages for context
+				.map((msg) => {
+					let content = `${msg.say}: `
+					if (msg.text) {
+						content += msg.text.substring(0, 200) // Limit text length
+					}
+					return content
+				})
+				.join("\n")
+
+			// Create the prompt for summary generation
+			const systemPrompt = `You are an expert at analyzing AI assistant conversations and creating concise, informative summaries of what was accomplished.
+
+Your task is to analyze the recent conversation messages and generate a brief summary (1-2 sentences) of what the AI assistant accomplished in this checkpoint period.
+
+Focus on:
+- Specific files that were read, modified, or created
+- Commands that were executed
+- Tasks that were completed
+- Key actions taken
+
+Be specific and actionable. Avoid generic phrases like "worked on files" - instead say "modified package.json and updated index.ts".
+
+Keep the summary under 100 characters if possible, but make it meaningful.
+
+If there's no clear accomplishment, return "Progress checkpoint created".`
+
+			const userPrompt = `Analyze these recent conversation messages and summarize what was accomplished:
+
+${conversationContext}
+
+Generate a concise summary of the key accomplishments:`
+
+			// Create the API request
+			const messages: Anthropic.Messages.MessageParam[] = [
+				{
+					role: "user",
+					content: [
+						{
+							type: "text",
+							text: systemPrompt + "\n\n" + userPrompt,
+						},
+					],
+				},
+			]
+
+			// Make the API call
+			const stream = this.services.api.createMessage(systemPrompt, messages)
+
+			let summary = ""
+			for await (const chunk of stream) {
+				if (chunk.type === "text" && chunk.text) {
+					summary += chunk.text
+				}
+			}
+
+			// Clean up the summary
+			summary = summary.trim()
+
+			// Limit length and ensure it's meaningful
+			if (summary.length > 120) {
+				summary = summary.substring(0, 117) + "..."
+			}
+
+			// If summary is too short or generic, fall back
+			if (summary.length < 5 || summary.toLowerCase().includes("checkpoint created")) {
+				return this.generateCheckpointSummaryFallback(recentMessages)
+			}
+
+			return summary
+		} catch (error) {
+			console.error("[TaskCheckpointManager] Failed to generate LLM summary:", error)
+			// Fall back to hardcoded method on error
+			return this.generateCheckpointSummaryFallback(recentMessages)
+		}
+	}
+
+	/**
+	 * Fallback checkpoint summary generation using hardcoded logic
+	 */
+	private generateCheckpointSummaryFallback(recentMessages: ClineMessage[]): string {
+		// Collect detailed information for remote supervision
+		const actions: string[] = []
+		const filesAccessed: string[] = []
+		const commandsExecuted: string[] = []
+		const tasksCompleted: string[] = []
+		const lastUserMessage = ""
+		let lastAssistantMessage = ""
+
+		for (const message of recentMessages.reverse()) {
+			// Process in reverse chronological order (most recent first)
+			// Check for tool usage - extract detailed information
+			if ((message as any).tool) {
+				try {
+					const toolData =
+						typeof (message as any).tool === "string" ? JSON.parse((message as any).tool) : (message as any).tool
+					const toolName = toolData.tool || toolData.name
+
+					switch (toolName) {
+						case "readFile":
+						case "read_file":
+							if (toolData.path) {
+								const fileName = toolData.path.split("/").pop() || toolData.path
+								filesAccessed.push(`read ${fileName}`)
+								actions.push(`read ${fileName}`)
+							} else {
+								actions.push("read file content")
+							}
+							break
+						case "listDir":
+						case "list_files":
+							if (toolData.path) {
+								const dirName = toolData.path.split("/").pop() || toolData.path
+								actions.push(`explored ${dirName} directory`)
+							} else {
+								actions.push("explored directory structure")
+							}
+							break
+						case "grepSearch":
+						case "search_files":
+							if (toolData.regex) {
+								actions.push(`searched for "${toolData.regex}"`)
+							} else {
+								actions.push("searched codebase")
+							}
+							break
+						case "runTerminalCmd":
+						case "runTerminalCmdAndWait":
+						case "execute_command":
+							if (toolData.command) {
+								const cmd = toolData.command.split(" ")[0] // Get the main command
+								commandsExecuted.push(cmd)
+								actions.push(`ran ${cmd}`)
+							} else {
+								actions.push("executed commands")
+							}
+							break
+						case "replace_in_file":
+							if (toolData.path) {
+								const fileName = toolData.path.split("/").pop() || toolData.path
+								filesAccessed.push(`modified ${fileName}`)
+								actions.push(`modified ${fileName}`)
+							} else {
+								actions.push("modified files")
+							}
+							break
+						case "write_to_file":
+							if (toolData.path) {
+								const fileName = toolData.path.split("/").pop() || toolData.path
+								filesAccessed.push(`created ${fileName}`)
+								actions.push(`created ${fileName}`)
+							} else {
+								actions.push("created files")
+							}
+							break
+						case "attempt_completion":
+							actions.push("completed task segment")
+							break
+						case "newTask":
+							actions.push("started new task")
+							break
+						case "ask_followup_question":
+							actions.push("gathered requirements")
+							break
+						case "use_mcp_tool":
+							if (toolData.toolName) {
+								actions.push(`used ${toolData.toolName}`)
+							} else {
+								actions.push("used external tools")
+							}
+							break
+						case "access_mcp_resource":
+							actions.push("accessed external resources")
+							break
+						default:
+							if (toolName && toolName.includes("search")) {
+								actions.push("searched codebase")
+							} else if (toolName && toolName.includes("read")) {
+								actions.push("read file content")
+							} else if ((toolName && toolName.includes("write")) || toolName.includes("replace")) {
+								actions.push("modified files")
+							} else if ((toolName && toolName.includes("run")) || toolName.includes("execute")) {
+								actions.push("executed commands")
+							}
+							break
+					}
+				} catch (e) {
+					// If parsing fails, try to extract from string representation
+					const toolStr =
+						typeof (message as any).tool === "string" ? (message as any).tool : JSON.stringify((message as any).tool)
+					if (toolStr.includes("readFile") || toolStr.includes("read_file")) {
+						actions.push("read file content")
+					} else if (toolStr.includes("runTerminal") || toolStr.includes("execute_command")) {
+						actions.push("executed commands")
+					} else if (toolStr.includes("replace_in_file")) {
+						actions.push("modified files")
+					} else if (toolStr.includes("write_to_file")) {
+						actions.push("created files")
+					}
+				}
+			}
+
+			// Check for task progress updates with specific task details
+			if (message.say === "task_progress" && message.text) {
+				const lines = message.text.split("\n")
+				const completedItems = lines.filter((line) => line.includes("[x]"))
+				const pendingItems = lines.filter((line) => line.includes("[ ]"))
+
+				completedItems.forEach((line) => {
+					const taskMatch = line.match(/-\s*\[x\]\s*(.+)/)
+					if (taskMatch) {
+						const task = taskMatch[1].trim()
+						tasksCompleted.push(task)
+						actions.push(`completed "${task}"`)
+					}
+				})
+
+				if (completedItems.length > 0) {
+					actions.push(`completed ${completedItems.length} task steps`)
+				}
+			}
+
+			// Check for reasoning messages (these often contain detailed action descriptions)
+			if (message.say === "reasoning" && message.text) {
+				const reasoning = message.text.toLowerCase()
+				if (reasoning.includes("read") || reasoning.includes("examine") || reasoning.includes("analyze")) {
+					actions.push("analyzed code")
+				} else if (reasoning.includes("modify") || reasoning.includes("update") || reasoning.includes("change")) {
+					actions.push("modified files")
+				} else if (reasoning.includes("run") || reasoning.includes("execute") || reasoning.includes("command")) {
+					actions.push("executed commands")
+				} else if (reasoning.includes("search") || reasoning.includes("find")) {
+					actions.push("searched codebase")
+				}
+			}
+
+			// Check for text messages (assistant responses with detailed information)
+			if (message.say === "text" && message.text) {
+				const text = message.text.toLowerCase().trim()
+
+				// Skip very short messages or system messages
+				if (text.length < 10) continue
+
+				// Look for specific file operations
+				const fileMatch = text.match(/(?:read|opened|modified|created|updated|edited)\s+([^.\n]+)/i)
+				if (fileMatch) {
+					const fileDesc = fileMatch[1].trim()
+					if (
+						fileDesc.includes("file") ||
+						fileDesc.includes(".js") ||
+						fileDesc.includes(".ts") ||
+						fileDesc.includes(".py")
+					) {
+						actions.push(`worked on ${fileDesc}`)
+					}
+				}
+
+				// Look for command executions
+				const cmdMatch = text.match(/(?:ran|executed)\s+([^.\n]+)/i)
+				if (cmdMatch) {
+					const cmd = cmdMatch[1].trim()
+					actions.push(`ran ${cmd}`)
+				}
+
+				// Store the last meaningful message for fallback
+				if (text.length > 20) {
+					lastAssistantMessage = message.text.substring(0, 80).trim()
+				}
+			}
+
+			// Check for completion results
+			else if (message.say === "completion_result" && message.text) {
+				const completionText = message.text.substring(0, 150).toLowerCase()
+				if (
+					completionText.includes("success") ||
+					completionText.includes("complete") ||
+					completionText.includes("done")
+				) {
+					actions.push("completed task segment")
+				}
+				// Store completion result as fallback
+				lastAssistantMessage = message.text.substring(0, 80).trim()
+			}
+
+			// Check for ask states (indicates waiting for user input)
+			else if (message.ask === "command") {
+				actions.push("executed commands")
+			} else if (message.ask === "completion_result") {
+				actions.push("completed task segment")
+			}
+		}
+
+		// Create detailed summary prioritizing specific information
+		const summaryParts: string[] = []
+
+		// Add specific file operations - show all unique operations, not just count
+		if (filesAccessed.length > 0) {
+			const uniqueFiles = [...new Set(filesAccessed)]
+			if (uniqueFiles.length <= 3) {
+				summaryParts.push(uniqueFiles.join(", "))
+			} else {
+				// Show the most recent 2-3 operations
+				const recentFiles = uniqueFiles.slice(-3)
+				summaryParts.push(`${recentFiles.join(", ")} (+${uniqueFiles.length - 3} more)`)
+			}
+		}
+
+		// Add specific tasks completed - show the most recent completed task
+		if (tasksCompleted.length > 0) {
+			const uniqueTasks = [...new Set(tasksCompleted)]
+			if (uniqueTasks.length === 1) {
+				summaryParts.push(`completed "${uniqueTasks[0]}"`)
+			} else if (uniqueTasks.length <= 3) {
+				summaryParts.push(`completed "${uniqueTasks.slice(-1)[0]}" (+${uniqueTasks.length - 1} more tasks)`)
+			} else {
+				summaryParts.push(`completed "${uniqueTasks.slice(-1)[0]}" (+${uniqueTasks.length - 1} more tasks)`)
+			}
+		}
+
+		// Add command executions - show all unique commands executed
+		if (commandsExecuted.length > 0) {
+			const uniqueCommands = [...new Set(commandsExecuted)]
+			if (uniqueCommands.length <= 3) {
+				summaryParts.push(`ran ${uniqueCommands.join(", ")}`)
+			} else {
+				// Show the most recent 2-3 commands
+				const recentCommands = uniqueCommands.slice(-3)
+				summaryParts.push(`ran ${recentCommands.join(", ")} (+${uniqueCommands.length - 3} more)`)
+			}
+		}
+
+		// If we have specific details, use them
+		if (summaryParts.length > 0) {
+			const summary = summaryParts.slice(0, 2).join("; ")
+			return summary.charAt(0).toUpperCase() + summary.slice(1)
+		}
+
+		// Fallback to general actions
+		const uniqueActions = [...new Set(actions)]
+		if (uniqueActions.length > 0) {
+			const summary = uniqueActions.slice(0, 2).join(" and ")
+			const result = summary.charAt(0).toUpperCase() + summary.slice(1)
+			return result
+		}
+
+		// Try to extract a meaningful summary from the last assistant message
+		if (lastAssistantMessage && lastAssistantMessage.length > 10) {
+			// Clean up the message and use it as summary
+			let summary = lastAssistantMessage
+			// Remove common prefixes
+			summary = summary
+				.replace(/^I've\s+/i, "")
+				.replace(/^I\s+/i, "")
+				.replace(/^The\s+/i, "")
+			// Capitalize first letter
+			summary = summary.charAt(0).toUpperCase() + summary.slice(1)
+			// Limit length
+			if (summary.length > 100) {
+				summary = summary.substring(0, 97) + "..."
+			}
+			return summary
+		}
+
+		// Final fallback
+		return "Progress checkpoint created"
+	}
 }
 
 // ============================================================================
