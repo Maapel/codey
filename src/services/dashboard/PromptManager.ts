@@ -1,3 +1,4 @@
+import { getDashboardIntegrationManager } from "./DashboardIntegrationManager"
 import { getDashboardService } from "./index"
 
 /**
@@ -38,7 +39,7 @@ export class PromptManager {
 	/**
 	 * Start polling for new prompts from dashboard
 	 */
-	private startPolling(): void {
+	startPolling(): void {
 		if (this.isPolling) {
 			return
 		}
@@ -82,13 +83,30 @@ export class PromptManager {
 
 		try {
 			const dashboardService = getDashboardService()
-			const prompt = await dashboardService.checkForPrompts()
 
-			if (prompt) {
-				this.addPromptToQueue(prompt)
+			// Get current task ID from dashboard manager
+			const dashboardManager = getDashboardIntegrationManager()
+			const currentTaskId = dashboardManager.getDashboardTaskId()
+
+			if (!currentTaskId) {
+				console.log("[PromptManager] No current task ID, skipping prompt check")
+				return
+			}
+
+			// Poll for instructions from dashboard
+			const response = await dashboardService.pollForInstructions(currentTaskId)
+
+			if (response && response.resume === true) {
+				// Dashboard sent resume command - trigger same flow as UI resume
+				console.log("[PromptManager] Dashboard resume detected, triggering resume flow")
+				await this.triggerDashboardResume()
+			} else if (response && response.prompt) {
+				// Dashboard sent new prompt
+				console.log("[PromptManager] Dashboard prompt detected:", response.prompt)
+				await this.triggerDashboardTaskCreation(response.prompt)
 			}
 		} catch (error) {
-			console.error("[PromptManager] Error checking for prompts:", error)
+			console.error("[PromptManager] Error checking for dashboard instructions:", error)
 		}
 	}
 
@@ -101,6 +119,14 @@ export class PromptManager {
 			queueLength: this.promptQueue.length,
 			prompt: prompt.substring(0, 50) + "...", // Log first 50 chars
 		})
+	}
+
+	/**
+	 * Add an external prompt to the queue (from dashboard)
+	 */
+	addExternalPromptToQueue(prompt: string): void {
+		this.addPromptToQueue(prompt)
+		console.log("[PromptManager] Added external prompt from dashboard to queue")
 	}
 
 	/**
@@ -147,6 +173,56 @@ export class PromptManager {
 			sessionName: this.sessionName,
 			queueLength: this.promptQueue.length,
 			isPolling: this.isPolling,
+		}
+	}
+
+	/**
+	 * Trigger dashboard resume (same flow as UI resume button)
+	 */
+	private async triggerDashboardResume(): Promise<void> {
+		try {
+			// Get controller instance
+			const { WebviewProvider } = require("@core/webview")
+			const webviewProvider = WebviewProvider.getInstance()
+			const controller = webviewProvider.controller
+
+			if (!controller?.task) {
+				console.warn("[PromptManager] No active task to resume")
+				return
+			}
+
+			// Add dashboard resume message
+			await controller.task.say("text", "🔄 Task resumed by dashboard. Continuing from where we left off...")
+
+			// Trigger the same resume flow as UI resume button
+			await controller.task.resumeTaskFromHistory()
+		} catch (error) {
+			console.error("[PromptManager] Error triggering dashboard resume:", error)
+		}
+	}
+
+	/**
+	 * Trigger dashboard task creation
+	 */
+	private async triggerDashboardTaskCreation(prompt: string): Promise<void> {
+		try {
+			// Get controller instance
+			const { WebviewProvider } = require("@core/webview")
+			const webviewProvider = WebviewProvider.getInstance()
+			const controller = webviewProvider.controller
+
+			if (!controller) {
+				console.warn("[PromptManager] No controller available")
+				return
+			}
+
+			// Add dashboard prompt message
+			await controller.task?.say("text", `📋 New task from dashboard: ${prompt.substring(0, 100)}...`)
+
+			// Create new task with dashboard prompt
+			await controller.handleTaskCreation(prompt)
+		} catch (error) {
+			console.error("[PromptManager] Error triggering dashboard task creation:", error)
 		}
 	}
 

@@ -79,6 +79,8 @@ export const ErrorBlockTitle = ({
 		// Handle cancellation states first
 		if (apiReqCancelReason === "user_cancelled") {
 			details.title = "API Request Cancelled"
+		} else if (apiReqCancelReason === "dashboard_cancelled") {
+			details.title = "Task Cancelled by Dashboard"
 			details.classNames.push("text-[var(--vscode-foreground)]")
 		} else if (apiReqCancelReason != null) {
 			details.title = "API Streaming Failed"

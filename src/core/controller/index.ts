@@ -33,6 +33,7 @@ import { telemetryService } from "@/services/telemetry"
 import { ShowMessageType } from "@/shared/proto/host/window"
 import { getLatestAnnouncementId } from "@/utils/announcements"
 import { getCwd, getDesktopDir } from "@/utils/path"
+import { getDashboardIntegrationManager } from "../../services/dashboard/DashboardIntegrationManager"
 import { PromptRegistry } from "../prompts/system-prompt"
 import {
 	ensureCacheDirectoryExists,
@@ -143,6 +144,11 @@ export class Controller {
 			if (dashboardSettings && dashboardSettings.enabled) {
 				console.log("[Controller] Initializing dashboard integration with settings:", dashboardSettings)
 				dashboardManager.initialize(dashboardSettings)
+
+				// Set the dashboard task ID if available
+				if (this.task?.taskId) {
+					dashboardManager.setDashboardTaskId(this.task.taskId)
+				}
 			} else {
 				console.log("[Controller] Dashboard integration disabled or no settings found")
 			}
@@ -357,11 +363,16 @@ export class Controller {
 		return false
 	}
 
-	async cancelTask() {
+	async cancelTask(cancelReason?: string) {
 		if (this.task) {
 			const { historyItem } = await this.getTaskWithId(this.task.taskId)
+
+			// Update dashboard with current task ID before cancel
+			const dashboardManager = getDashboardIntegrationManager()
+			dashboardManager.setDashboardTaskId(this.task.taskId)
+
 			try {
-				await this.task.abortTask()
+				await this.task.abortTask(cancelReason)
 			} catch (error) {
 				console.error("Failed to abort task", error)
 			}
@@ -381,7 +392,11 @@ export class Controller {
 				// 'abandoned' will prevent this cline instance from affecting future cline instance gui. this may happen if its hanging on a streaming request
 				this.task.taskState.abandoned = true
 			}
-			await this.initTask(undefined, undefined, undefined, historyItem) // clears task again, so we need to abortTask manually above
+			// Ensure new task uses same ID as dashboard
+			await this.initTask(undefined, undefined, undefined, {
+				...historyItem,
+				id: this.task.taskId, // Preserve the dashboard task ID
+			}) // clears task again, so we need to abortTask manually above
 			// Dont send the state to the webview, the new Cline instance will send state when it's ready.
 			// Sending the state here sent an empty messages array to webview leading to virtuoso having to reload the entire list
 		}

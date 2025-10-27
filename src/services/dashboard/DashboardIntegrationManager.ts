@@ -12,6 +12,7 @@ export class DashboardIntegrationManager {
 	private promptManager: PromptManager
 	private dashboardService = getDashboardService()
 	private isInitialized: boolean = false
+	private dashboardTaskId: string | null = null
 
 	constructor() {
 		this.stateTracker = getStateTracker()
@@ -118,7 +119,15 @@ export class DashboardIntegrationManager {
 			return { success: false, error: "Dashboard integration manager not initialized" }
 		}
 
-		return await this.dashboardService.updateCheckpointStatus(taskId, checkpointHash, messageTs, checkpointSummary)
+		const result = await this.dashboardService.updateCheckpointStatus(taskId, checkpointHash, messageTs, checkpointSummary)
+
+		// Check if dashboard sent a cancel command in response to checkpoint creation
+		if (result.cancel) {
+			console.log("[DashboardIntegrationManager] Received cancel command from dashboard during checkpoint creation")
+			this.stateTracker.handleDashboardCancel()
+		}
+
+		return result
 	}
 
 	/**
@@ -172,6 +181,21 @@ export class DashboardIntegrationManager {
 	}
 
 	/**
+	 * Set the dashboard task ID for consistency
+	 */
+	setDashboardTaskId(taskId: string): void {
+		this.dashboardTaskId = taskId
+		console.log(`[DashboardIntegrationManager] Set dashboard task ID: ${taskId}`)
+	}
+
+	/**
+	 * Get the dashboard task ID
+	 */
+	getDashboardTaskId(): string | null {
+		return this.dashboardTaskId
+	}
+
+	/**
 	 * Cleanup and dispose all services
 	 */
 	dispose(): void {
@@ -182,6 +206,7 @@ export class DashboardIntegrationManager {
 		// but they could be added if needed for cleanup
 
 		this.isInitialized = false
+		this.dashboardTaskId = null
 		console.log("[DashboardIntegrationManager] Disposed")
 	}
 }

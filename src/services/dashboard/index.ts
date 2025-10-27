@@ -1,4 +1,5 @@
 import { DashboardSettings } from "@shared/DashboardSettings"
+import { getDashboardIntegrationManager } from "./DashboardIntegrationManager"
 
 /**
  * Dashboard Integration Service
@@ -26,7 +27,7 @@ export class DashboardService {
 		console.log("[DashboardService] Configured:", {
 			enabled: this.isEnabled,
 			sessionName: this.sessionName,
-			endpoint: this.apiEndpoint || "https://maadhav17.pythonanywhere.com/api/codey-checkpoint",
+			endpoint: this.getApiEndpoint(),
 		})
 	}
 
@@ -55,33 +56,131 @@ export class DashboardService {
 	 * Update current task state to dashboard
 	 * This will be called after each AI API call
 	 */
-	async updateTaskState(taskState: any): Promise<boolean> {
+	async updateTaskState(taskState: any): Promise<{ success: boolean; cancel?: boolean }> {
 		if (!this.isDashboardEnabled()) {
 			console.log("[DashboardService] Dashboard not enabled, skipping state update")
-			return false
+			return { success: false }
 		}
 
 		try {
 			console.log("[DashboardService] Updating task state:", taskState)
 
-			// TODO: Implement actual API call to dashboard endpoint
-			// For now, just log the state update
-			const stateUpdate = {
+			// Use dashboard task ID if available, otherwise use provided taskId
+			const dashboardManager = getDashboardIntegrationManager()
+			const dashboardTaskId = dashboardManager.getDashboardTaskId()
+
+			// Prepare checkpoint data according to API_DOC.md format
+			const checkpointData = {
+				taskId: dashboardTaskId || taskState.taskId, // Prioritize dashboard task ID
 				sessionName: this.sessionName,
-				timestamp: Date.now(),
-				taskState: taskState,
-				action: "state_update",
+				timestamp: taskState.timestamp || Date.now(),
+				checkpointSummary: taskState.description || taskState.currentStep || "Progress update",
+				completed: false, // This is for final completion, not progress updates
 			}
 
-			console.log("[DashboardService] State update payload:", stateUpdate)
+			console.log("[DashboardService] Sending checkpoint data:", checkpointData)
 
-			// Dummy implementation - replace with actual API call
-			await this.dummyApiCall(stateUpdate)
+			// Make actual API call to checkpoint endpoint
+			const response = await this.makeApiCall(checkpointData)
 
-			return true
+			// HERE IS WHERE THE RESPONSE IS CAUGHT AND PROCESSED
+			console.log("[DashboardService] Dashboard response:", response)
+
+			// Check for cancel command in response
+			const shouldCancel = response && response.cancel === true
+			if (shouldCancel) {
+				console.log("[DashboardService] Received cancel command from dashboard")
+			}
+
+			return { success: true, cancel: shouldCancel }
 		} catch (error) {
 			console.error("[DashboardService] Failed to update task state:", error)
-			return false
+			return { success: false }
+		}
+	}
+
+	/**
+	 * Poll for instructions when agent is in idle state (completed/cancelled)
+	 * Returns instructions for next action or null if no instructions available
+	 * Follows API_DOC.md specification for polling behavior
+	 */
+	async pollForInstructions(taskId: string): Promise<any> {
+		if (!this.isDashboardEnabled()) {
+			return null
+		}
+
+		try {
+			console.log("[DashboardService] Polling for instructions:", { taskId })
+
+			// Construct the instructions endpoint URL as per API_DOC.md
+			let baseEndpoint = this.apiEndpoint || "https://maadhav17.pythonanywhere.com"
+			baseEndpoint = baseEndpoint.replace(/\/$/, "") // Remove trailing slash
+			const instructionsEndpoint = `${baseEndpoint}/api/task/${taskId}/instructions`
+
+			console.log("[DashboardService] Polling instructions from:", instructionsEndpoint)
+
+			const response = await fetch(instructionsEndpoint, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" },
+			})
+
+			if (!response.ok) {
+				throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+			}
+
+			const result = await response.json()
+			console.log("[DashboardService] Instructions poll result:", result)
+
+			// Validate response according to API_DOC.md
+			if (result && typeof result === "object") {
+				// Check for valid response formats
+				if (Object.hasOwn(result, "prompt") || Object.hasOwn(result, "resume")) {
+					return result
+				}
+			}
+
+			// Return null for invalid responses (keep polling)
+			console.log("[DashboardService] Invalid polling response, continuing to poll")
+			return { prompt: null, resume: false }
+		} catch (error) {
+			console.error("[DashboardService] Failed to poll for instructions:", error)
+			throw error
+		}
+	}
+
+	/**
+	 * Sync local agent state changes to dashboard (for state synchronization)
+	 */
+	async syncAgentState(taskId: string, state: "cancelled" | "running"): Promise<any> {
+		if (!this.isDashboardEnabled()) {
+			return null
+		}
+
+		try {
+			console.log("[DashboardService] Syncing agent state:", { taskId, state })
+
+			// Construct the state sync endpoint URL
+			let baseEndpoint = this.apiEndpoint || "https://maadhav17.pythonanywhere.com"
+			baseEndpoint = baseEndpoint.replace(/\/$/, "") // Remove trailing slash
+			const syncEndpoint = `${baseEndpoint}/api/agent/task/${taskId}/${state === "cancelled" ? "cancel" : "resume"}`
+
+			console.log("[DashboardService] Syncing state to:", syncEndpoint)
+
+			const response = await fetch(syncEndpoint, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+			})
+
+			if (!response.ok) {
+				throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+			}
+
+			const result = await response.json()
+			console.log("[DashboardService] State sync result:", result)
+			return result
+		} catch (error) {
+			console.error("[DashboardService] Failed to sync agent state:", error)
+			throw error
 		}
 	}
 
@@ -93,7 +192,7 @@ export class DashboardService {
 		checkpointHash: string,
 		messageTs: number,
 		checkpointSummary?: string,
-	): Promise<{ success: boolean; endpoint?: string; error?: string }> {
+	): Promise<{ success: boolean; endpoint?: string; error?: string; cancel?: boolean }> {
 		if (!this.isDashboardEnabled()) {
 			console.log("[DashboardService] Dashboard not enabled, skipping checkpoint update")
 			return { success: false, error: "Dashboard not enabled" }
@@ -117,9 +216,16 @@ export class DashboardService {
 			// Make actual API call to dashboard
 			const response = await this.makeApiCall(checkpointUpdate)
 
+			// Check for cancel command in response (same as updateTaskState)
+			const shouldCancel = response && response.cancel === true
+			if (shouldCancel) {
+				console.log("[DashboardService] Received cancel command from dashboard during checkpoint update")
+			}
+
 			return {
 				success: true,
 				endpoint: this.getApiEndpoint(),
+				cancel: shouldCancel,
 			}
 		} catch (error) {
 			const errorMessage = error instanceof Error ? error.message : "Unknown error"

@@ -231,6 +231,6 @@ export interface ClineApiReqInfo {
 	}
 }
 
-export type ClineApiReqCancelReason = "streaming_failed" | "user_cancelled" | "retries_exhausted"
+export type ClineApiReqCancelReason = "streaming_failed" | "user_cancelled" | "retries_exhausted" | "dashboard_cancelled"
 
 export const COMPLETION_RESULT_CHANGES_FLAG = "HAS_CHANGES"

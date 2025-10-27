@@ -92,7 +92,7 @@ type TaskParams = {
 	updateTaskHistory: (historyItem: HistoryItem) => Promise<HistoryItem[]>
 	postStateToWebview: () => Promise<void>
 	reinitExistingTaskFromId: (taskId: string) => Promise<void>
-	cancelTask: () => Promise<void>
+	cancelTask: (cancelReason?: string) => Promise<void>
 	shellIntegrationTimeout: number
 	terminalReuseEnabled: boolean
 	terminalOutputLineLimit: number
@@ -970,7 +970,7 @@ export class Task {
 		}
 	}
 
-	async abortTask() {
+	async abortTask(cancelReason?: string) {
 		// Check for incomplete progress before aborting
 		if (this.FocusChainManager) {
 			this.FocusChainManager.checkIncompleteProgressOnCompletion()
